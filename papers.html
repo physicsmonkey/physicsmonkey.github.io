@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Papers — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-name">← Brian Swingle</a>
+      <ul class="nav-links">
+        <li><a href="index.html#research">Research</a></li>
+        <li><a href="index.html#group">Group</a></li>
+        <li><a href="index.html#videos">Videos</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Papers header + list -->
+  <section id="papers-hero">
+    <div class="container">
+      <span class="eyebrow" id="topic-eyebrow">Research Area</span>
+      <h2 id="topic-title">Papers</h2>
+      <p class="section-intro" id="topic-desc"></p>
+    </div>
+  </section>
+
+  <section id="papers-list">
+    <div class="container">
+      <div id="papers">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Loading papers from arXiv…</p>
+        </div>
+      </div>
+      <p class="arxiv-footer">
+        <a href="https://arxiv.org/search/?query=Swingle+Brian&searchtype=author"
+           target="_blank" rel="noopener">Full publication list on arXiv →</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="https://arxiv.org/search/?query=Swingle+Brian&searchtype=author"
+           target="_blank" rel="noopener">arXiv</a>
+        <a href="https://www.youtube.com/@professorswingle"
+           target="_blank" rel="noopener">YouTube</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  /* ─── Nav scroll ──────────────────────────────────────────────────────── */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+
+  /* ─── Topic definitions ───────────────────────────────────────────────── */
+  // keywords are matched case-insensitively against paper title + abstract
+  const TOPICS = {
+    'quantum-chaos': {
+      title: 'Quantum Chaos',
+      description: 'How does quantum information spread and scramble in strongly interacting many-body systems? Papers on out-of-time-order correlators, spectral statistics, random matrix theory, and information dynamics.',
+      keywords: ['chaos', 'scrambl', 'otoc', 'out-of-time', 'spectral form factor',
+                 'spectral statistic', 'loschmidt', 'random matrix', 'kicked ising',
+                 'thermalization', 'level repulsion', 'ramp']
+    },
+    'quantum-gravity-lab': {
+      title: 'Quantum Gravity in the Lab',
+      description: 'Probing holographic duality and gravitational phenomena—wormholes, black holes, cosmology—using quantum processors and near-term quantum hardware, primarily via the Sachdev-Ye-Kitaev model.',
+      keywords: ['syk', 'sachdev', 'wormhole', 'quantum gravity in the lab',
+                 'quantum processor', 'traversable', 'black hole', 'baby universe',
+                 'cosmolog', 'big bang', 'teleport', 'holographic measurement',
+                 'magic', 'random circuit', 'thermofield']
+    },
+    'glasses': {
+      title: 'Glasses & Disordered Systems',
+      description: 'Quantum glass transitions in high dimensions, spin glass physics, and the rich phase structure of disordered quantum matter.',
+      keywords: ['glass', 'disorder', 'spin glass', 'replica', 'hard sphere',
+                 'magnetic maze', 'scale invariant', 'bath', 'weakly-damped']
+    },
+    'holographic-entanglement': {
+      title: 'Holographic Entanglement',
+      description: 'The emergence of spacetime geometry from quantum entanglement, including entanglement entropy and minimal surfaces, wormhole geometries as quantum information structures, and holographic measurement.',
+      keywords: ['holograph', 'entanglement entropy', 'emergent space', 'emergent geom',
+                 'ryu-takayanagi', 'minimal surface', 'ads/', 'cft', 'bulk',
+                 'entanglement structure', 'quantum error correct', 'approximate quantum code',
+                 'wormhole', 'negative energy', 'majorana']
+    },
+    'tensor-networks': {
+      title: 'Tensor Networks',
+      description: 'Tensor network methods—especially MERA—as variational ansätze for quantum many-body states and as explicit realizations of holographic geometry in lattice systems.',
+      keywords: ['tensor network', 'mera', 'entanglement renormalization', 'nora',
+                 'multiscale', 'variational', 'thermal multi-scale', 'gibbs state',
+                 'sparse graph', 'volume-law']
+    }
+  };
+
+  /* ─── Helpers ─────────────────────────────────────────────────────────── */
+  function getText(node, tag) {
+    return (node.querySelector(tag)?.textContent ?? '').trim().replace(/\s+/g, ' ');
+  }
+  function getYear(dateStr) {
+    const d = new Date(dateStr);
+    return isNaN(d) ? '' : d.getFullYear();
+  }
+  function esc(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function matches(text, keywords) {
+    const lower = text.toLowerCase();
+    return keywords.some(kw => lower.includes(kw.toLowerCase()));
+  }
+
+  /* ─── Main ────────────────────────────────────────────────────────────── */
+  const params  = new URLSearchParams(window.location.search);
+  const topicId = params.get('topic') ?? '';
+  const topic   = TOPICS[topicId];
+
+  // Populate header
+  if (topic) {
+    document.title = `${topic.title} — Brian Swingle`;
+    document.getElementById('topic-title').textContent = topic.title;
+    document.getElementById('topic-desc').textContent  = topic.description;
+  } else {
+    document.getElementById('topic-title').textContent = 'All Papers';
+    document.getElementById('topic-desc').textContent  = 'All publications by Brian Swingle.';
+  }
+
+  // Fetch & render
+  const ARXIV_URL =
+    'https://export.arxiv.org/api/query' +
+    '?search_query=au:Swingle_Brian' +
+    '&sortBy=submittedDate&sortOrder=descending&max_results=150';
+
+  async function loadPapers() {
+    const container = document.getElementById('papers');
+    try {
+      const res = await fetch(ARXIV_URL);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const xml = new DOMParser().parseFromString(await res.text(), 'application/xml');
+      const all = [...xml.querySelectorAll('entry')];
+
+      // Filter by topic keywords (or show all if no topic)
+      const entries = topic
+        ? all.filter(e => {
+            const text = getText(e, 'title') + ' ' + getText(e, 'summary');
+            return matches(text, topic.keywords);
+          })
+        : all;
+
+      if (!entries.length) {
+        container.innerHTML = `<p style="color:var(--text-muted);padding:24px 0">
+          No papers found for this topic.
+          <a href="https://arxiv.org/search/?query=Swingle+Brian&searchtype=author"
+             target="_blank">View all on arXiv →</a></p>`;
+        return;
+      }
+
+      const list = document.createElement('div');
+      list.className = 'paper-list';
+
+      entries.forEach(entry => {
+        const title    = getText(entry, 'title');
+        const authors  = [...entry.querySelectorAll('author name')]
+                           .map(n => n.textContent.trim()).join(', ');
+        const year     = getYear(getText(entry, 'published'));
+        const abstract = getText(entry, 'summary');
+        const url      = getText(entry, 'id');
+
+        const card = document.createElement('article');
+        card.className = 'paper-card';
+        card.innerHTML = `
+          ${year ? `<div class="paper-year">${year}</div>` : ''}
+          <h3 class="paper-title">
+            <a href="${url}" target="_blank" rel="noopener">${esc(title)}</a>
+          </h3>
+          <p class="paper-authors">${esc(authors)}</p>
+          <button class="abstract-toggle" aria-expanded="false">Show abstract</button>
+          <div class="abstract-wrap" role="region">
+            <p>${esc(abstract)}</p>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+
+      list.querySelectorAll('.abstract-toggle').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const wrap = btn.nextElementSibling;
+          const open = wrap.classList.toggle('open');
+          btn.textContent = open ? 'Hide abstract' : 'Show abstract';
+          btn.setAttribute('aria-expanded', String(open));
+        });
+      });
+
+      container.innerHTML = '';
+      container.insertAdjacentHTML('afterbegin',
+        `<p class="papers-count">${entries.length} paper${entries.length !== 1 ? 's' : ''} in this area</p>`);
+      container.appendChild(list);
+
+    } catch (err) {
+      console.error('arXiv fetch failed:', err);
+      document.getElementById('papers').innerHTML = `
+        <p style="color:var(--text-muted);padding:24px 0">
+          Unable to load papers. This page requires an HTTP server (not file://).
+          <a href="https://arxiv.org/search/?query=Swingle+Brian&searchtype=author"
+             target="_blank">View on arXiv →</a>
+        </p>`;
+    }
+  }
+
+  loadPapers();
+  </script>
+</body>
+</html>

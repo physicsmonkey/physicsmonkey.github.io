@@ -1,0 +1,12 @@
+# Private content — not published
+CV - Jan 2026.md
+initial-plan.md
+initia-plan.md
+
+# Claude Code session data
+.claude/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
