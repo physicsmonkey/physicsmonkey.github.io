@@ -54,8 +54,9 @@ section { padding: 88px 0; }
 /* alternating section backgrounds */
 #hero     { background: var(--bg); }
 #research { background: var(--surface); }
-#group    { background: var(--bg-alt); }
-#videos   { background: var(--surface); }
+#lectures { background: var(--bg-alt); }
+#group    { background: var(--surface); }
+#videos   { background: var(--bg-alt); }
 
 /* ─── Typography ─────────────────────────────────────────────────────────── */
 h1 {
@@ -456,6 +457,65 @@ h3 {
 .former-list li:last-child { border-bottom: none; }
 .former-name { font-weight: 600; }
 .former-role { color: var(--text-muted); font-size: 0.8rem; }
+
+/* ─── Lectures ───────────────────────────────────────────────────────────── */
+.lectures-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lecture-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 26px;
+  transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+}
+.lecture-card:hover {
+  border-color: var(--teal);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.lecture-date {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: var(--gold-light);
+  border-radius: 4px;
+  padding: 2px 8px;
+  margin-bottom: 8px;
+}
+
+.lecture-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  text-transform: none;
+  letter-spacing: -0.01em;
+  margin: 0 0 4px;
+}
+
+.lecture-venue {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+@media (max-width: 560px) {
+  .lecture-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
 
 /* ─── Videos ─────────────────────────────────────────────────────────────── */
 .youtube-card {
