@@ -6,6 +6,10 @@ initia-plan.md
 # Claude Code session data
 .claude/
 
+# Original uncompressed AI images (only track compressed/)
+ai-pics/*.webp
+ai-pics/*:*
+
 # OS / editor noise
 .DS_Store
 Thumbs.db

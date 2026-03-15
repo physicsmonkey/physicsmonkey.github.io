@@ -57,6 +57,7 @@ section { padding: 88px 0; }
 #lectures { background: var(--bg-alt); }
 #group    { background: var(--surface); }
 #videos   { background: var(--bg-alt); }
+#gallery  { background: var(--surface); }
 
 /* ─── Typography ─────────────────────────────────────────────────────────── */
 h1 {
@@ -556,6 +557,37 @@ h3 {
   font-size: 0.875rem;
   color: var(--text-muted);
   margin-bottom: 18px;
+}
+
+/* ─── AI Gallery (Masonry) ───────────────────────────────────────────────── */
+.masonry {
+  columns: 3;
+  column-gap: 16px;
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 16px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.masonry-item:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.masonry-item img {
+  width: 100%;
+  display: block;
+}
+
+@media (max-width: 800px) {
+  .masonry { columns: 2; }
+}
+@media (max-width: 480px) {
+  .masonry { columns: 1; }
 }
 
 /* ─── Footer ─────────────────────────────────────────────────────────────── */
