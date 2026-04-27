@@ -1,6 +1,16 @@
 {
-  "updated": "2026-04-20T08:09:46.804483Z",
+  "updated": "2026-04-27T08:27:33.192305Z",
   "papers": [
+    {
+      "title": "Scaling at Chiral Clock Criticality via Entanglement Renormalization",
+      "abstract": "We employ the Multiscale Entanglement Renormalization Ansatz (MERA) tensor network to investigate a critical line of continuous quantum phase transitions of the $\\mathbb{Z}_3$ chiral clock model. This critical line is believed to be described by a slow renormalization group flow from the 3-state Potts fixed point to another fixed point that features anisotropic scaling of space and time. We use the variational principle to construct a MERA representation of the model's ground state, from which we obtain the ground state energy and the set of scaling operators and their scaling dimensions. These scaling dimensions determine the critical exponents of the model, and we study these critical exponents and other scaling data as a function of the model's chiral parameter. We find a set of effective scaling data that smoothly varies starting from the Potts data as the chiral parameter is increased. Within the context of our approach, we discuss how this result may nevertheless be consistent with the two fixed point hypothesis provided the renormalization group flow is sufficiently slow. Our findings demonstrate MERA's effectiveness in capturing the complex low-energy physics of the chiral clock model and in extracting field theory data for an anisotropic continuum theory.",
+      "published": "2026-04-21T18:00:22Z",
+      "url": "http://arxiv.org/abs/2604.19876v1",
+      "authors": [
+        "Shiyong Guo",
+        "Brian Swingle"
+      ]
+    },
     {
       "title": "Magic and Wormholes in the Sachdev-Ye-Kitaev Model",
       "abstract": "Any quantum state is fully specified by the expectation values of a complete set of Hermitian operators. For a system of Majorana fermions, such as the Sachdev-Ye-Kitaev (SYK) model, this set of observables can be taken to be all possible strings of Majorana fermion operators. The expectation values of these fermion strings in a thermal state depend erratically on the microscopic couplings that specify the SYK Hamiltonian, and we study their statistical properties directly in the thermodynamic limit using path integral techniques. When the underlying SYK Hamiltonian is chaotic, we find that these expectation values are well-modeled as real Gaussian random variables with zero mean and a variance that we compute. In contrast, for the integrable variant of SYK, we find that the expectation values are actually non-Gaussian. We then use these results to study measures of magic in the SYK thermal state, including the robustness of magic and the stabilizer Rényi entropy. We also show that our results can be quantitatively reproduced with a dual gravity calculation in the chaotic case at sufficiently low temperature. In this dual gravity model the variance of a given microscopic operator string is related to a wormhole geometry stabilized by a massive particle which is dual to the operator string. Our results thus provide a concrete and quantitative setting in which to study the relationship between randomness, wormholes, and closed universes as well as a holographic dual of quantum magic.",
