@@ -5,6 +5,7 @@ Run by GitHub Actions on a schedule; papers.json is then served statically.
 
 import json
 import datetime
+import time
 import urllib.request
 import xml.etree.ElementTree as ET
 
@@ -22,8 +23,17 @@ NS = {
 def text(el):
     return " ".join((el.text or "").split()) if el is not None else ""
 
-with urllib.request.urlopen(URL) as resp:
-    root = ET.fromstring(resp.read())
+req = urllib.request.Request(URL, headers={"User-Agent": "fetch_papers/1.0 (physics.monkey@gmail.com)"})
+for attempt in range(5):
+    try:
+        with urllib.request.urlopen(req) as resp:
+            root = ET.fromstring(resp.read())
+        break
+    except urllib.error.HTTPError as e:
+        if e.code == 429 and attempt < 4:
+            time.sleep(2 ** attempt * 10)
+        else:
+            raise
 
 papers = []
 for entry in root.findall("atom:entry", NS):
