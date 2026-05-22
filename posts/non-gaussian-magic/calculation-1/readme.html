@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="javascript:history.back()" class="nav-name">← Back</a>
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/journal.html">Journal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-body" style="padding-top: 56px;">
+    <div class="container">
+      <div class="post-content">
+        <h1 style="font-size:1.6rem; margin-bottom: 1.2em;"></h1>
+        <h1
+        id="calculation-1-on-variability-of-the-alpha2-weight-4-sum">Calculation
+        1: O(N) variability of the alpha=2 weight-4 sum</h1>
+        <p>This folder contains a numerical test of how much <span
+        class="math display">
+        \sum_{i&lt;j&lt;k&lt;l} J_{ijkl}^4
+        </span> can be changed by an orthogonal rotation of a random
+        antisymmetric SYK-like 4-tensor <span
+        class="math inline">J</span>.</p>
+        <p>The script <code>rotate_l4.py</code> samples the independent
+        tensor components as standard Gaussians. The overall SYK
+        normalization is not included because only ratios under rotation
+        are reported. It then performs a Jacobi-style coordinate search
+        over Givens rotations, separately trying to minimize and
+        maximize the quartic sum. The search preserves the <span
+        class="math inline">O(N)</span> constraint exactly at every
+        step.</p>
+        <p>Run from this folder with, for example,</p>
+        <div class="sourceCode" id="cb1"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">../../../sparse-spin-syk-teleport/venv/bin/python</span> rotate_l4.py</span></code></pre></div>
+        <p>The default run writes:</p>
+        <ul>
+        <li><code>outputs/givens_search_results.csv</code>: one row per
+        disorder realization.</li>
+        <li><code>outputs/summary.json</code>: means and standard
+        deviations grouped by <span class="math inline">N</span>.</li>
+        <li><code>outputs/ratio_plot.png</code>: a compact plot of the
+        main ratios.</li>
+        </ul>
+        <p>Status: implemented and run once with the default parameters
+        <code>N = 8, 10, 12, 14</code>, 8 disorder realizations per
+        <span class="math inline">N</span>, and 8 sweeps of the Givens
+        search. The optimized minimum was consistently below the initial
+        value but remained well above the equal-component lower bound,
+        while the optimized maximum showed a larger upward
+        variation.</p>
+        <p>Agent contribution: Codex (GPT-5) created this calculation
+        folder, wrote and ran <code>rotate_l4.py</code>, generated the
+        output files, and edited the main entry <code>ngm.md</code> to
+        summarize the results on May 22, 2026.</p>
+      </div>
+      <div class="post-footer">
+        <a href="javascript:history.back()" class="btn btn-outline">← Back</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/journal.html">Journal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>

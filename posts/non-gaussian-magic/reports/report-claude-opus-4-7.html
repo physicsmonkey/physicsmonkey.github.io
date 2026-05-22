@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="javascript:history.back()" class="nav-name">← Back</a>
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/journal.html">Journal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-body" style="padding-top: 56px;">
+    <div class="container">
+      <div class="post-content">
+        <h1 style="font-size:1.6rem; margin-bottom: 1.2em;"></h1>
+        <h1 id="report-on-ngm.md">Report on <code>ngm.md</code></h1>
+        <blockquote>
+        <p>Reviewer: Claude Opus 4.7 (<code>claude-opus-4-7</code>),
+        2026-05-22 Scope: section-by-section review of the entry, audit
+        of <code>calculation-1</code>, and commentary on the two prior
+        reports (<code>codex-gpt5-report.md</code> and
+        <code>report-claude-sonnet-4-6.md</code>). No edits were made to
+        the entry or supporting calculations.</p>
+        </blockquote>
+        <h2 id="executive-assessment">Executive assessment</h2>
+        <p>The entry is in good shape. The framing is clear, the
+        definition is natural, and both tests are now substantively
+        supported. Since the earlier Codex report was written the entry
+        has been revised in two important ways:</p>
+        <ol type="1">
+        <li>The Test 1 displayed sum (line 67) now correctly carries
+        primed indices on <span class="math inline">J</span>, which is
+        the typo that Codex flagged.</li>
+        <li>The fixed-<span class="math inline">O</span> tail estimate
+        in Test 2 has been rewritten. The current version derives the
+        tail from the Hilbert–Schmidt identity <span
+        class="math inline">\sum_a \langle \psi | \mu(a) |\psi\rangle^2
+        = D</span> plus a single-observable Haar concentration bound,
+        rather than asserting a hypercontractive tail. This is exactly
+        the gap Codex flagged, and the rewrite closes it cleanly (in my
+        view more cleanly than the hypercontractive route the Sonnet
+        report had also accepted).</li>
+        </ol>
+        <p>The remaining issues I found are minor and editorial:</p>
+        <ul>
+        <li>A handful of small language typos (carried over from earlier
+        drafts) are still present.</li>
+        <li>A few claims would benefit from the qualifications already
+        suggested by the prior reports (the mixed-Gaussian case, the
+        hardness of alternating <span class="math inline">U_G/U_C</span>
+        circuits, and the leap from finite-<span
+        class="math inline">N</span> Test 1 results to a thermodynamic
+        statement).</li>
+        <li>One small piece of bookkeeping in the union bound at the end
+        of Test 2.</li>
+        </ul>
+        <p>I independently re-ran <code>calculation-1</code> with a
+        fresh seed (<code>--seed 4242</code>, trials = 3, sweeps = 4) on
+        <span class="math inline">N=8, 12</span> and obtained min ratios
+        in <span class="math inline">0.36</span>–<span
+        class="math inline">0.63</span> and max ratios in <span
+        class="math inline">3.0</span>–<span
+        class="math inline">4.7</span>, consistent with the reported
+        ranges in the entry and with the two prior reports’ independent
+        reruns.</p>
+        <hr />
+        <h2 id="header-and-setup">Header and setup</h2>
+        <p>The Hermiticity phase <span
+        class="math inline">i^{W(W-1)/2}</span> is the correct one for
+        the ordered product <span
+        class="math inline">\psi_1^{a_1}\cdots\psi_N^{a_N}</span>, and
+        the anticommutation <span
+        class="math inline">\{\psi_i,\psi_j\}=2\delta_{ij}</span> is the
+        standard convention. The text says “<span
+        class="math inline">N</span> is taken to be even”, so the
+        implicit even-<span class="math inline">N</span> assumption that
+        both prior reports asked to be made explicit <em>is</em> already
+        stated at the end of the setup paragraph — only the wording is
+        unobtrusive; promoting it to a short stand-alone sentence would
+        help.</p>
+        <p>Carry-over language nits (still present):</p>
+        <ul>
+        <li>Line 21: “thanks for the fermionic analog” → “thanks to the
+        fermionic analog”.</li>
+        <li>Line 27: “I only know of a one paper” → “I only know of one
+        paper”.</li>
+        <li>Line 38: “in marginally increases” → “it marginally
+        increases”.</li>
+        <li>Line 44: “insenstive” → “insensitive”.</li>
+        </ul>
+        <p>These were flagged by the Codex report and have not yet been
+        picked up.</p>
+        <h2 id="cases-1-and-2">Cases 1 and 2</h2>
+        <p>Both cases are stated correctly and at the right level of
+        detail. The Codex and Sonnet reports’ qualification on
+        “superpositions of low-weight strings” (efficiency needs
+        polynomially many terms) is reasonable; the sentence as written
+        is fine if read in context, so this is a stylistic call.</p>
+        <h2 id="combining-the-cases">Combining the cases</h2>
+        <p>The argument is correct. A Gaussian unitary <span
+        class="math inline">U_G</span> conjugates a weight-<span
+        class="math inline">W</span> Majorana string into a linear
+        combination of at most <span
+        class="math inline">\binom{N}{W}</span> weight-<span
+        class="math inline">W</span> strings (the weight is preserved
+        because the antisymmetric <span class="math inline">W</span>-th
+        exterior power of <span class="math inline">O</span> acts on the
+        string), and each resulting string can be evaluated in the
+        stabilizer state <span class="math inline">U_C|0\rangle^{\otimes
+        N/2}</span> in polynomial time. The reversed order <span
+        class="math inline">U_C U_G</span> works because <span
+        class="math inline">|0\rangle^{\otimes N/2}</span> is both
+        Gaussian and stabilizer and because a Clifford conjugation maps
+        a single Majorana string to a single (possibly high-weight)
+        Majorana string, which the determinant method can handle.</p>
+        <p>The Sonnet report rightly flagged that the closing sentence —
+        “What we cannot generically do is combine more than one instance
+        of <span class="math inline">U_G</span> and <span
+        class="math inline">U_C</span>” — is stated without a reference.
+        As written it is most naturally read as a (very plausible) folk
+        claim about the hardness of alternating fermionic Clifford /
+        Gaussian circuits; I agree it would be worth either a hedge (“we
+        conjecture”) or a citation. The recent paper referenced at line
+        27 (2505.06336) is the natural place to look.</p>
+        <h2 id="why">Why?</h2>
+        <p>The motivation is well-told. The statistical <span
+        class="math inline">O(N)</span> symmetry of the SYK ensemble
+        follows from the rotational invariance of the Gaussian
+        distribution on <span class="math inline">J_{ijkl}</span>, since
+        the action <span class="math inline">\psi_i \to \sum_j O_{ij}
+        \psi_j</span> corresponds to <span class="math inline">J \to
+        O^{\otimes 4} J</span>, which preserves the distribution.</p>
+        <h2 id="non-gaussian-magic">Non-Gaussian magic</h2>
+        <p>The definition <span class="math inline">M_{NG}(\rho) =
+        \min_{U_G} M(U_G \rho U_G^\dagger)</span> is natural and the
+        pure-Gaussian and ansatz cases both reduce to zero by the
+        arguments given.</p>
+        <p>The point that the Sonnet report raised about <em>mixed</em>
+        Gaussian states is worth restating: vanishing of <span
+        class="math inline">M_{NG}</span> on mixed Gaussian states
+        requires the underlying magic measure to vanish on all Gaussian
+        states, not just stabilizer states. For pure Gaussian states
+        this is immediate (a Bogoliubov transformation brings them to
+        <span class="math inline">|0\rangle^{\otimes N/2}</span>). For
+        the robustness of magic and the stabilizer Rényi entropy applied
+        to thermal free-fermion states, the vanishing statement is
+        plausible but the entry does not justify it. Since the
+        application is SYK (a non-Gaussian state), this does not affect
+        the downstream argument; a one-line qualification would tighten
+        the statement, however.</p>
+        <p>The parameter-counting argument is correctly labelled as
+        motivation. I agree with Codex that it is suggestive rather than
+        decisive — a structured objective can in principle be moved a
+        lot by a lower-dimensional group action.</p>
+        <h2 id="test-1">Test 1</h2>
+        <p><strong>Mathematical content.</strong> The reduction from the
+        SRE at <span class="math inline">\alpha=2</span> in the thermal
+        state to the quartic sum <span class="math inline">Q_4(J) =
+        \sum_{i&lt;j&lt;k&lt;l} J_{ijkl}^4</span> follows the
+        large-<span class="math inline">N</span> relation <span
+        class="math inline">\langle \mu_{W=4}\rangle \propto
+        J_{ijkl}</span> to leading order. The <span
+        class="math inline">\alpha=1</span> case is the squared
+        Frobenius norm, which is genuinely <span
+        class="math inline">O(N)</span>-invariant, and the <span
+        class="math inline">\alpha=2</span> case is the <span
+        class="math inline">\ell^4</span> norm on the orbit of the
+        symmetric group / orthogonal group — non-trivial under
+        rotations. Constant-factor stability of <span
+        class="math inline">Q_4</span> implies only an additive constant
+        shift in <span class="math inline">\log Q_4</span> and hence a
+        vanishing change in the SRE <em>density</em>, which is the
+        relevant quantity in the thermodynamic limit.</p>
+        <p><strong>Code audit.</strong> I read <code>rotate_l4.py</code>
+        carefully:</p>
+        <ul>
+        <li>The antisymmetric 4-tensor is materialized over all
+        permutations with the correct sign in
+        <code>random_antisymmetric_4form</code>, and the independent
+        components are sampled as standard Gaussians (the SYK
+        normalization cancels in the ratios reported).</li>
+        <li><code>rotate_one_axis</code> correctly grabs
+        <code>old_p</code>/<code>old_q</code> from the
+        <em>unmodified</em> input tensor before writing to the copy
+        <code>out</code>, so there is no aliasing bug. Sequential
+        application along all four axes implements <span
+        class="math inline">J \to O^{\otimes 4} J</span> correctly
+        because rotations on disjoint indices commute.</li>
+        <li>The equal-component lower bound <span
+        class="math inline">Q_2^2/\binom{N}{4}</span> is the
+        Cauchy–Schwarz / Jensen lower bound for the <span
+        class="math inline">\ell^4</span> norm at fixed <span
+        class="math inline">\ell^2</span> norm, which is itself <span
+        class="math inline">O(N)</span>-invariant.</li>
+        </ul>
+        <p><strong>Numerical match.</strong> The means in
+        <code>outputs/summary.json</code> reproduce the tables in the
+        entry to the quoted precision:</p>
+        <table>
+        <colgroup>
+        <col style="width: 6%" />
+        <col style="width: 28%" />
+        <col style="width: 18%" />
+        <col style="width: 28%" />
+        <col style="width: 18%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th><span class="math inline">N</span></th>
+        <th>reported min / init</th>
+        <th>summary mean</th>
+        <th>reported max / init</th>
+        <th>summary mean</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td>8</td>
+        <td>0.50</td>
+        <td>0.5005</td>
+        <td>5.33</td>
+        <td>5.332</td>
+        </tr>
+        <tr class="even">
+        <td>10</td>
+        <td>0.52</td>
+        <td>0.5155</td>
+        <td>4.76</td>
+        <td>4.760</td>
+        </tr>
+        <tr class="odd">
+        <td>12</td>
+        <td>0.57</td>
+        <td>0.5653</td>
+        <td>4.67</td>
+        <td>4.668</td>
+        </tr>
+        <tr class="even">
+        <td>14</td>
+        <td>0.60</td>
+        <td>0.6017</td>
+        <td>4.34</td>
+        <td>4.340</td>
+        </tr>
+        </tbody>
+        </table>
+        <p>The entry’s “about <span class="math inline">0.33</span>” for
+        the lower-bound ratio at the larger sizes matches the summary
+        (<span class="math inline">0.3346</span> at <span
+        class="math inline">N=14</span>).</p>
+        <p><strong>Independent rerun.</strong> With
+        <code>--seed 4242 --trials 3 --sweeps 4</code> on <span
+        class="math inline">N\in\{8,12\}</span> I obtained per-trial min
+        ratios in <span class="math inline">0.36</span>–<span
+        class="math inline">0.63</span> and max ratios in <span
+        class="math inline">3.0</span>–<span
+        class="math inline">4.7</span>. These are consistent with the
+        reported means given the small trial counts in the rerun. (The
+        Sonnet rerun reported a similar qualitative agreement at <span
+        class="math inline">N=8,10</span>.)</p>
+        <p><strong>Interpretation.</strong> I echo Codex’s caution: the
+        Givens search is a local coordinate optimizer and is not a
+        certificate of the global <span class="math inline">O(N)</span>
+        extremum, so the conclusion is best read as “Gaussian rotations
+        within reach of the local search modify the <span
+        class="math inline">\alpha=2</span> weight-4 sum by only an
+        order-one factor in this range of <span
+        class="math inline">N</span>.” The slow drift of the min ratio
+        from <span class="math inline">0.50</span> at <span
+        class="math inline">N=8</span> to <span
+        class="math inline">0.60</span> at <span
+        class="math inline">N=14</span> leaves open whether it converges
+        to a constant strictly below 1 or drifts to 1; with only four
+        <span class="math inline">N</span> values this is not
+        distinguishable from the data. The outlook’s claim of “evidence
+        that the <span class="math inline">\alpha=2</span> SRE per
+        fermion is invariant in the thermodynamic limit” is
+        appropriately hedged (“we obtained evidence”), but the
+        qualification in the body of Test 1 — “preliminary evidence” —
+        is stronger and should be preferred.</p>
+        <h2 id="test-2">Test 2</h2>
+        <p>The current proof is substantively different from the version
+        reviewed in the Codex report. Codex’s main objection was that
+        the stretched-exponential tail <span class="math inline">\Pr[F_2
+        &gt; t] \leq \exp(-c t^{1/4})</span> was asserted from the
+        polynomial degree alone, without a derivation. The current entry
+        no longer uses that route; it derives the fixed-<span
+        class="math inline">O</span> tail directly. I verified the new
+        argument step by step.</p>
+        <p><strong>Haar invariance.</strong> <span
+        class="math inline">U_O</span> is a unitary on the fermion
+        Hilbert space, so <span
+        class="math inline">U_O|\psi\rangle</span> is Haar-random
+        whenever <span class="math inline">|\psi\rangle</span> is; this
+        reduces the analysis to <span class="math inline">O=I</span> for
+        each fixed <span class="math inline">O</span>. ✓</p>
+        <p><strong>Identity and mean.</strong> The identity string
+        contributes <span class="math inline">1</span>, and for each
+        non-identity string the fourth moment of <span
+        class="math inline">\langle\psi|\mu(a)|\psi\rangle</span> is
+        <span class="math inline">O(D^{-2})</span> by the Weingarten
+        formula, giving <span class="math inline">\mathbb{E}F_2 =
+        O(1)</span>. ✓</p>
+        <p><strong>The Hilbert–Schmidt identity.</strong> The expansion
+        of <span class="math inline">|\psi\rangle\langle\psi|</span> in
+        the orthogonal basis <span class="math inline">\{\mu(a)\}</span>
+        with <span class="math inline">\mathrm{tr}(\mu(a)\mu(b)) = D
+        \delta_{ab}</span> gives <span class="math display">
+        1 = \|\,|\psi\rangle\langle\psi|\,\|_F^2 = \frac{1}{D}\sum_a
+        \langle\psi|\mu(a)|\psi\rangle^2,
+        </span> so <span class="math inline">\sum_a X_a^2 = D</span>
+        with <span class="math inline">X_a =
+        \langle\psi|U_O^\dagger\mu(a)U_O|\psi\rangle</span>. The entry’s
+        identity is correct. ✓</p>
+        <p><strong>From sum-of-fourth-powers to a max.</strong> Using
+        <span class="math inline">F_2 = \sum_a X_a^4</span> and <span
+        class="math inline">\sum_a X_a^2 = D</span> with <span
+        class="math inline">X_{\mathrm{id}} = 1</span>, <span
+        class="math display">
+        F_2 - 1 = \sum_{a\neq 0} X_a^4 \leq \max_{a\neq 0} X_a^2 \cdot
+        \sum_{a\neq 0} X_a^2 \leq \max_{a\neq 0} X_a^2 \cdot (D-1).
+        </span> So <span class="math inline">F_2 &gt; t \Rightarrow
+        \max_{a\neq 0} X_a^2 &gt; (t-1)/(D-1)</span>, matching the
+        entry. ✓</p>
+        <p><strong>Single-observable concentration.</strong> For each
+        non-identity string, <span class="math inline">A = U_O^\dagger
+        \mu(a) U_O</span> is a traceless Hermitian involution. The
+        function <span class="math inline">\psi \mapsto
+        \langle\psi|A|\psi\rangle</span> is <span
+        class="math inline">2</span>-Lipschitz on the unit complex
+        sphere (since <span class="math inline">\|A\|=1</span>), so
+        Levy’s lemma gives <span class="math display">
+        \Pr_\psi\!\left[|\langle\psi|A|\psi\rangle| &gt; s\right] \leq 2
+        e^{-c D s^2}
+        </span> for a universal constant <span
+        class="math inline">c</span>. The entry’s Beta-distribution
+        remark is an equivalent route. ✓</p>
+        <p>Combining with <span class="math inline">s^2 \approx
+        t/D</span> and union-bounding over the <span
+        class="math inline">D^2-1</span> non-identity strings gives
+        <span class="math inline">\Pr[F_2 &gt; t] \leq C D^2 e^{-c
+        t}</span> for the relevant range of <span
+        class="math inline">t</span>. ✓</p>
+        <p><strong>Deterministic bound for <span class="math inline">t
+        &gt; D</span>.</strong> As pointed out in the entry, <span
+        class="math inline">|X_a|\leq 1</span> and <span
+        class="math inline">\sum_a X_a^2 = D</span> together imply <span
+        class="math inline">F_2 \leq D</span> almost surely, so the
+        event <span class="math inline">\{F_2 &gt; t\}</span> is empty
+        when <span class="math inline">t &gt; D</span>. ✓</p>
+        <p><strong>Lipschitz bound and net argument.</strong> The crude
+        <span class="math inline">|F_2(O) - F_2(O&#39;)| \leq C N 2^N
+        \|O - O&#39;\|</span> follows from <span
+        class="math inline">\sum_a 1 = 2^N</span>, <span
+        class="math inline">W\leq N</span>, and the operator-norm change
+        of a single weight-<span class="math inline">W</span> string
+        under <span class="math inline">O \to O&#39;</span> being <span
+        class="math inline">O(W\|O-O&#39;\|)</span>. The <span
+        class="math inline">\epsilon</span>-net of <span
+        class="math inline">O(N)</span> at scale <span
+        class="math inline">\epsilon</span> has <span
+        class="math inline">|\mathcal{N}_\epsilon| \leq
+        (C/\epsilon)^{N(N-1)/2}</span>. Setting <span
+        class="math inline">t = e^{\delta N}</span>, <span
+        class="math inline">\epsilon \sim t/(N 2^N)</span>, the log of
+        the net size is <span class="math inline">O(N^3)</span>, while
+        the per-point tail contributes <span class="math inline">-c\,
+        e^{\delta N}</span> in the exponent. The doubly-exponential gap
+        is the right side of the comparison, so <span
+        class="math inline">\sup_O F_2 \leq e^{\delta N}</span> with
+        high probability for every fixed <span
+        class="math inline">\delta &gt; 0</span>. ✓</p>
+        <p><strong>A small bookkeeping comment.</strong> The entry’s
+        summary line of the union bound reads <span
+        class="math display">
+        \exp\!\Big[\tfrac{N(N-1)}{2}\log\!\big(\tfrac{CN2^N}{e^{\delta
+        N}}\big) - c\, e^{\delta N}\Big]
+        </span> “up to harmless changes of constants in the exponent and
+        the extra fixed-<span class="math inline">O</span> prefactor
+        <span class="math inline">D^2 = e^{O(N)}</span>.” The <span
+        class="math inline">D^2</span> prefactor and the overall
+        logarithm of the net size are both polynomial in <span
+        class="math inline">N</span> (or at most linear in <span
+        class="math inline">N</span> via <span class="math inline">\log
+        2^N</span>), so they are indeed dominated by <span
+        class="math inline">c\,e^{\delta N}</span>; the parenthetical
+        disclaimer is fine. If the argument were to be tightened for a
+        paper, separating out the prefactor explicitly would make the
+        bookkeeping more transparent.</p>
+        <p>Subject to the standard caveats about extending from
+        Haar-random states to SYK eigenstates (the entry is explicit
+        about this), the Test 2 argument is sound.</p>
+        <h2 id="outlook">Outlook</h2>
+        <p>The outlook is calibrated, but I agree with Codex that “we
+        gave two calculations that suggest that SYK-4 states have high
+        non-Gaussian magic” is slightly stronger than what was shown for
+        Test 1 alone — Test 1 gives finite-<span
+        class="math inline">N</span> evidence consistent with
+        constant-factor stability rather than demonstrating
+        thermodynamic-limit invariance. The “evidence that the <span
+        class="math inline">\alpha=2</span> SRE per fermion is invariant
+        in the thermodynamic limit” phrasing is the right one and could
+        be repeated in the summary sentence.</p>
+        <h2 id="comments-on-the-prior-reports">Comments on the prior
+        reports</h2>
+        <ul>
+        <li><p>The <strong>Codex report</strong> correctly identified
+        the Test 1 primed-index typo (now fixed) and the proof gap in
+        the original Test 2 (also addressed by the rewrite). Its
+        suggested revisions (1)–(4) are well chosen; items</p>
+        <ol type="1">
+        <li>and (3) appear to have been acted on, while items (2) and
+        (4) (the even-<span class="math inline">N</span> note and the
+        wording in the outlook) are still pending. The language nits are
+        also still present.</li>
+        </ol></li>
+        <li><p>The <strong>Sonnet report</strong> accepted the
+        <em>original</em> Test 2 proof via the hypercontractive route
+        (tail <span class="math inline">\exp(-c t^{1/4})</span>, valid
+        degree-<span class="math inline">8</span> polynomial
+        concentration on the complex sphere). That argument is correct
+        as far as it goes; the current rewrite achieves the same end via
+        a more elementary route and is self-contained. The Sonnet
+        report’s main substantive flag — that the alternating-circuit
+        hardness claim is stated without proof — has not been addressed
+        and remains the most natural thing to revise next.</p></li>
+        <li><p>Both prior reports raised the mixed-Gaussian-state
+        subtlety in the definition of <span
+        class="math inline">M_{NG}</span>; the entry has not yet
+        incorporated that qualification.</p></li>
+        </ul>
+        <h2
+        id="suggested-revisions-cumulative-across-the-three-reports">Suggested
+        revisions (cumulative across the three reports)</h2>
+        <ol type="1">
+        <li>Sweep up the language nits (“thanks to”, “one paper”, “it
+        marginally”, “insensitive”).</li>
+        <li>Hedge or cite the claim that alternating <span
+        class="math inline">U_G/U_C</span> circuits cannot generically
+        be classically simulated.</li>
+        <li>Add one sentence clarifying that the <span
+        class="math inline">M_{NG} = 0</span> statement for Gaussian
+        states holds rigorously for the pure case and depends on a
+        per-measure check for mixtures.</li>
+        <li>Optionally, tighten the outlook wording to match the more
+        careful “preliminary evidence” phrasing used in the body of Test
+        1.</li>
+        </ol>
+        <p>None of these are essential to the correctness of the entry;
+        the mathematical core is in good shape.</p>
+      </div>
+      <div class="post-footer">
+        <a href="javascript:history.back()" class="btn btn-outline">← Back</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/journal.html">Journal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>

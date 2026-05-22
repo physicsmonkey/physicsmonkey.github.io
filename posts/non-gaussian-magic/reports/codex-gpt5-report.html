@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="javascript:history.back()" class="nav-name">← Back</a>
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/journal.html">Journal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-body" style="padding-top: 56px;">
+    <div class="container">
+      <div class="post-content">
+        <h1 style="font-size:1.6rem; margin-bottom: 1.2em;"></h1>
+        <h1 id="report-on-ngm.md">Report on <code>ngm.md</code></h1>
+        <blockquote>
+        <p>Codex with GPT-5, May 22, 2026 Scope: section-by-section
+        assessment of <code>ngm.md</code> and spot check of
+        <code>calculation-1</code>. Status: critical review only; no
+        edits were made to the entry or supporting calculation.</p>
+        </blockquote>
+        <h2 id="executive-assessment">Executive assessment</h2>
+        <p>The entry is coherent and the main physical idea is
+        plausible: quotienting ordinary stabilizer magic by Gaussian
+        rotations is a natural way to separate genuinely
+        non-Gaussian/non-Clifford structure from basis-dependent
+        Gaussian structure. The numerical results quoted in Test 1 match
+        the stored output files in <code>calculation-1</code>, and a
+        small smoke rerun of the script succeeded.</p>
+        <p>I found two issues worth addressing before treating the note
+        as final:</p>
+        <ol type="1">
+        <li>A notational typo in Test 1: the rotated tensor formula uses
+        the unprimed tensor indices inside the primed sum.</li>
+        <li>A proof gap in Test 2: the stated stretched-exponential tail
+        bound for the whole random variable <code>F_2</code> is
+        plausible but not derived from the preceding facts as written.
+        Supplying a reference or a short moment/hypercontractive
+        estimate would strengthen the argument.</li>
+        </ol>
+        <h2 id="header-and-setup">Header and setup</h2>
+        <p>The definition of Majorana strings is standard and the
+        Hermiticity phase is correct for ordered products. The text
+        implicitly assumes even <code>N</code> later when writing the
+        Hilbert space dimension as <code>2^{N/2}</code> and the product
+        state <code>|0&gt;^{\otimes N/2}</code>. It would be helpful to
+        say near the start that <code>N</code> is even when a
+        Hilbert-space representation is needed.</p>
+        <p>Minor language notes:</p>
+        <ul>
+        <li>“thanks for the fermionic analog” should be “thanks to the
+        fermionic analog”.</li>
+        <li>“I only know of a one paper” should be “I only know of one
+        paper”.</li>
+        </ul>
+        <h2 id="case-1">Case 1</h2>
+        <p>The Gaussian-state tractability claim is sound for low-weight
+        Majorana strings via Wick/Pfaffian evaluation. The
+        determinant-method sentence is plausible as a pointer to
+        stronger single-string/high-weight evaluation, though I did not
+        independently verify the cited paper.</p>
+        <p>One possible precision improvement: for an arbitrary
+        superposition, efficiency requires either low weight with
+        polynomially many terms or another compact representation. The
+        current phrase “superpositions of low-weight strings” is fine if
+        read as polynomial-size superpositions.</p>
+        <h2 id="case-2">Case 2</h2>
+        <p>The stabilizer-state claim is consistent with the fermionic
+        Gottesman-Knill analogy. The statement about mixtures is
+        appropriately qualified: efficiency follows if the mixture has
+        an efficient sampler or other efficient decomposition.</p>
+        <h2 id="combining-the-cases">Combining the cases</h2>
+        <p>The argument for <code>U_G U_C |0&gt;</code> is correct for
+        constant-weight observables. A Gaussian unitary maps a
+        weight-<code>W</code> Majorana monomial into a linear
+        combination of weight-<code>W</code> monomials, with at most
+        <code>binom(N,W)</code> independent components, and the
+        stabilizer expectation values can then be evaluated term by
+        term.</p>
+        <p>The switched-order argument is also basically correct:
+        Clifford conjugation maps a single Majorana string to a single
+        Majorana string, possibly high weight, and the remaining
+        Gaussian expectation can be evaluated efficiently. The caveat
+        about not generically combining multiple alternating layers is
+        reasonable.</p>
+        <h2 id="why">Why?</h2>
+        <p>The motivation is clear. The statistical <code>O(N)</code>
+        symmetry of the SYK ensemble is the right symmetry to compare
+        with Gaussian rotations of Majorana modes.</p>
+        <p>Minor language notes:</p>
+        <ul>
+        <li>“in marginally increases” should be “it marginally
+        increases”.</li>
+        <li>“insenstive” should be “insensitive”.</li>
+        </ul>
+        <h2 id="non-gaussian-magic">Non-Gaussian magic</h2>
+        <p>The definition</p>
+        <div class="sourceCode" id="cb1"><pre
+        class="sourceCode tex"><code class="sourceCode latex"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>M_{NG}(<span class="fu">\rho</span>)=<span class="fu">\min</span>_{U_G} M(U_G<span class="fu">\rho</span> U_G^<span class="fu">\dagger</span>)</span></code></pre></div>
+        <p>is natural. If <code>M</code> is a stabilizer magic monotone
+        that vanishes on convex mixtures of fermionic stabilizer states,
+        then Gaussian states should indeed have zero non-Gaussian magic:
+        a Gaussian unitary brings a general Gaussian state to a product
+        thermal/Fock-diagonal normal form, which is a mixture of
+        occupation-basis stabilizer states. For pure Gaussian states
+        this is immediate.</p>
+        <p>The parameter-counting argument is suggestive rather than
+        decisive. It is fine as motivation, but a very structured
+        objective can sometimes be strongly affected by a
+        lower-dimensional group action. The later tests help, but the
+        entry should keep the distinction between heuristic parameter
+        counting and proof.</p>
+        <h2 id="test-1">Test 1</h2>
+        <p>The numerical calculation is internally consistent. I checked
+        that:</p>
+        <ul>
+        <li><code>rotate_l4.py</code> samples independent antisymmetric
+        4-form components as standard Gaussians.</li>
+        <li>The rotation is applied along each tensor index, preserving
+        the antisymmetric 4-form structure.</li>
+        <li>The reported means in <code>ngm.md</code> agree with
+        <code>outputs/summary.json</code>.</li>
+        <li>The equal-component lower bound is
+        <code>Q_2^2 / binom(N,4)</code>, as stated.</li>
+        <li>A smoke rerun with <code>N=8</code>, two trials, and two
+        sweeps completed successfully and reproduced the expected
+        qualitative behavior.</li>
+        </ul>
+        <p>There is one formula typo in the entry. In the displayed
+        equation around lines 66-68, the inner tensor should be
+        <code>J_{i'j'k'l'}</code>, not <code>J_{ijkl}</code>:</p>
+        <div class="sourceCode" id="cb2"><pre
+        class="sourceCode tex"><code class="sourceCode latex"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">\sum</span>_{ijkl}<span class="fu">\left</span>|<span class="fu">\sum</span>_{i&#39;j&#39;k&#39;l&#39;}</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>O_{ii&#39;}O_{jj&#39;}O_{kk&#39;}O_{ll&#39;}J_{i&#39;j&#39;k&#39;l&#39;}<span class="fu">\right</span>|^{2<span class="fu">\alpha</span>}.</span></code></pre></div>
+        <p>The interpretation of the calculation should remain cautious.
+        The Givens search is a coordinate/local search and not a
+        certificate of the global optimum. The entry says this
+        explicitly. The claim that the increase is “no worse than
+        constant factor” should be read as an observation for
+        <code>N &lt;= 14</code>, not as an asymptotic conclusion.</p>
+        <h2 id="test-2">Test 2</h2>
+        <p>The concentration-plus-net strategy is the right shape for
+        the claim, and the net-size/Lipschitz bookkeeping is plausible.
+        The final implication, “for every fixed
+        <code>delta &gt; 0</code> with high probability”, is the
+        standard formulation of <code>log sup_O F_2 = o(N)</code> in
+        probability.</p>
+        <p>The main proof gap is the fixed-<code>O</code> tail estimate.
+        The text states that because <code>F_2</code> is a degree-8
+        polynomial, standard hypercontractive concentration gives</p>
+        <div class="sourceCode" id="cb3"><pre
+        class="sourceCode tex"><code class="sourceCode latex"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Pr[F_2&gt;t] &lt;= exp(-c t^{1/4}).</span></code></pre></div>
+        <p>As written, this does not follow just from
+        <code>E F_2 = O(1)</code> and degree. One needs either:</p>
+        <ul>
+        <li>a cited hypercontractive inequality on the complex sphere
+        plus a bound such as <code>||F_2||_2 = O(1)</code>, or</li>
+        <li>a direct high-moment estimate for <code>F_2</code>, strong
+        enough to union-bound over the <code>O(N)</code> net.</li>
+        </ul>
+        <p>This is likely fixable, but it should be made explicit
+        because the entire asymptotic proof rests on getting a
+        stretched-exponential tail at <code>t = exp(delta N)</code>.</p>
+        <p>The Lipschitz bound</p>
+        <div class="sourceCode" id="cb4"><pre
+        class="sourceCode tex"><code class="sourceCode latex"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>|F_2(O)-F_2(O&#39;)| &lt;= C N 2^N ||O-O&#39;||</span></code></pre></div>
+        <p>is crude but sufficient for the net argument if the tail
+        bound is valid. A fully rigorous version should track whether
+        the constant is uniform over all weights and over the chosen
+        normalization of the Majorana-string basis, but no scaling
+        obstruction is apparent.</p>
+        <h2 id="outlook">Outlook</h2>
+        <p>The outlook accurately summarizes the intended lesson, but it
+        somewhat overstates the status of Test 1. Test 1 gives
+        finite-size numerical evidence for an order-one change in the
+        weight-4 <code>alpha=2</code> sum; it does not by itself show
+        thermodynamic invariance of the SRE density for SYK thermal
+        states. The random-state Test 2 is closer to a proof, subject to
+        the concentration gap above.</p>
+        <h2 id="suggested-revisions">Suggested revisions</h2>
+        <ol type="1">
+        <li>Fix the primed-index typo in the Test 1 rotation
+        formula.</li>
+        <li>Add the even-<code>N</code> convention near the setup.</li>
+        <li>Add a citation or derivation for the fixed-<code>O</code>
+        tail bound in Test 2, including the needed norm estimate for
+        <code>F_2</code>.</li>
+        <li>Soften the wording in the outlook from “we showed” to “the
+        tests support” for the SYK thermal-state thermodynamic claim,
+        unless an additional analytic argument is added.</li>
+        </ol>
+      </div>
+      <div class="post-footer">
+        <a href="javascript:history.back()" class="btn btn-outline">← Back</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/journal.html">Journal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>

@@ -1,4 +1,17 @@
 {
-  "updated": "2026-05-22T20:10:54.933929Z",
-  "posts": []
+  "updated": "2026-05-22T20:25:48.771278Z",
+  "posts": [
+    {
+      "title": "Non-Gaussian Magic",
+      "date": "2026-05-22",
+      "slug": "non-gaussian-magic",
+      "url": "posts/non-gaussian-magic.html",
+      "tags": [
+        "SYK",
+        "magic",
+        "fermions"
+      ],
+      "description": "A notion of magic invariant under Gaussian rotations, with two tests suggesting SYK-4 has high non-Gaussian magic."
+    }
+  ]
 }

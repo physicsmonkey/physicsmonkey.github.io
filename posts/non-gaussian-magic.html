@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Non-Gaussian Magic — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="../journal.html" class="nav-name">← Journal</a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../papers.html">Papers</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-hero">
+    <div class="container">
+      <span class="eyebrow">Journal</span>
+      <h2 class="post-title-heading">Non-Gaussian Magic</h2>
+      <div class="post-meta">
+        <span class="lecture-date">2026-05-22</span>
+                <span class="post-tags"><span class="post-tag">SYK</span> <span class="post-tag">magic</span> <span class="post-tag">fermions</span></span>
+              </div>
+    </div>
+  </section>
+
+  <section id="post-body">
+    <div class="container">
+      <div class="post-content">
+        <h1 id="non-gaussian-magic">Non-Gaussian Magic</h1>
+        <blockquote>
+        <p>Brian Swingle + Claude Code with Opus 4.7 + Codex with GPT
+        5.5 May 22, 2026 Confidence: High Reports from <a
+        href="non-gaussian-magic/reports/report-claude-sonnet-4-6.html">Sonnet
+        4.6</a>, <a
+        href="non-gaussian-magic/reports/report-claude-opus-4-7.html">Opus
+        4.7</a>, <a
+        href="non-gaussian-magic/reports/codex-gpt5-report.html">GPT
+        5.5</a> Acknowledgements: Helpful discussions with Val Bettaque,
+        Juan Maldacena, and Anna Biggs</p>
+        </blockquote>
+        <p>For systems of many fermions, there are two limits where the
+        description becomes classically tractable. For the purpose of
+        this discussion, I’ll take classically tractable to mean that
+        expectation values of low-weight fermion operators can be
+        computed with time and memory that scale polynomially with the
+        number of fermions.</p>
+        <p>Let’s label our Majorana fermion modes <span
+        class="math inline">\psi_i</span> with the index <span
+        class="math inline">i</span> running from <span
+        class="math inline">1</span> to <span
+        class="math inline">N</span>. Each of these mode operators is
+        Hermitian and squares to the identity, and they collectively
+        obey the algebraic constraint <span class="math display"> \{
+        \psi_i , \psi_j \} = 2 \delta_{ij}.</span> A complete basis of
+        Hermitian operators is provided by the Majorana strings, <span
+        class="math display"> \mu(a)=i^{W(W-1)/2} \psi_1^{a_1} \cdots
+        \psi_N^{a_N},</span> where the binary <span
+        class="math inline">N</span>-component vector <span
+        class="math inline">a</span> specifies the string and the phase
+        factor ensures <span class="math inline">\mu</span> is
+        Hermitian. <span class="math inline">W = \sum_i a_i</span> is
+        the weight of the string. Throughout <span
+        class="math inline">N</span> is taken to be even.</p>
+        <h2 id="case-1">Case 1</h2>
+        <p>If the fermions are in a Gaussian state, then thanks to
+        Wick’s theorem we can evaluate the expectation of any low-weight
+        Majorana string in terms of the <span
+        class="math inline">W=2</span> object, <span
+        class="math inline">\langle \psi_i \psi_j \rangle</span>. The
+        same is true for superpositions of low-weight strings.</p>
+        <p>There is also an efficient <a
+        href="https://arxiv.org/abs/2412.05367">determinant-based
+        method</a> for evaluating such expectation values for a single
+        string of any weight, or superpositions of such strings with
+        polynomially many terms.</p>
+        <h2 id="case-2">Case 2</h2>
+        <p>If the fermions are in a pure fermionic stabilizer state,
+        then thanks to the fermionic analog of the Gottesman-Knill
+        theorem, we can also efficiently compute any Majorana string
+        expectation value.</p>
+        <p>For general mixtures of pure stabilizer states, the
+        computation is efficient if one can efficiently sample pure
+        stabilizer states from the mixture.</p>
+        <h2 id="combining-the-cases">Combining the cases</h2>
+        <p>It is interesting to ask if we can combine these two tools in
+        some way. I only know of one <a
+        href="https://arxiv.org/abs/2505.06336">paper</a> on this.</p>
+        <p>In my own thinking, I considered a simple composition of the
+        two cases. Start with a fixed pure stabilizer state, apply a
+        fermionic Clifford unitary <span class="math inline">U_C</span>,
+        and then apply a fermionic Gaussian unitary <span
+        class="math inline">U_G</span>, <span class="math display">
+        |\psi \rangle = U_G U_C |0\rangle^{\otimes N/2}.</span></p>
+        <p>Given a weight <span class="math inline">W</span> string
+        <span class="math inline">\mu</span>, the expectation value in
+        <span class="math inline">|\psi\rangle</span> can be evaluated
+        by using the Heisenberg picture to express <span
+        class="math inline">U_G^\dagger \mu U_G</span> as a sum of at
+        most <span class="math inline">\binom{N}{W}</span> (the number
+        of weight-<span class="math inline">W</span> strings, since
+        <span class="math inline">U_G</span> doesn’t change the weight)
+        strings. Each string expectation value can then be efficiently
+        evaluated using Clifford/stabilizer technology, so the overall
+        time and memory cost are poly(<span
+        class="math inline">N</span>) provided <span
+        class="math inline">W</span> is constant.</p>
+        <p>What if we switched the order? Then one can still simulate
+        expectation values of low-weight strings provided <span
+        class="math inline">|0\rangle^{\otimes N/2}</span> is both
+        Gaussian and stabilizer. Briefly, the Clifford unitary turns a
+        single low-weight string into an arbitrary weight string, but a
+        single such string can be efficiently evaluated using the
+        determinant methods mentioned above. What we cannot generically
+        do is combine more than one instance of <span
+        class="math inline">U_G</span> and <span
+        class="math inline">U_C</span>.</p>
+        <h2 id="why">Why?</h2>
+        <p>This kind of construction might be useful in that it
+        marginally increases our ability to classically simulate some
+        many-fermion states. I was motivated to think about it because
+        of a recent <a href="https://arxiv.org/abs/2602.12339">paper</a>
+        with my PhD student Valerie Bettaque in which we studied
+        measures of non-stabilizerness in fermionic thermal states of
+        the Sachdev-Ye-Kitaev model at large <span
+        class="math inline">N</span> (see also this <a
+        href="https://arxiv.org/abs/2509.17417">line of work</a>).
+        Non-stabilizerness is also known as quantum <a
+        href="https://journals.aps.org/pra/abstract/10.1103/PhysRevA.71.022316">magic</a>.</p>
+        <p>The SYK model with <span class="math inline">p=4</span>-body
+        interactions is <span class="math display"> H = \frac{1}{4!}
+        \sum_{ijkl} J_{ijkl} \psi_i \psi_j \psi_k \psi_l </span> where
+        <span class="math inline">J_{ijkl}</span> is a Gaussian random
+        coupling with zero mean and variance <span
+        class="math inline">3! J^2/N^3</span>. As such, the SYK model
+        really refers to an ensemble of Hamiltonians, with the example
+        above being one instance of the ensemble. We wanted to study
+        non-stabilizerness/magic in this model to both get some
+        analytical handle on magic at large <span
+        class="math inline">N</span> in a strongly interacting system
+        and to better understand the manifestation of magic in
+        holographic duality. We primarily considered a measure of magic
+        known as <a
+        href="https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.118.090501">robustness
+        of magic</a>, and I think we achieved both goals.</p>
+        <p>However, there is one aspect of our analysis that I found
+        unsatisfying. The SYK model has a lovely statistical <span
+        class="math inline">O(N)</span> symmetry that is essentially a
+        Gaussian unitary transformation, so one expects any
+        self-averaging physical property to be insensitive to such
+        rotations. However, the measures of magic we considered are all
+        built on a fixed stabilizer basis, essentially a fixed choice of
+        Majorana strings (as opposed to Gaussian rotations of them). So
+        I started thinking about how to formally adapt the magic
+        measures to account for this.</p>
+        <h2 id="non-gaussian-magic-1">Non-Gaussian magic</h2>
+        <p>Given any magic measure <span
+        class="math inline">M(\rho)</span>, we can define the associated
+        non-Gaussian magic measure as <span class="math display">
+        M_{NG}(\rho) = \min_{U_G} M(U_G \rho U_G^\dagger).</span> In
+        essence, we consider all possible Gaussian rotations of the
+        state and take the minimum magic among those.</p>
+        <p>This definition has the virtue that Gaussian states, which
+        typically have lots of magic (as we showed), have zero
+        non-Gaussian magic. More generally, the ansatz <span
+        class="math inline">|\psi\rangle = U_G U_C |0\rangle^{\otimes
+        N/2}</span> can have lots of magic but its non-Gaussian magic is
+        zero. This explains our choice of ansatz above.</p>
+        <p>Gaussian unitaries implement <span
+        class="math inline">O(N)</span> rotations of the fermion modes,
+        <span class="math display"> U_G \psi_i U_G^\dagger = \sum_j
+        O_{ij} \psi_j,</span> and they have <span
+        class="math inline">N(N-1)/2</span> continuous parameters. Just
+        from parameter counting, we therefore expect that such Gaussian
+        unitaries cannot substantially reduce the magic in thermal
+        states of the 4-body (or higher) SYK model. If true, this would
+        establish that there is no strong dependence on the precise
+        choice of fermion modes when defining magic. That would be very
+        satisfying if we want to interpret magic in terms of
+        coarse-grained properties, since we likewise don’t expect these
+        to depend strongly on precisely how we define the modes or the
+        precise SYK instance.</p>
+        <h2 id="test-1">Test 1</h2>
+        <p>One simple test of this hypothesis is provided by looking at
+        SYK thermal states. Many measures of magic are related to sums
+        of powers of string expectation values, <span
+        class="math display"> \sum_a \langle \mu(a)
+        \rangle^{2\alpha}.</span> For example, consider the case where
+        <span class="math inline">\mu</span> is weight <span
+        class="math inline">4</span>. In the SYK thermal state at large
+        <span class="math inline">N</span>, the statistical <span
+        class="math inline">O(N)</span> symmetry requires, to leading
+        order in <span class="math inline">1/N</span>, <span
+        class="math display"> \langle \mu_{W=4} \rangle \propto J_{i_1
+        i_2 i_3 i_4},</span> where the indices <span
+        class="math inline">i_1\cdots i_4</span> are those in <span
+        class="math inline">\mu</span> (see also this <a
+        href="https://arxiv.org/abs/2104.03336">paper</a>).</p>
+        <p>So for this set of strings, the dependence on Gaussian
+        unitaries reduces to asking how <span class="math display">
+        \sum_{ijkl} \left|\sum_{i&#39;j&#39;k&#39;l&#39;} O_{ii&#39;}
+        O_{jj&#39;} O_{kk&#39;} O_{ll&#39;}
+        J_{i&#39;j&#39;k&#39;l&#39;}\right|^{2\alpha}</span> depends on
+        <span class="math inline">O_{ii&#39;}</span>.</p>
+        <p>For <span class="math inline">\alpha=1</span>, the sum is an
+        <span class="math inline">O(N)</span> invariant, so it does not
+        depend on the Gaussian rotation. However, for <span
+        class="math inline">\alpha=2</span>, the Gaussian rotation can
+        in principle modify the sum.</p>
+        <p>To get a first numerical sense of the size of this effect, I
+        implemented a Jacobi-style search over Givens rotations in <a
+        href="non-gaussian-magic/calculation-1/readme.html">calculation-1</a>.
+        The calculation studies the independent antisymmetric components
+        and tracks <span class="math display"> Q_4(J) =
+        \sum_{i&lt;j&lt;k&lt;l} J_{ijkl}^4 </span> under <span
+        class="math inline">O(N)</span> rotations. The overall SYK
+        normalization is irrelevant for the ratios, so the independent
+        tensor entries were sampled as standard Gaussians. The search is
+        not a proof of the global optimum, but it does preserve the
+        <span class="math inline">O(N)</span> constraint exactly and
+        gives a useful stress test.</p>
+        <p>With <span class="math inline">8</span> disorder realizations
+        and <span class="math inline">8</span> sweeps of the Givens
+        search, the optimized minimum divided by the initial value was
+        approximately <span class="math display">
+        \begin{array}{c|cccc}
+        N &amp; 8 &amp; 10 &amp; 12 &amp; 14 \\
+        \hline
+        Q_4^{\rm min}/Q_4^{\rm initial} &amp; 0.50 &amp; 0.52 &amp; 0.57
+        &amp; 0.60
+        \end{array}
+        </span> while the optimized maximum divided by the initial value
+        was approximately <span class="math display">
+        \begin{array}{c|cccc}
+        N &amp; 8 &amp; 10 &amp; 12 &amp; 14 \\
+        \hline
+        Q_4^{\rm max}/Q_4^{\rm initial} &amp; 5.33 &amp; 4.76 &amp; 4.67
+        &amp; 4.34 .
+        \end{array}
+        </span> For comparison, the equal-component lower bound <span
+        class="math inline">Q_2^2/\binom{N}{4}</span> was about <span
+        class="math inline">0.33</span> of the initial value at the
+        larger sizes, so the search did not come close to completely
+        flattening the tensor components. This preliminary evidence
+        suggests that the <span class="math inline">\alpha=2</span>
+        quantity is not invariant, but the ability of Gaussian rotations
+        to reduce it is only an order-one effect in these system sizes,
+        and may weaken slowly with <span class="math inline">N</span>.
+        The ability to increase <span class="math inline">Q_4</span> is
+        larger than the ability to decrease it (although still no worse
+        than constant factor), reflecting an inherent asymmetry of the
+        <span class="math inline">l^4</span> norm under the <span
+        class="math inline">O(N)</span> orbit.</p>
+        <p>In particular, if the ability of <span
+        class="math inline">O(N)</span> rotations to modify these
+        sums-of-strings is limited to constant factors, this would only
+        change measures like the <a
+        href="https://arxiv.org/abs/2106.12587">stabilizer Renyi
+        entropy</a> (SRE) by a constant shift. So the Renyi entropy per
+        fermion would be unchanged in the thermodynamic limit.</p>
+        <p>Agent note: Codex (GPT-5) implemented
+        <code>calculation-1</code> and edited this section of the entry
+        to report the numerical results from that calculation on May 22,
+        2026.</p>
+        <h2 id="test-2">Test 2</h2>
+        <p>Here is a simple version of the corresponding statement for
+        random pure states. Let <span
+        class="math inline">D=2^{N/2}</span> be the Hilbert space
+        dimension, and define <span class="math display">
+        F_2(|\psi\rangle;O)=\sum_a \left|\langle \psi|U_O^\dagger \mu(a)
+        U_O|\psi\rangle\right|^4,
+        </span> where <span class="math inline">O\in O(N)</span> is the
+        Gaussian rotation implemented by <span
+        class="math inline">U_O</span>. Up to an additive normalization
+        independent of <span class="math inline">O</span>, the
+        stabilizer Renyi entropy at <span
+        class="math inline">\alpha=2</span> is <span
+        class="math inline">-\log F_2</span>. Hence the non-Gaussian
+        version minimizes the entropy by maximizing <span
+        class="math inline">F_2</span> over <span
+        class="math inline">O(N)</span>.</p>
+        <p>The claim is that for a Haar-random pure state, <span
+        class="math display">
+        \log \sup_{O\in O(N)} F_2(|\psi\rangle;O)=o(N)
+        </span> with high probability. Since <span
+        class="math inline">F_2(|\psi\rangle;I)\geq 1</span> because of
+        the identity string, this implies <span class="math display">
+        0 \leq S_2(|\psi\rangle)-S_{2,NG}(|\psi\rangle)
+        = \log \frac{\sup_{O\in
+        O(N)}F_2(|\psi\rangle;O)}{F_2(|\psi\rangle;I)}
+        = o(N)
+        </span> with high probability. Thus the Gaussian optimization
+        cannot change the stabilizer Renyi entropy density of a random
+        pure state.</p>
+        <p>The proof is a concentration-plus-net argument. First fix a
+        Gaussian rotation <span class="math inline">O</span>. Since Haar
+        measure is unitary invariant, <span
+        class="math inline">F_2(|\psi\rangle;O)</span> has the same
+        distribution for every fixed <span class="math inline">O</span>.
+        For the identity string the contribution is <span
+        class="math inline">1</span>. For each non-identity Majorana
+        string <span class="math inline">\mu(a)</span>, the random
+        variable <span class="math inline">X_a=\langle
+        \psi|\mu(a)|\psi\rangle</span> has mean zero and fourth moment
+        of order <span class="math inline">D^{-2}</span>. Since there
+        are <span class="math inline">D^2-1</span> non-identity strings,
+        <span class="math display">
+        \mathbb{E}_\psi F_2(|\psi\rangle;O)=O(1).
+        </span> We can get a useful tail bound without invoking a
+        general polynomial concentration theorem. The rotated operators
+        <span class="math inline">U_O^\dagger \mu(a) U_O</span> form
+        another complete orthogonal Majorana-string basis. Hence, for
+        every pure state, <span class="math display">
+        \sum_a \left|\langle \psi|U_O^\dagger \mu(a)
+        U_O|\psi\rangle\right|^2=D,
+        </span> because this is just the Hilbert-Schmidt identity for
+        the expansion of <span
+        class="math inline">|\psi\rangle\langle\psi|</span> in an
+        orthogonal operator basis with <span
+        class="math inline">\mathrm{tr}(\mu(a)\mu(b))=D\delta_{ab}</span>.
+        Therefore, for <span class="math inline">t&gt;2</span>, <span
+        class="math display">
+        F_2(|\psi\rangle;O)&gt;t
+        \quad\Longrightarrow\quad
+        \max_{a\neq 0}
+        \left|\langle \psi|U_O^\dagger \mu(a) U_O|\psi\rangle\right|^2
+        \gt \frac{t-1}{D-1}.
+        </span> For each non-identity string, <span
+        class="math inline">A=U_O^\dagger \mu(a)U_O</span> is a
+        traceless Hermitian unitary. If <span
+        class="math inline">|\psi\rangle</span> is Haar random, then
+        <span class="math inline">\langle\psi|A|\psi\rangle=2P-1</span>,
+        where <span class="math inline">P</span> is the total Haar
+        weight in the positive eigenspace of <span
+        class="math inline">A</span>. Since the positive and negative
+        eigenspaces both have dimension <span
+        class="math inline">D/2</span>, <span
+        class="math inline">P</span> has the beta distribution <span
+        class="math inline">\mathrm{Beta}(D/2,D/2)</span>, and a
+        standard Chernoff or Levy concentration bound gives <span
+        class="math display">
+        \Pr_\psi\!\left[
+        \left|\langle\psi|A|\psi\rangle\right|&gt;s
+        \right]
+        \leq 2e^{-cDs^2}
+        </span> for a universal constant <span
+        class="math inline">c&gt;0</span>. Union bounding over the <span
+        class="math inline">D^2-1</span> non-identity strings gives, for
+        every fixed <span class="math inline">O</span> and <span
+        class="math inline">C\leq t\leq D</span>, <span
+        class="math display">
+        \Pr_\psi\!\left[F_2(|\psi\rangle;O)&gt;t\right]
+        \leq C D^2 e^{-c t}.
+        </span> For <span class="math inline">t&gt;D</span>, the
+        deterministic bound <span class="math inline">F_2\leq D</span>
+        is already enough. Thus the fixed-<span
+        class="math inline">O</span> tail is exponentially small in
+        <span class="math inline">t</span> throughout the only
+        nontrivial regime needed below.</p>
+        <p>Now cover <span class="math inline">O(N)</span> by an <span
+        class="math inline">\epsilon</span>-net <span
+        class="math inline">\mathcal{N}_\epsilon</span> in operator
+        norm. One may take <span class="math display">
+        |\mathcal{N}_\epsilon|\leq
+        \left(\frac{C}{\epsilon}\right)^{N(N-1)/2}.
+        </span> The function <span class="math inline">F_2</span> is
+        Lipschitz as a function of <span class="math inline">O</span>.
+        Indeed, a weight-<span class="math inline">W</span> string
+        transforms in the <span class="math inline">W</span>th
+        exterior-power representation, so changing <span
+        class="math inline">O</span> by <span
+        class="math inline">\epsilon</span> changes the rotated string
+        by at most <span class="math inline">O(W\epsilon)</span> in
+        operator norm. Since <span class="math inline">W\leq N</span>
+        and there are <span class="math inline">2^N</span> strings,
+        <span class="math display">
+        |F_2(|\psi\rangle;O)-F_2(|\psi\rangle;O&#39;)|
+        \leq C N 2^N \|O-O&#39;\|
+        </span> uniformly in <span
+        class="math inline">|\psi\rangle</span>. This bound is crude but
+        sufficient.</p>
+        <p>Fix any <span class="math inline">\delta&gt;0</span> and set
+        <span class="math inline">t=e^{\delta N}</span>. Choose <span
+        class="math display">
+        \epsilon \sim \frac{t}{N2^N}.
+        </span> Then if <span class="math inline">\sup_O
+        F_2(|\psi\rangle;O)&gt;t</span>, some point of the net has <span
+        class="math inline">F_2</span> larger than a constant multiple
+        of <span class="math inline">t</span>. By the fixed-<span
+        class="math inline">O</span> tail bound and the union bound,
+        <span class="math display">
+        \Pr_\psi\!\left[\sup_{O\in O(N)}F_2(|\psi\rangle;O)&gt;e^{\delta
+        N}\right]
+        \leq
+        \exp\!\left[
+        \frac{N(N-1)}{2}\log\!\left(\frac{C N2^N}{e^{\delta N}}\right)
+        -c e^{\delta N}
+        \right],
+        </span> up to harmless changes of constants in the exponent and
+        the extra fixed-<span class="math inline">O</span> prefactor
+        <span class="math inline">D^2=e^{O(N)}</span>. If <span
+        class="math inline">e^{\delta N}&gt;D</span>, the desired bound
+        is instead deterministic. Otherwise, the logarithm of the net
+        size is only polynomial in <span class="math inline">N</span>,
+        while the concentration term is exponentially large in <span
+        class="math inline">N</span>. Therefore the probability tends to
+        zero for every fixed <span
+        class="math inline">\delta&gt;0</span>.</p>
+        <p>Equivalently, with high probability, <span
+        class="math display">
+        \sup_{O\in O(N)}F_2(|\psi\rangle;O)\leq e^{\delta N}
+        </span> for every fixed <span
+        class="math inline">\delta&gt;0</span>, which is the desired
+        statement that <span class="math inline">\log\sup_O
+        F_2=o(N)</span>. This proves that the non-Gaussian stabilizer
+        Renyi entropy differs from the ordinary stabilizer Renyi entropy
+        by a subextensive amount for Haar-random pure fermion
+        states.</p>
+        <p>Agent note: Codex (GPT-5) replaced the Test 2 TODO with this
+        proof argument on May 22, 2026, and later revised the
+        fixed-<span class="math inline">O</span> tail estimate using the
+        Hilbert-Schmidt identity and a single-observable Haar
+        concentration bound.</p>
+        <h2 id="outlook">Outlook</h2>
+        <p>Where are we? We defined a notion of non-Gaussian magic and
+        discussed its application to thermal states of the SYK model.
+        Focusing on the 4-body case, we gave two calculations that
+        suggest that SYK-4 states have high non-Gaussian magic. In the
+        first calculation, we explicitly studied how much expectation
+        values could be modified by Gaussian rotations. Based on a small
+        range of <span class="math inline">N</span> values, we obtained
+        evidence that the <span class="math inline">\alpha=2</span> SRE
+        per fermion is invariant in the thermodynamic limit. In the
+        second test, we sketched an argument that the SRE per fermion
+        for random states is also invariant in the thermodynamic limit.
+        While SYK energy eigenstates are not literally Haar random, they
+        are plausibly highly random (in the spirit of eigenstate
+        thermalization). In my view, this makes the <a
+        href="https://arxiv.org/abs/2403.07056">connection</a> between
+        magic and gravitational back-reaction more sensible, since the
+        measures are insensitive to microscopic details that, arguably,
+        are not captured in <a
+        href="https://arxiv.org/abs/2602.12339">coarse-grained gravity
+        calculations</a>.</p>
+      </div>
+      <div class="post-footer">
+        <a href="../journal.html" class="btn btn-outline">← All posts</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="../index.html">Home</a>
+        <a href="../journal.html">Journal</a>
+        <a href="../papers.html">Papers</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>

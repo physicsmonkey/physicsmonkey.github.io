@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="javascript:history.back()" class="nav-name">← Back</a>
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/journal.html">Journal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-body" style="padding-top: 56px;">
+    <div class="container">
+      <div class="post-content">
+        <h1 style="font-size:1.6rem; margin-bottom: 1.2em;"></h1>
+        <h1 id="report-on-non-gaussian-magic">Report on “Non-Gaussian
+        Magic”</h1>
+        <blockquote>
+        <p>Reviewer: Claude Sonnet 4.6 (claude-sonnet-4-6), May 22, 2026
+        Scope: entry ngm.md and calculation-1</p>
+        </blockquote>
+        <hr />
+        <h2 id="summary">Summary</h2>
+        <p>The entry introduces a notion of non-Gaussian magic,
+        motivates it via the SYK model’s statistical <span
+        class="math inline">O(N)</span> symmetry, and presents two
+        supporting tests. The theoretical framing is sound, the
+        numerical calculation is correctly implemented and internally
+        consistent, and the proof in Test 2 is logically complete. I
+        flag several clarifications and one substantive gap (the claim
+        about simulation hardness for alternating circuits), but no
+        mathematical errors.</p>
+        <p>I independently reran calculation-1 with different seeds
+        (<code>--n-values 8 10 --trials 4 --sweeps 4 --seed 9999</code>)
+        and obtained min ratios of <span
+        class="math inline">0.53</span>–<span
+        class="math inline">0.57</span> and max ratios of <span
+        class="math inline">3.8</span>–<span
+        class="math inline">6.5</span> for <span
+        class="math inline">N=8,10</span>, consistent with the reported
+        results.</p>
+        <hr />
+        <h2 id="section-introduction-and-cases-1-and-2">Section:
+        Introduction and Cases 1 and 2</h2>
+        <p><strong>Algebraic setup.</strong> The Majorana
+        anticommutation relation <span
+        class="math inline">\{\psi_i,\psi_j\}=2\delta_{ij}</span> and
+        the Majorana string definition with phase <span
+        class="math inline">i^{W(W-1)/2}</span> (ensuring Hermiticity)
+        are standard and correct.</p>
+        <p><strong>Case 1.</strong> The appeal to Wick’s theorem for
+        Gaussian states and the reference to determinant-based
+        evaluation of single-string expectation values are correct. One
+        small clarification: the statement “superpositions of low-weight
+        strings” should specify that the number of terms in the
+        superposition is polynomial for the efficiency claim to
+        hold.</p>
+        <p><strong>Case 2.</strong> The fermionic Gottesman-Knill
+        theorem and the sampling-based efficiency for mixtures of
+        stabilizer states are standard results, correctly stated.</p>
+        <hr />
+        <h2 id="section-combining-the-cases">Section: Combining the
+        Cases</h2>
+        <p><strong>Order <span class="math inline">U_G
+        U_C</span>.</strong> Applying <span
+        class="math inline">U_G^\dagger</span> to a weight-<span
+        class="math inline">W</span> string gives a linear combination
+        of at most <span class="math inline">\binom{N}{W}</span>
+        weight-<span class="math inline">W</span> strings. Each
+        coefficient is a degree-<span class="math inline">W</span>
+        polynomial in the entries of <span class="math inline">O</span>,
+        and there are exactly <span
+        class="math inline">\binom{N}{W}</span> distinct weight-<span
+        class="math inline">W</span> Majorana strings. The “at most”
+        bound is correct (some coefficients can vanish). Each such
+        string can then be evaluated exactly in the stabilizer state
+        <span class="math inline">U_C|0\rangle</span> in polynomial
+        time. This argument is correct.</p>
+        <p><strong>Order <span class="math inline">U_C
+        U_G</span>.</strong> The entry argues that <span
+        class="math inline">|0\rangle^{\otimes N/2}</span> is
+        simultaneously Gaussian and stabilizer, so <span
+        class="math inline">U_G|0\rangle</span> is Gaussian, and a
+        single low-weight string after applying <span
+        class="math inline">U_C^\dagger</span> (giving a single,
+        possibly heavy Majorana string) can be evaluated in the
+        resulting Gaussian state by determinant methods. This is
+        correct.</p>
+        <p><strong>Notation.</strong> The state <span
+        class="math inline">|0\rangle^{\otimes N/2}</span> implicitly
+        requires <span class="math inline">N</span> even. This should be
+        stated explicitly.</p>
+        <p><strong>Hardness of alternating circuits.</strong> The
+        sentence “What we cannot generically do is combine more than one
+        instance of <span class="math inline">U_G</span> and <span
+        class="math inline">U_C</span>” is stated as a fact without
+        proof or reference. This appears to be a conjecture or a known
+        folk theorem. If it is known, a reference would be helpful; if
+        it is a conjecture, it should be labeled as such.</p>
+        <hr />
+        <h2 id="section-why">Section: Why?</h2>
+        <p>The motivation is clear and well-written. The SYK-4
+        Hamiltonian and its disorder distribution are standard. The
+        robustness of magic is a well-defined measure. The observation
+        that SYK has a statistical <span class="math inline">O(N)</span>
+        symmetry that is a Gaussian unitary is correct: the SYK ensemble
+        is invariant under <span class="math inline">\psi_i \to \sum_j
+        O_{ij} \psi_j</span> for <span class="math inline">O\in
+        O(N)</span>, since this maps <span class="math inline">J_{ijkl}
+        \to (O^T)^{\otimes 4} J</span>, which has the same distribution
+        by rotational invariance of the Gaussian ensemble.</p>
+        <hr />
+        <h2 id="section-non-gaussian-magic">Section: Non-Gaussian
+        Magic</h2>
+        <p><strong>Definition.</strong> <span class="math inline">M_{\rm
+        NG}(\rho)=\min_{U_G} M(U_G \rho U_G^\dagger)</span> is natural
+        and well-posed.</p>
+        <p><strong>Pure Gaussian states have <span
+        class="math inline">M_{\rm NG}=0</span>.</strong> For any pure
+        Gaussian state <span class="math inline">|\psi\rangle</span> (a
+        Slater determinant), there exists a Bogoliubov transformation
+        <span class="math inline">U_G</span> mapping it to the vacuum
+        <span class="math inline">|0\rangle^{\otimes N/2}</span>, which
+        is a stabilizer state with <span class="math inline">M=0</span>.
+        So <span class="math inline">M_{\rm NG}(|\psi\rangle)=0</span>.
+        ✓</p>
+        <p><strong>Mixed Gaussian states.</strong> The entry asserts
+        that Gaussian states have zero non-Gaussian magic. For mixed
+        Gaussian states (e.g., free-fermion thermal states), this is
+        less immediate: <span class="math inline">U_G \rho
+        U_G^\dagger</span> is again Gaussian for any <span
+        class="math inline">U_G</span>, but achieving <span
+        class="math inline">M=0</span> requires mapping <span
+        class="math inline">\rho</span> to a state on which the magic
+        measure vanishes. This holds if the magic measure <span
+        class="math inline">M</span> vanishes on all Gaussian (not just
+        stabilizer) states. Whether robustness of magic or the
+        stabilizer Renyi entropy vanishes for all mixed Gaussian states
+        is not discussed. Since the main application is to SYK thermal
+        states (which are non-Gaussian), this gap does not affect the
+        core claims, but the definition statement should be
+        qualified.</p>
+        <p><strong>Ansatz <span class="math inline">|\psi\rangle=U_G
+        U_C|0\rangle</span>.</strong> Applying <span
+        class="math inline">U_G^\dagger</span> gives <span
+        class="math inline">U_C|0\rangle</span>, a stabilizer state. So
+        <span class="math inline">M_{\rm NG}(|\psi\rangle)=0</span> by
+        definition. ✓</p>
+        <p><strong>Parameter counting.</strong> <span
+        class="math inline">O(N)</span> has dimension <span
+        class="math inline">N(N-1)/2</span>, while the independent
+        components of <span class="math inline">J_{ijkl}</span> number
+        <span class="math inline">\binom{N}{4}\sim N^4/24</span>. So the
+        orbit under <span class="math inline">O(N)</span> is far
+        lower-dimensional than the full space of coupling tensors at
+        large <span class="math inline">N</span>. This is a plausible
+        but informal argument; the numerical tests give it quantitative
+        content.</p>
+        <hr />
+        <h2 id="section-test-1">Section: Test 1</h2>
+        <p><strong>Connection to SRE.</strong> The leading-<span
+        class="math inline">N</span> approximation <span
+        class="math inline">\langle \mu_{W=4}\rangle \propto J_{i_1 i_2
+        i_3 i_4}</span> in the SYK thermal state rests on large-<span
+        class="math inline">N</span> factorization (see the cited
+        reference 2104.03336). Taking this on faith, the sum <span
+        class="math inline">\sum_{i&lt;j&lt;k&lt;l} J_{ijkl}^4</span> is
+        indeed the <span class="math inline">\alpha=2</span> SRE
+        quantity up to normalization, and its behavior under <span
+        class="math inline">O(N)</span> rotations speaks to the
+        stability of the SRE per fermion. The leap from “the quartic sum
+        changes by at most a constant factor” to “the SRE per fermion is
+        invariant in the thermodynamic limit” is correct, since <span
+        class="math inline">\text{SRE} \sim \log Q_4</span> and a
+        constant multiplicative change in <span
+        class="math inline">Q_4</span> produces only a constant additive
+        change in the SRE, leaving the density unchanged.</p>
+        <p><strong>Numerical implementation.</strong> The code in
+        <code>rotate_l4.py</code> is correct:</p>
+        <ul>
+        <li>The antisymmetric 4-tensor is stored with all permutations,
+        and the Givens rotation is applied axis by axis. Sequential
+        application over all 4 axes correctly computes <span
+        class="math inline">(O^{\otimes 4} T)</span>, since rotations on
+        different indices commute.</li>
+        <li>The <code>rotate_one_axis</code> function stores
+        <code>old_p = tensor[p_tuple]</code> and
+        <code>old_q = tensor[q_tuple]</code> as views into the original
+        (un-modified) array before writing to the copy <code>out</code>,
+        so there is no aliasing error.</li>
+        <li>The equal-component lower bound <span
+        class="math inline">Q_2^2/\binom{N}{4}</span> follows from
+        Jensen’s inequality (<span class="math inline">\sum x_i^4 \geq
+        (\sum x_i^2)^2/n</span>) with <span
+        class="math inline">Q_2</span> fixed by <span
+        class="math inline">O(N)</span> invariance of the Frobenius
+        norm. ✓</li>
+        <li>The reported ratios are verified to match the CSV output and
+        summary JSON (checked manually for <span
+        class="math inline">N=8</span>, seed 9234).</li>
+        </ul>
+        <p><strong>Reported numbers.</strong> Spot-checks confirm the
+        tables in the entry match <code>summary.json</code>:</p>
+        <table>
+        <colgroup>
+        <col style="width: 5%" />
+        <col style="width: 21%" />
+        <col style="width: 25%" />
+        <col style="width: 21%" />
+        <col style="width: 25%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th><span class="math inline">N</span></th>
+        <th>min/init (entry)</th>
+        <th>min/init (JSON mean)</th>
+        <th>max/init (entry)</th>
+        <th>max/init (JSON mean)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td>8</td>
+        <td>0.50</td>
+        <td>0.5005</td>
+        <td>5.33</td>
+        <td>5.332</td>
+        </tr>
+        <tr class="even">
+        <td>10</td>
+        <td>0.52</td>
+        <td>0.5155</td>
+        <td>4.76</td>
+        <td>4.760</td>
+        </tr>
+        <tr class="odd">
+        <td>12</td>
+        <td>0.57</td>
+        <td>0.5653</td>
+        <td>4.67</td>
+        <td>4.668</td>
+        </tr>
+        <tr class="even">
+        <td>14</td>
+        <td>0.60</td>
+        <td>0.6017</td>
+        <td>4.34</td>
+        <td>4.340</td>
+        </tr>
+        </tbody>
+        </table>
+        <p><strong>Independent rerun (different seeds).</strong> Running
+        with <code>--seed 9999 --trials 4 --sweeps 4</code> on <span
+        class="math inline">N=8,10</span> gives min ratios of <span
+        class="math inline">0.53</span>–<span
+        class="math inline">0.59</span> and max ratios of <span
+        class="math inline">3.8</span>–<span
+        class="math inline">6.5</span>, consistent with the reported
+        range.</p>
+        <p><strong>Caveat on convergence.</strong> With 8 sweeps over
+        <span class="math inline">N(N-1)/2</span> pairs and a 25-point
+        grid, the search is a heuristic. The entry correctly notes it is
+        not a certificate of the global optimum. The slow upward trend
+        in the min ratio with <span class="math inline">N</span> (0.50
+        to 0.60 over <span class="math inline">N=8</span> to <span
+        class="math inline">14</span>) could indicate a slow approach to
+        1 rather than convergence to a constant below 1; this cannot be
+        distinguished from the current system sizes. The entry’s
+        characterization as “preliminary evidence” is appropriately
+        cautious.</p>
+        <hr />
+        <h2 id="section-test-2">Section: Test 2</h2>
+        <p>The proof claims: for Haar-random <span
+        class="math inline">|\psi\rangle</span>, <span
+        class="math inline">\log \sup_{O\in O(N)} F_2(|\psi\rangle;O) =
+        o(N)</span> with high probability.</p>
+        <p><strong>Step 1: Fixed-<span class="math inline">O</span>
+        distribution.</strong> By Haar invariance, <span
+        class="math inline">U_O |\psi\rangle</span> is also Haar-random,
+        so <span class="math inline">F_2(|\psi\rangle;O)</span> has the
+        same distribution for every fixed <span
+        class="math inline">O</span>. ✓</p>
+        <p><strong>Step 2: Expected value <span
+        class="math inline">O(1)</span>.</strong> The identity string
+        contributes 1. For a non-identity Majorana string <span
+        class="math inline">\mu(a)</span> (which is traceless and
+        satisfies <span class="math inline">\mu(a)^2 = I</span>, so
+        <span class="math inline">\|\mu(a)\|_F^2 = D</span>), the
+        standard Weingarten formula gives <span
+        class="math inline">\mathbb{E}_\psi[\langle\psi|\mu(a)|\psi\rangle^4]
+        = O(D^{-2})</span>. With <span class="math inline">2^N - 1 = D^2
+        - 1</span> non-identity strings, the sum contributes <span
+        class="math inline">O(1)</span>. So <span
+        class="math inline">\mathbb{E}_\psi F_2 = O(1)</span>. ✓</p>
+        <p><strong>Step 3: Concentration.</strong> <span
+        class="math inline">F_2</span> is a degree-8 polynomial in the
+        <span class="math inline">2D</span> real parameters of <span
+        class="math inline">|\psi\rangle</span>. Standard
+        hypercontractive concentration for degree-<span
+        class="math inline">d</span> polynomials on the real sphere
+        gives tails decaying as <span class="math inline">\exp(-c\,
+        t^{2/d})</span>; for <span class="math inline">d=8</span> this
+        is <span class="math inline">\exp(-c\,t^{1/4})</span>. The
+        entry’s claim is consistent with this. ✓</p>
+        <p><strong>Step 4: Covering number.</strong> <span
+        class="math inline">O(N)</span> has dimension <span
+        class="math inline">N(N-1)/2</span> and the bound <span
+        class="math inline">|\mathcal{N}_\epsilon| \leq
+        (C/\epsilon)^{N(N-1)/2}</span> is standard for compact Lie
+        groups. ✓</p>
+        <p><strong>Step 5: Lipschitz constant.</strong> The entry claims
+        <span class="math inline">|F_2(\psi;O) - F_2(\psi;O&#39;)| \leq
+        CN2^N \|O-O&#39;\|</span>. For a weight-<span
+        class="math inline">W</span> string, the rotated expectation
+        value changes by at most <span
+        class="math inline">O(W\|O-O&#39;\|)</span> in operator norm, so
+        the <span class="math inline">\ell^4</span> term changes by
+        <span class="math inline">O(W\|O-O&#39;\|)</span>. Summing over
+        <span class="math inline">2^N</span> strings with <span
+        class="math inline">W\leq N</span> gives the stated bound. This
+        Lipschitz constant is exponential in <span
+        class="math inline">N</span>, but this is acceptable since the
+        concentration tail is doubly exponential. ✓</p>
+        <p><strong>Step 6: Union bound.</strong> Setting <span
+        class="math inline">t = e^{\delta N}</span> and <span
+        class="math inline">\epsilon \sim e^{\delta N}/(N
+        2^N)</span>:</p>
+        <p><span class="math display">\log |\mathcal{N}_\epsilon| =
+        O(N^2 \log(N 2^N / e^{\delta N})) = O(N^3)</span></p>
+        <p>which is polynomial in <span class="math inline">N</span>.
+        The concentration bound contributes <span class="math inline">-c
+        e^{\delta N/4}</span>, which is super-exponential. So the
+        probability of <span class="math inline">\sup_O F_2 &gt;
+        e^{\delta N}</span> tends to zero. ✓</p>
+        <p><strong>Scope.</strong> This proof applies to Haar-random
+        pure states, not to SYK thermal states. The entry is explicit
+        about this (“a simple version of the corresponding statement for
+        random pure states”). The connection to SYK would require
+        additional structure, e.g., showing that SYK states behave like
+        pseudorandom states in the relevant sense. This is an
+        interesting open direction left implicit.</p>
+        <hr />
+        <h2 id="section-outlook">Section: Outlook</h2>
+        <p>The summary correctly represents what was shown: two tests
+        supporting high non-Gaussian magic in SYK-4. The connection to
+        the holographic interpretation is motivated but is the part of
+        the argument that rests most on physics intuition rather than
+        rigorous proof.</p>
+        <hr />
+        <h2 id="overall-assessment">Overall Assessment</h2>
+        <p>The entry is scientifically sound. The main theoretical
+        claims are either correct or properly labeled as preliminary. No
+        mathematical errors were found. The key limitations are:</p>
+        <ol type="1">
+        <li>The hardness of alternating <span
+        class="math inline">U_G</span>/<span
+        class="math inline">U_C</span> circuits is asserted without
+        proof or reference — this should be flagged as a claim.</li>
+        <li>The <span class="math inline">M_{\rm NG}=0</span> statement
+        for mixed Gaussian states is stated more broadly than the
+        pure-state argument supports.</li>
+        <li>The <span class="math inline">N</span>-range of the numerics
+        is modest; the “constant factor” characterization of the min/max
+        variability is plausible but not established.</li>
+        <li>Test 2 is for random pure states; the SYK application is by
+        analogy.</li>
+        </ol>
+        <p>None of these gaps invalidate the entry’s conclusions. Items
+        1 and 2 are the most worth addressing in a future revision.</p>
+      </div>
+      <div class="post-footer">
+        <a href="javascript:history.back()" class="btn btn-outline">← Back</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/journal.html">Journal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>
