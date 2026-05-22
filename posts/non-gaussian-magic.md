@@ -7,10 +7,10 @@ description: "A notion of magic invariant under Gaussian rotations, with two tes
 
 # Non-Gaussian Magic
 
-> Brian Swingle + Claude Code with Opus 4.7 + Codex with GPT 5.5 
-> May 22, 2026
-> Confidence: High
-> Reports from [Sonnet 4.6](non-gaussian-magic/reports/report-claude-sonnet-4-6.html), [Opus 4.7](non-gaussian-magic/reports/report-claude-opus-4-7.html), [GPT 5.5](non-gaussian-magic/reports/codex-gpt5-report.html)
+> Brian Swingle + Claude Code with Opus 4.7 + Codex with GPT 5.5<br>
+> May 22, 2026<br>
+> Confidence: High<br>
+> Reports from [Sonnet 4.6](non-gaussian-magic/reports/report-claude-sonnet-4-6.html), [Opus 4.7](non-gaussian-magic/reports/report-claude-opus-4-7.html), [GPT 5.5](non-gaussian-magic/reports/codex-gpt5-report.html)<br>
 > Acknowledgements: Helpful discussions with Val Bettaque, Juan Maldacena, and Anna Biggs
 
 For systems of many fermions, there are two limits where the description becomes classically tractable. For the purpose of this discussion, I'll take classically tractable to mean that expectation values of low-weight fermion operators can be computed with time and memory that scale polynomially with the number of fermions.
