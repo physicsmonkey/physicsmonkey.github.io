@@ -1,0 +1,35 @@
+name: Build journal posts
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'posts/**.md'
+      - '_post-template.html'
+      - 'build_posts.py'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get install -y pandoc
+          pip install pyyaml
+
+      - name: Build posts
+        run: python3 build_posts.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add posts/ journal.json
+          git diff --staged --quiet || git commit -m "Build journal posts"
+          git push

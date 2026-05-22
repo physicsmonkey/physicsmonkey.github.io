@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journal — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-name">← Brian Swingle</a>
+      <ul class="nav-links">
+        <li><a href="index.html#research">Research</a></li>
+        <li><a href="papers.html">Papers</a></li>
+        <li><a href="index.html#videos">Videos</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="journal-hero">
+    <div class="container">
+      <span class="eyebrow">Writing</span>
+      <h2>Journal</h2>
+      <p class="section-intro">
+        Rapid-fire research notes exploring physics and the use of AI as a daily
+        tool for scientific work.
+      </p>
+    </div>
+  </section>
+
+  <section id="journal-list">
+    <div class="container">
+      <div id="posts">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Loading posts…</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="papers.html">Papers</a>
+        <a href="https://www.youtube.com/@professorswingle" target="_blank" rel="noopener">YouTube</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+
+  function formatDate(str) {
+    if (!str) return '';
+    const d = new Date(str + 'T12:00:00Z');
+    return isNaN(d) ? str : d.toLocaleDateString('en-US', {
+      year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'
+    });
+  }
+
+  function esc(str) {
+    return String(str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  async function loadPosts() {
+    const container = document.getElementById('posts');
+    try {
+      const res = await fetch('journal.json');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      const posts = data.posts ?? [];
+
+      if (!posts.length) {
+        container.innerHTML = '<p style="color:var(--text-muted);padding:24px 0">No posts yet.</p>';
+        return;
+      }
+
+      const list = document.createElement('div');
+      list.className = 'journal-list';
+
+      posts.forEach(p => {
+        const tags = (p.tags || []).map(t => `<span class="post-tag">${esc(t)}</span>`).join(' ');
+        const card = document.createElement('article');
+        card.className = 'journal-card';
+        card.innerHTML = `
+          <div class="journal-card-info">
+            <span class="lecture-date">${esc(formatDate(p.date))}</span>
+            <h3 class="journal-card-title">
+              <a href="${esc(p.url)}">${esc(p.title)}</a>
+            </h3>
+            ${p.description ? `<p class="journal-card-desc">${esc(p.description)}</p>` : ''}
+            ${tags ? `<div class="post-tags">${tags}</div>` : ''}
+          </div>
+          <a href="${esc(p.url)}" class="btn btn-outline" aria-label="Read ${esc(p.title)}">Read →</a>
+        `;
+        list.appendChild(card);
+      });
+
+      container.innerHTML = '';
+      container.insertAdjacentHTML('afterbegin',
+        `<p class="papers-count">${posts.length} post${posts.length !== 1 ? 's' : ''}</p>`);
+      container.appendChild(list);
+
+    } catch (err) {
+      console.error('journal.json load failed:', err);
+      container.innerHTML = '<p style="color:var(--text-muted);padding:24px 0">Unable to load posts.</p>';
+    }
+  }
+
+  loadPosts();
+  </script>
+
+</body>
+</html>

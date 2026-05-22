@@ -590,6 +590,234 @@ h3 {
   .masonry { columns: 1; }
 }
 
+/* ─── Journal index ──────────────────────────────────────────────────────── */
+#journal-hero {
+  background: var(--bg);
+  padding: 64px 0 32px;
+}
+#journal-list {
+  background: var(--surface);
+  padding: 40px 0 88px;
+}
+
+.journal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.journal-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 26px;
+  transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+}
+.journal-card:hover {
+  border-color: var(--teal);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.journal-card-info { flex: 1; min-width: 0; }
+
+.journal-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  text-transform: none;
+  letter-spacing: -0.01em;
+  margin: 6px 0 6px;
+}
+.journal-card-title a { color: var(--text); }
+.journal-card-title a:hover { color: var(--teal); }
+
+.journal-card-desc {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin: 0 0 8px;
+  line-height: 1.6;
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.post-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--teal);
+  background: var(--teal-subtle);
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+
+@media (max-width: 560px) {
+  .journal-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+/* ─── Post page ──────────────────────────────────────────────────────────── */
+#post-hero {
+  background: var(--bg);
+  padding: 64px 0 32px;
+}
+#post-body {
+  background: var(--surface);
+  padding: 40px 0 88px;
+}
+
+.post-title-heading {
+  font-size: clamp(1.75rem, 4vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.post-content {
+  max-width: 720px;
+}
+
+.post-content > * + * { margin-top: 1.4em; }
+
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4 {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  text-transform: none;
+  line-height: 1.3;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+.post-content h1 { font-size: 1.6rem; }
+.post-content h2 { font-size: 1.3rem; }
+.post-content h3 { font-size: 1.05rem; }
+.post-content h4 { font-size: 0.95rem; color: var(--text-muted); }
+
+.post-content p { line-height: 1.8; color: var(--text); }
+
+.post-content a { color: var(--teal); }
+.post-content a:hover { color: var(--teal-hover); }
+
+.post-content ul,
+.post-content ol {
+  padding-left: 1.5em;
+  line-height: 1.8;
+}
+
+.post-content li + li { margin-top: 0.3em; }
+
+.post-content blockquote {
+  border-left: 3px solid var(--teal);
+  margin: 0;
+  padding: 4px 0 4px 20px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.post-content pre {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 18px 20px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.post-content code {
+  font-size: 0.875em;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+.post-content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+.post-content figure {
+  margin: 2em 0;
+  text-align: center;
+}
+.post-content figure img {
+  max-width: 100%;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  margin: 0 auto;
+}
+.post-content figcaption {
+  margin-top: 10px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.post-content img {
+  max-width: 100%;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.post-content th,
+.post-content td {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+.post-content th {
+  background: var(--bg-alt);
+  font-weight: 600;
+}
+.post-content tr:nth-child(even) td { background: var(--bg-alt); }
+
+.post-content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2.5em 0;
+}
+
+/* math display blocks get a bit of breathing room */
+.post-content .math.display { margin: 1.5em 0; overflow-x: auto; }
+
+.post-footer {
+  margin-top: 56px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+}
+
 /* ─── Footer ─────────────────────────────────────────────────────────────── */
 footer {
   background: var(--text);
