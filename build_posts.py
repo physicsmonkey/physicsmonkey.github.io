@@ -19,6 +19,7 @@ SUPP_TEMPLATE = Path("_supp-template.html")
 PANDOC_BASE = [
     "--katex",
     "--highlight-style", "pygments",
+    "--lua-filter", "pandoc-link-targets.lua",
 ]
 
 

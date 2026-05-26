@@ -27,8 +27,11 @@
       <span class="eyebrow">Writing</span>
       <h2>Journal</h2>
       <p class="section-intro">
-        Research notes exploring physics and the use of AI as a daily
-        tool for scientific work.
+        This is a research journal exploring physics and the use of AI as a daily
+        tool for scientific work. I want to experiment with forms of scientific work and communication outside the traditional paper format. 
+        My goal is to rapidly iterate through ideas, hopefully many of them new, using AI as a tool for work and as a source of rapid feedback. 
+        Each entry is largely written by me, with annotations when a section is partly AI written. There are also AI reports that can aid the reader in judging the correctness of entries. 
+        Nevertheless, I'm sure there will be errors; I hope to correct these while maintaining the provenance of the entries.
       </p>
     </div>
   </section>
@@ -99,12 +102,12 @@
           <div class="journal-card-info">
             <span class="lecture-date">${esc(formatDate(p.date))}</span>
             <h3 class="journal-card-title">
-              <a href="${esc(p.url)}">${esc(p.title)}</a>
+              <a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title)}</a>
             </h3>
             ${p.description ? `<p class="journal-card-desc">${esc(p.description)}</p>` : ''}
             ${tags ? `<div class="post-tags">${tags}</div>` : ''}
           </div>
-          <a href="${esc(p.url)}" class="btn btn-outline" aria-label="Read ${esc(p.title)}">Read →</a>
+          <a href="${esc(p.url)}" class="btn btn-outline" target="_blank" rel="noopener" aria-label="Read ${esc(p.title)}">Read →</a>
         `;
         list.appendChild(card);
       });
