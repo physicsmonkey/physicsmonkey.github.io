@@ -1,6 +1,32 @@
 {
-  "updated": "2026-05-04T08:31:00.421378Z",
+  "updated": "2026-06-01T11:36:02.441856Z",
   "papers": [
+    {
+      "title": "Twirled Perfect Tensor Networks: Computationally covariant holographic tensor networks",
+      "abstract": "We define a novel class of tensor networks motivated by the Python's Lunch Conjecture (PLC) in local tensor network models of the black hole interior. We start from the observation that, for extended black brane states with short-range correlations, the PLC predicts a complexity that is smaller than the upper bound for generic short-range correlated states. We argue that the PLC makes implicit assumptions about the fine structure of the relevant tensor networks modeling gravity that render them non-generic. We demonstrate this explicitly in random tensor network models of the python's lunch, where the exponential complexity is not generally controlled by the PLC exponent. We trace the difference with the PLC to a lack of \"computational covariance\" in random tensor networks: while the PLC is motivated by an ability to arbitrarily decompose space into low-complexity units provided certain basic rules are followed, we show that random tensor networks do not generically have this property. We propose another class of tensor networks built from what we call \"twirled perfect tensors\" that do satisfy the computational covariance property and have a complexity bounded by the PLC value. We still find a discrete limitation from local postselection that appears to be absent in gravity. Moreover, we show that this class of tensor networks combines desirable holographic features of perfect tensor networks and random tensor networks, for example, it obeys a lattice Ryu-Takayanagi formula for arbitrary boundary subregions. Though motivated by holography, these tensor networks provide a flexible framework with potential applications beyond quantum gravity.",
+      "published": "2026-05-22T14:18:32Z",
+      "url": "http://arxiv.org/abs/2605.23670v1",
+      "authors": [
+        "Gurbir Arora",
+        "Matthew Headrick",
+        "Albion Lawrence",
+        "Martin Sasieta",
+        "Brian Swingle",
+        "Connor Wolfe"
+      ]
+    },
+    {
+      "title": "Preparing High-Fidelity Thermofield Double States",
+      "abstract": "A major promise of quantum computers is the controlled preparation of many-body quantum states beyond the reach of efficient classical computation. Among the most important targets are thermal mixed states and their thermofield double (TFD) purifications, which play central roles in quantum many-body physics and quantum gravity. For target systems with a bounded energy spectrum that obey the eigenstate thermalization hypothesis (ETH), we present a parent Hamiltonian built from two copies of the target Hamiltonian and ultra-local couplings between the copies, which we argue is gapped with a ground state that approximates a TFD state of the target Hamiltonian. By adiabatically evolving down from strong coupling, we can thus prepare a high-fidelity TFD state. We study two variants of the parent Hamiltonian using numerical methods in two classes of models: mixed field Ising models in one and two dimensions and non-local \"spin Sachdev-Ye-Kitaev'' models. In the simpler variant, the parent Hamiltonian ground state has high overlap with a TFD for system sizes accessible to near-term quantum devices. However, the global overlap decays exponentially with the number of qubits, with a small error per degree of freedom. The second variant introduces an additional penalty term which can be tuned to reduce or remove the decay of the overlap with system size. Together with a general ETH-based analysis, these results suggest a broadly applicable method for TFD preparation that is not limited to particular temperatures or geometric locality.",
+      "published": "2026-05-04T18:00:10Z",
+      "url": "http://arxiv.org/abs/2605.03017v1",
+      "authors": [
+        "Brian J. J. Khor",
+        "Nadie LiTenn",
+        "Martin Sasieta",
+        "Brian Swingle"
+      ]
+    },
     {
       "title": "Scaling at Chiral Clock Criticality via Entanglement Renormalization",
       "abstract": "We employ the Multiscale Entanglement Renormalization Ansatz (MERA) tensor network to investigate a critical line of continuous quantum phase transitions of the $\\mathbb{Z}_3$ chiral clock model. This critical line is believed to be described by a slow renormalization group flow from the 3-state Potts fixed point to another fixed point that features anisotropic scaling of space and time. We use the variational principle to construct a MERA representation of the model's ground state, from which we obtain the ground state energy and the set of scaling operators and their scaling dimensions. These scaling dimensions determine the critical exponents of the model, and we study these critical exponents and other scaling data as a function of the model's chiral parameter. We find a set of effective scaling data that smoothly varies starting from the Potts data as the chiral parameter is increased. Within the context of our approach, we discuss how this result may nevertheless be consistent with the two fixed point hypothesis provided the renormalization group flow is sufficiently slow. Our findings demonstrate MERA's effectiveness in capturing the complex low-energy physics of the chiral clock model and in extracting field theory data for an anisotropic continuum theory.",
@@ -1688,16 +1714,6 @@
         "Michael Levin",
         "Brian Swingle",
         "Xiao-Gang Wen"
-      ]
-    },
-    {
-      "title": "On the limit cycle for the 1/r^2 potential in momentum space",
-      "abstract": "The renormalization of the attractive 1/r^2 potential has recently been studied using a variety of regulators. In particular, it was shown that renormalization with a square well in position space allows multiple solutions for the depth of the square well, including, but not requiring a renormalization group limit cycle. Here, we consider the renormalization of the 1/r^2 potential in momentum space. We regulate the problem with a momentum cutoff and absorb the cutoff dependence using a momentum-independent counterterm potential. The strength of this counterterm is uniquely determined and runs on a limit cycle. We also calculate the bound state spectrum and scattering observables, emphasizing the manifestation of the limit cycle in these observables.",
-      "published": "2005-03-08T02:15:05Z",
-      "url": "http://arxiv.org/abs/quant-ph/0503074v1",
-      "authors": [
-        "H. -W. Hammer",
-        "Brian G. Swingle"
       ]
     }
   ]
