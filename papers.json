@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-08T10:57:19.744407Z",
+  "updated": "2026-06-15T12:15:26.777644Z",
   "papers": [
     {
       "title": "Twirled Perfect Tensor Networks: Computationally covariant holographic tensor networks",
@@ -63,7 +63,7 @@
       "title": "Baby Universes from Thermal Pure States in SYK",
       "abstract": "We construct a simple two-dimensional holographic model of a closed \"baby\" universe. The baby universe spacetime originates from the black hole interior in Jackiw-Teitelboim (JT) gravity. The holographic description is a low-temperature thermal pure state of two Sachdev-Ye-Kitaev (SYK) models. The construction of the state relies on the insertion of a heavy matter operator, which supports the baby universe, together with a first-order thermal phase transition between a black hole phase and an empty Anti de Sitter (AdS) phase. For the transition, we employ a version of the Maldacena-Qi phase transition of two coupled SYK systems. The bulk entanglement between the AdS region and the baby universe remains O(N) below the transition, owing to the large number of light bulk fields. This entanglement admits a definition through coarse-graining over SYK couplings.",
       "published": "2025-11-28T19:00:00Z",
-      "url": "http://arxiv.org/abs/2512.00149v1",
+      "url": "http://arxiv.org/abs/2512.00149v2",
       "authors": [
         "Martin Sasieta",
         "Brian Swingle",
