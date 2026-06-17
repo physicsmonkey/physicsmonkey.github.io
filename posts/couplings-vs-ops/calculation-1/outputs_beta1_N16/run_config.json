@@ -1,0 +1,13 @@
+{
+  "n_values": [
+    16
+  ],
+  "weights": [
+    4
+  ],
+  "beta": 1.0,
+  "samples": 80,
+  "coupling_scale": 4.0,
+  "seed": 20260608,
+  "outdir": "outputs_beta1_N16"
+}

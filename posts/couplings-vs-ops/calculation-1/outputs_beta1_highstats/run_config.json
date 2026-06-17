@@ -1,0 +1,18 @@
+{
+  "n_values": [
+    8,
+    10,
+    12,
+    14,
+    16,
+    18
+  ],
+  "weights": [
+    4
+  ],
+  "beta": 1.0,
+  "samples": 1000,
+  "coupling_scale": 4.0,
+  "seed": 20260610,
+  "outdir": "outputs_beta1_highstats"
+}
