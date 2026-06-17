@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+  <script>
+    window.addEventListener("load", function () {
+      document.querySelectorAll(".math").forEach(function (el) {
+        try {
+          katex.render(el.textContent, el, {
+            throwOnError: false,
+            displayMode: el.classList.contains("display"),
+          });
+        } catch (e) { console.error(e); }
+      });
+    });
+  </script>
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="javascript:history.back()" class="nav-name">← Back</a>
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/journal.html">Journal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-body" style="padding-top: 56px;">
+    <div class="container">
+      <div class="post-content">
+        <h1 style="font-size:1.6rem; margin-bottom: 1.2em;"></h1>
+        <h1 id="report-on-couplings-vs-ops.md">Report on
+        <code>couplings-vs-ops.md</code></h1>
+        <blockquote>
+        <p>Reviewer: Claude Code (Opus 4.8) Date: June 5, 2026 Scope:
+        correctness of the entry (<code>couplings-vs-ops.md</code>) and
+        the supporting <code>calculation-1</code> Verdict:
+        <strong>Sound.</strong> The analytic claims are correct, and in
+        one respect (exactness of the diagonal covariance) stronger than
+        the entry states. The numerics reproduce, and the entry’s stated
+        confidence (“High”) is justified. I flag one interpretive point
+        about the M2 fluctuations that I think is worth sharpening, plus
+        a few scope caveats. None of these are errors.</p>
+        </blockquote>
+        <h2 id="previous-reports">Previous reports</h2>
+        <p>The <code>reports/</code> folder did not exist before this
+        review, so this is the first report on file. The entry header
+        anticipates reports “from … Opus 4.7, GPT 5.5”; I did not find
+        them in the entry folder, so I have nothing earlier to comment
+        on.</p>
+        <h2 id="summary-of-what-i-checked">Summary of what I
+        checked</h2>
+        <ul>
+        <li>Re-derived the four analytic moment results (<code>M1</code>
+        mean/variance, <code>M2</code> mean/variance) by hand and
+        confirmed them given the entry’s stated assumptions.</li>
+        <li>Examined the symmetry argument behind the diagonal
+        covariance and concluded it is <strong>exact at finite
+        N</strong>, not just leading-order in large N.</li>
+        <li>Reproduced the headline table from the stored data and
+        re-ran two sizes from a fresh disorder seed.</li>
+        <li>Decomposed <code>Var(M2)</code> from the saved
+        <code>xi</code> arrays into a marginal (single-string) part and
+        a cross-string (joint) part, for both <code>β=1</code> and
+        <code>β=4</code>. This is the main new content of the report and
+        it clarifies <em>which</em> assumption is responsible for the
+        observed <code>M2</code> deviations.</li>
+        </ul>
+        <p>All re-runs used the project venv
+        <code>/home/physicsmonkey/projects/levy-syk/.venv/bin/python</code>,
+        which was present and working.</p>
+        <hr />
+        <h2 id="section-by-section">Section-by-section</h2>
+        <h3 id="intro-motivation-unnumbered-lines-913">Intro /
+        motivation (unnumbered, lines 9–13)</h3>
+        <p>No technical claims to check. The framing is consistent with
+        the rest of the entry. Citations are placeholders
+        (<code>[cite]</code>, <code>[cite de boer]</code>), which is
+        presumably intentional at this stage.</p>
+        <h3 id="setup-lines-1527">Setup (lines 15–27)</h3>
+        <ul>
+        <li>Normalization conventions (<span
+        class="math inline">\{\psi_i,\psi_j\}=2\delta_{ij}</span>, the
+        Hermitian-phase string <span class="math inline">\mu(a)</span>,
+        the SYK variance) are internally consistent and match the code.
+        In <code>syk_operator_ensemble_ed.py</code>,
+        <code>sample_hamiltonian</code> uses
+        <code>coupling_std = coupling_scale * sqrt(3! / N^3 / 2^4)</code>,
+        i.e. exactly <span class="math inline">(p-1)!/N^{p-1}/2^p</span>
+        for <span class="math inline">p=4</span>, times the deliberate
+        <code>coupling_scale</code> factor.</li>
+        <li><span class="math inline">\mathbb{E}_J(\xi(a))=0</span>:
+        correct. The cleanest one-line justification is a single-index
+        reflection <span class="math inline">\psi_i\to-\psi_i</span> for
+        an <span class="math inline">i</span> in the string: this is an
+        <span class="math inline">O(N)</span> element that leaves the
+        <span class="math inline">J</span>-measure invariant but flips
+        <span class="math inline">\mu(a)\to-\mu(a)</span>, so <span
+        class="math inline">\mathbb{E}_J(\xi)=-\mathbb{E}_J(\xi)=0</span>.
+        Numerically <code>mean_m1</code> is <span
+        class="math inline">\sim10^{-5}</span>–<span
+        class="math inline">10^{-4}</span>, consistent with zero at the
+        available statistics.</li>
+        <li>The remark that <span class="math inline">Z</span>
+        self-averages and the numerator/denominator can be averaged
+        separately is used only in the analytic statements. The numerics
+        instead use the exact ratio <span
+        class="math inline">\rho=e^{-\beta H}/Z</span> per sample
+        (<code>thermal_one_points</code>), which is the more honest
+        object, so there is no inconsistency.</li>
+        </ul>
+        <h3 id="gaussian-1-point-functions-lines-2938">Gaussian 1-point
+        functions (lines 29–38)</h3>
+        <p>The covariance claim <span
+        class="math display">\mathbb{E}_J(\xi(a)\xi(a&#39;))=\delta_{a,a&#39;}\,\sigma^2(W)</span>
+        is correct, and I think it is worth recording that <strong>it is
+        exact at finite <span class="math inline">N</span></strong>, not
+        merely a large-<span class="math inline">N</span> statement. The
+        matrix <span
+        class="math inline">C_{ab}=\mathbb{E}_J(\xi(a)\xi(b))</span> is
+        an <span class="math inline">O(N)</span>-intertwiner on the
+        space of weight-<span class="math inline">W</span> Majorana
+        strings, which is the exterior power <span
+        class="math inline">\Lambda^W(\mathbb{R}^N)</span>. For <span
+        class="math inline">W&lt;N/2</span> this is an irreducible <span
+        class="math inline">O(N)</span> representation, so by Schur’s
+        lemma <span class="math inline">C\propto \mathbb{1}</span>,
+        i.e. <span
+        class="math inline">C_{ab}=\sigma^2(W)\,\delta_{ab}</span>
+        identically. (At the boundary case <span
+        class="math inline">W=N/2</span>, e.g. <span
+        class="math inline">N=8,W=4</span>, <span
+        class="math inline">\Lambda^{4}</span> splits into
+        self-dual/anti-self-dual under <span
+        class="math inline">SO(8)</span> but the reflection in <span
+        class="math inline">O(8)</span> exchanges the two halves, so
+        <span class="math inline">\Lambda^4</span> is still irreducible
+        under the full <span class="math inline">O(8)</span> and the
+        conclusion holds.) The entry’s phrasing — “the precise identity
+        of the string turns out not to matter” — is right; the symmetry
+        argument actually delivers more than “only a function of
+        weight,” it delivers exact orthogonality of distinct
+        strings.</p>
+        <p>This is corroborated numerically:
+        <code>std(M1)/std_pred ≈ 1.00</code> across all <span
+        class="math inline">N</span> is precisely the statement that the
+        <em>linear</em> cross-covariances vanish (otherwise the
+        off-diagonal terms in <span
+        class="math inline">\mathrm{Var}_J(M_1)=\tfrac{1}{D^2}\sum_{a,b}\mathrm{Cov}(\xi_a,\xi_b)</span>
+        would spoil the <span class="math inline">1/D</span> scaling).
+        The measured mean absolute off-diagonal correlation <span
+        class="math inline">\approx 0.025</span> matches the <span
+        class="math inline">1/\sqrt{1000}\approx0.032</span>
+        sampling-noise floor, consistent with the true linear covariance
+        being exactly zero.</p>
+        <h3 id="switching-ensembles-lines-4063">Switching ensembles
+        (lines 40–63)</h3>
+        <p>I re-derived all four moment results and they are correct
+        <strong>given the stated assumptions</strong>:</p>
+        <ul>
+        <li><span class="math inline">\mathbb{E}_J(M_1)=0</span>. ✓
+        (linearity).</li>
+        <li><span
+        class="math inline">\mathbb{E}_J(M_1^2)=\sigma^2(W)/\binom{N}{W}</span>.
+        ✓ Uses only the diagonal covariance, which (per above) is exact.
+        This result is therefore exact, not approximate.</li>
+        <li><span
+        class="math inline">\mathbb{E}_J(M_2)=\sigma^2(W)</span>. ✓
+        (linearity).</li>
+        <li><span
+        class="math inline">\mathbb{E}_J(M_2^2)=\mathbb{E}_J(M_2)^2+2\sigma^4(W)/\binom{N}{W}</span>
+        (line 62). ✓ <strong>but this one is exact only under full joint
+        multivariate-Gaussianity.</strong> Writing <span
+        class="math inline">D=\binom{N}{W}</span>, the derivation needs
+        both (i) <span
+        class="math inline">\mathbb{E}_J(\xi_a^4)=3\sigma^4</span>
+        (marginal Gaussian, giving the <span
+        class="math inline">a=b</span> terms) and (ii) <span
+        class="math inline">\mathbb{E}_J(\xi_a^2\xi_b^2)=\sigma^4</span>
+        for <span class="math inline">a\neq b</span> (no connected
+        cross-string 4-point cumulant). Assumption (ii) does
+        <strong>not</strong> follow from the diagonal covariance: zero
+        linear covariance does not imply <span
+        class="math inline">\xi_a^2</span> and <span
+        class="math inline">\xi_b^2</span> are uncorrelated. The entry
+        is upfront that it is leaning on Gaussianity here (“The key
+        feature is that <span class="math inline">\xi(a)</span> is a
+        Gaussian”), so this is a known approximation rather than a gap;
+        I just want to name precisely which piece is the approximation,
+        because the numerics below show it is the piece that actually
+        fails.</li>
+        </ul>
+        <h3 id="numerical-tests-lines-6898">Numerical tests (lines
+        68–98)</h3>
+        <p><strong>Reproduction.</strong> Every number in the table
+        (lines 82–87) matches
+        <code>outputs_beta1_highstats/summary.csv</code> to the quoted
+        precision, e.g. <span class="math inline">N=8</span>:
+        <code>std_m1_over_prediction = 0.968</code> and
+        <code>rel_std_m2_over_prediction = 1.523</code>; <span
+        class="math inline">N=18</span>: <code>1.020</code> and
+        <code>1.185</code>. The kurtosis list (line 94) and the mean
+        off-diagonal correlation <span
+        class="math inline">\approx0.025</span> also match. The <span
+        class="math inline">\beta=4</span> numbers in the prose (line
+        96) match <code>outputs/summary.csv</code>. The figure’s plotted
+        ratios are exactly the table columns.</p>
+        <p><strong>Independent re-run.</strong> A fresh disorder seed
+        (<code>--seed 12345</code>, 1000 samples) at <span
+        class="math inline">N=8,10</span> gave
+        <code>std_m1/pred = 0.998, 0.997</code>,
+        <code>relstd_m2/pred = 1.375, 1.543</code>, kurtosis <span
+        class="math inline">-0.086,-0.040</span>, mean abs corr <span
+        class="math inline">0.025</span> — fully consistent. Note the
+        <span class="math inline">M_2</span> ratio for <span
+        class="math inline">N=8</span> moved from <span
+        class="math inline">1.52</span> to <span
+        class="math inline">1.38</span> between seeds: the <span
+        class="math inline">M_2</span> ratio is a fourth-moment quantity
+        estimated from 1000 samples and carries roughly <span
+        class="math inline">\pm10</span>–<span
+        class="math inline">15\%</span> statistical error of its own.
+        The <em>trend</em> in the <span class="math inline">M_2</span>
+        column is robust; the precise per-row values are not (and the
+        entry already hedges appropriately).</p>
+        <p><strong>What the tests do and don’t establish
+        (scope).</strong> The self-averaging ratios are
+        <em>self-normalized</em>: <code>predicted_std_m1</code> is built
+        from the empirically measured <span
+        class="math inline">\sigma^2</span> of the same run, and the
+        <span class="math inline">M_2</span> prediction uses <span
+        class="math inline">\sqrt{2/D}</span>. So the numerics test the
+        <em>structure</em> of the claim — diagonal covariance, marginal
+        near-Gaussianity, and the <span
+        class="math inline">1/\sqrt{D}</span> self-averaging — but they
+        do not test the absolute value of <span
+        class="math inline">\sigma^2(W)</span> against an independent
+        path-integral prediction, and they do not test the weight-only
+        dependence of <span class="math inline">\sigma^2</span> (only
+        <span class="math inline">W=4</span> is run). This is fine for
+        the entry’s purpose; I note it so the reader doesn’t over-read
+        the agreement as a check of the large-<span
+        class="math inline">N</span> covariance formula itself.</p>
+        <h3
+        id="a-sharper-reading-of-the-m2-deviations-my-main-suggestion">A
+        sharper reading of the M2 deviations (my main suggestion)</h3>
+        <p>The entry explains the order-one <span
+        class="math inline">M_2</span> excess (and its growth at low
+        <span class="math inline">T</span>) by saying the one-point
+        functions become “more nonlinear functions of the random
+        couplings, so the independent-Gaussian approximation is a more
+        stringent test” (lines 90, 96). That is correct in spirit, but
+        “independent-Gaussian” bundles two distinct assumptions, and the
+        data let us separate them. I decomposed the measured <span
+        class="math inline">\mathrm{Var}_J(M_2)</span> from the saved
+        <code>xi</code> arrays as <span
+        class="math display">\mathrm{Var}(M_2)=\underbrace{\tfrac{1}{D^2}\sum_a
+        \mathrm{Var}(\xi_a^2)}_{\text{marginal /
+        diagonal}}+\underbrace{\tfrac{1}{D^2}\sum_{a\neq
+        b}\mathrm{Cov}(\xi_a^2,\xi_b^2)}_{\text{joint /
+        off-diagonal}},</span> expressing each in units of the ideal
+        <span class="math inline">2\sigma^4/D</span> (so the entry’s
+        prediction is “diagonal <span class="math inline">=1</span>,
+        off-diagonal <span class="math inline">=0</span>”):</p>
+        <table>
+        <colgroup>
+        <col style="width: 20%" />
+        <col style="width: 20%" />
+        <col style="width: 20%" />
+        <col style="width: 20%" />
+        <col style="width: 20%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th><span class="math inline">N</span> (<span
+        class="math inline">\beta=1</span>)</th>
+        <th>relstd<span class="math inline">(M_2)</span>/pred</th>
+        <th>diagonal</th>
+        <th>off-diagonal</th>
+        <th>marginal kurtosis</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td>8</td>
+        <td>1.52</td>
+        <td>0.96</td>
+        <td>1.36</td>
+        <td><span class="math inline">-0.085</span></td>
+        </tr>
+        <tr class="even">
+        <td>10</td>
+        <td>1.57</td>
+        <td>0.99</td>
+        <td>1.47</td>
+        <td><span class="math inline">-0.033</span></td>
+        </tr>
+        <tr class="odd">
+        <td>12</td>
+        <td>1.41</td>
+        <td>0.99</td>
+        <td>0.99</td>
+        <td><span class="math inline">-0.016</span></td>
+        </tr>
+        <tr class="even">
+        <td>14</td>
+        <td>1.33</td>
+        <td>1.00</td>
+        <td>0.78</td>
+        <td><span class="math inline">-0.014</span></td>
+        </tr>
+        <tr class="odd">
+        <td>16</td>
+        <td>1.29</td>
+        <td>1.00</td>
+        <td>0.66</td>
+        <td><span class="math inline">-0.010</span></td>
+        </tr>
+        <tr class="even">
+        <td>18</td>
+        <td>1.19</td>
+        <td>1.00</td>
+        <td>0.41</td>
+        <td><span class="math inline">-0.009</span></td>
+        </tr>
+        </tbody>
+        </table>
+        <p>The diagonal (single-string) part sits at essentially exactly
+        <span class="math inline">1.00</span> — i.e. the
+        <em>marginal</em> distribution of each <span
+        class="math inline">\xi_a</span> already obeys the Gaussian
+        <span class="math inline">\mathrm{Var}(\xi^2)=2\sigma^4</span>
+        prediction to sub-percent accuracy. The <strong>entire</strong>
+        excess is the off-diagonal term: a genuine connected
+        cross-string 4-point correlation <span
+        class="math inline">\mathbb{E}_J(\xi_a^2\xi_b^2)_c</span>. A
+        split-half test on the 1000 samples reproduces this off-diagonal
+        value across disjoint halves (e.g. <span
+        class="math inline">N=8</span>: <span
+        class="math inline">1.46</span> vs <span
+        class="math inline">1.27</span>), so it is real signal, not
+        sampling noise — even though the <em>linear</em> correlations
+        are at the noise floor.</p>
+        <p>The low-temperature run makes the point even more sharply
+        (<span class="math inline">\beta=4</span>):</p>
+        <table>
+        <colgroup>
+        <col style="width: 20%" />
+        <col style="width: 20%" />
+        <col style="width: 20%" />
+        <col style="width: 20%" />
+        <col style="width: 20%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th><span class="math inline">N</span> (<span
+        class="math inline">\beta=4</span>)</th>
+        <th>relstd<span class="math inline">(M_2)</span>/pred</th>
+        <th>diagonal</th>
+        <th>off-diagonal</th>
+        <th>marginal kurtosis</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td>8</td>
+        <td>2.32</td>
+        <td>0.79</td>
+        <td>4.57</td>
+        <td><span class="math inline">-0.44</span></td>
+        </tr>
+        <tr class="even">
+        <td>10</td>
+        <td>2.29</td>
+        <td>0.92</td>
+        <td>4.35</td>
+        <td><span class="math inline">-0.22</span></td>
+        </tr>
+        <tr class="odd">
+        <td>12</td>
+        <td>2.68</td>
+        <td>1.01</td>
+        <td>6.18</td>
+        <td><span class="math inline">-0.06</span></td>
+        </tr>
+        </tbody>
+        </table>
+        <p>Here the diagonal part tracks <span
+        class="math inline">1+\kappa/2</span> with the (now sizeable,
+        <strong>negative</strong>) kurtosis, which on its own would
+        <em>reduce</em> the <span class="math inline">M_2</span>
+        fluctuations below the prediction. The observed large
+        enhancement is entirely the off-diagonal connected 4-point term,
+        which dominates by a factor of several.</p>
+        <p>The upshot is a small but real refinement of the entry’s
+        narrative: it is the <strong>independence</strong> half of
+        “independent-Gaussian” that fails at finite <span
+        class="math inline">N</span>/low <span
+        class="math inline">T</span>, not the <strong>Gaussian</strong>
+        half. The marginals stay Gaussian (or develop a slightly
+        <em>negative</em> kurtosis); what grows is the joint connected
+        correlation between <span class="math inline">\xi_a^2</span> and
+        <span class="math inline">\xi_b^2</span> for strings that share
+        fermions. Consequently, in the boxed result on lines 110–113,
+        the diagonal-covariance assumption (line 104) actually holds
+        exactly, and the term that is being neglected when one writes
+        the <span class="math inline">\sqrt{2/D}</span> coefficient is
+        <span class="math inline">\tfrac{1}{D^2}\sum_{a\neq
+        b}\mathbb{E}_J(\xi_a^2\xi_b^2)_c</span>. At fixed <span
+        class="math inline">\beta</span> this off-diagonal contribution
+        decreases with <span class="math inline">N</span> (the <span
+        class="math inline">\beta=1</span> column above), so the <span
+        class="math inline">M_2</span> self-averaging conclusion and its
+        <span class="math inline">1/\sqrt{D}</span> scaling survive; but
+        the <em>coefficient</em> of <span
+        class="math inline">\mathrm{relstd}(M_2)</span> is not the
+        universal <span class="math inline">\sqrt{2/D}</span> at finite
+        <span class="math inline">N</span>, and at low temperature it
+        can be several times larger. If the entry wants to be maximally
+        precise, a half-sentence to the effect that “the <span
+        class="math inline">M_2</span> self-averaging coefficient is
+        renormalized by an order-one cross-string 4-point correlation
+        that grows at low temperature, while remaining subleading in the
+        <span class="math inline">1/\sqrt{D}</span> scaling” would
+        capture what the numerics actually show.</p>
+        <h3 id="results-lines-100121">Results (lines 100–121)</h3>
+        <ul>
+        <li>The two self-averaging statements (lines 108, 112) are the
+        correct readout of the moment calculation. As noted, the <span
+        class="math inline">M_1</span> statement is exact; the <span
+        class="math inline">M_2</span> statement holds with the
+        coefficient caveat above.</li>
+        <li>“The difference … is exponentially small in <span
+        class="math inline">N</span> for these observables” (line 114):
+        correct for fixed fractional weight <span
+        class="math inline">W=\alpha N</span>, since <span
+        class="math inline">\binom{N}{\alpha N}</span> is exponentially
+        large; the connected-4-point correction renormalizes the
+        coefficient but not the exponential scaling.</li>
+        <li>The holographic interpretation (lines 116–121) is a physics
+        extrapolation beyond what the calculation proves, and is
+        appropriately phrased with “presumably.” No issue.</li>
+        </ul>
+        <hr />
+        <h2 id="bottom-line">Bottom line</h2>
+        <p>The entry is correct and the supporting calculation is
+        faithful and reproducible. Two things I’d encourage the author
+        to consider folding in (both strengthen the entry rather than
+        correct it):</p>
+        <ol type="1">
+        <li>State that the diagonal covariance <span
+        class="math inline">\mathbb{E}_J(\xi_a\xi_b)=\sigma^2\delta_{ab}</span>
+        is <strong>exact at finite <span
+        class="math inline">N</span></strong> (Schur’s lemma on the
+        irreducible <span class="math inline">\Lambda^W</span>), which
+        in turn makes the <span class="math inline">M_1</span>
+        self-averaging result exact.</li>
+        <li>Attribute the <span class="math inline">M_2</span> excess
+        specifically to a <strong>cross-string connected 4-point
+        correlation</strong> (the failure of <em>independence</em>), not
+        to single-string non-Gaussianity — the marginals are Gaussian to
+        sub-percent accuracy, and at low <span
+        class="math inline">T</span> they actually have negative
+        kurtosis while <span class="math inline">M_2</span> fluctuations
+        nonetheless grow.</li>
+        </ol>
+        <p>I was able to run all the small-<span
+        class="math inline">N</span> checks I wanted within the fast
+        regime; I did not push to larger <span
+        class="math inline">N</span> (the dense ED cost grows as <span
+        class="math inline">2^{N}</span>), so the asymptotic decay of
+        the off-diagonal term is inferred from the <span
+        class="math inline">N\le18</span>, <span
+        class="math inline">\beta=1</span> trend rather than established
+        at large <span class="math inline">N</span>.</p>
+        <hr />
+        <h2
+        id="appendix-where-the-m2-excess-comes-from-in-terms-of-cumulants">Appendix:
+        where the M2 excess comes from, in terms of cumulants</h2>
+        <p>This appendix records the precise reason the <span
+        class="math inline">M_2</span> fluctuations exceed the ideal
+        <span class="math inline">\sqrt{2/D}</span> even though the
+        diagonal covariance <span
+        class="math inline">\mathbb{E}_J(\xi_a\xi_b)=\sigma^2\delta_{ab}</span>
+        is exact. The short version: <strong>the diagonal covariance is
+        exact, but the collection <span
+        class="math inline">\{\xi_a\}</span> is not jointly Gaussian at
+        finite <span class="math inline">N</span>, and <span
+        class="math inline">M_2</span> is sensitive to precisely that
+        failure.</strong></p>
+        <h3
+        id="the-2-point-function-fixes-only-the-disconnected-part-of-the-4-point-function">The
+        2-point function fixes only the disconnected part of the 4-point
+        function</h3>
+        <p>Work with orthonormal strings, so <span
+        class="math inline">g_{ab}\equiv\mathbb{E}_J(\xi_a\xi_b)=\sigma^2\delta_{ab}</span>
+        exactly. Then <span
+        class="math display">\mathrm{Var}_J(M_2)=\frac{1}{D^2}\sum_{a,b}\mathrm{Cov}_J(\xi_a^2,\xi_b^2),\qquad
+        D=\binom{N}{W},</span> which is built from the <strong>4-point
+        function</strong>. The 2-point function controls only its
+        disconnected (Wick) part: <span
+        class="math display">\mathbb{E}_J(\xi_a\xi_b\xi_c\xi_d)=\underbrace{g_{ab}g_{cd}+g_{ac}g_{bd}+g_{ad}g_{bc}}_{\text{fixed
+        by the 2-pt
+        function}}+\underbrace{\kappa_{abcd}}_{\text{connected 4-pt
+        cumulant}}.</span> The Gaussian model is exactly <span
+        class="math inline">\kappa\equiv 0</span>. Nothing about the
+        exact 2-point function forces this.</p>
+        <h3
+        id="symmetry-constrains-the-2nd-cumulant-but-not-the-4th">Symmetry
+        constrains the 2nd cumulant but not the 4th</h3>
+        <table>
+        <colgroup>
+        <col style="width: 33%" />
+        <col style="width: 33%" />
+        <col style="width: 33%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th>cumulant</th>
+        <th>what <span class="math inline">O(N)</span> symmetry
+        says</th>
+        <th>value at finite <span class="math inline">N</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td>2nd: <span
+        class="math inline">\mathbb{E}(\xi_a\xi_b)</span></td>
+        <td>Schur ⇒ <strong>unique</strong> invariant on <span
+        class="math inline">\Lambda^W</span> ⇒ <span
+        class="math inline">\propto\delta_{ab}</span></td>
+        <td><span class="math inline">\sigma^2\delta_{ab}</span>
+        (exact)</td>
+        </tr>
+        <tr class="even">
+        <td>4th: <span
+        class="math inline">\mathbb{E}(\xi_a\xi_b\xi_c\xi_d)_c=\kappa_{abcd}</span></td>
+        <td><strong>many</strong> invariants on <span
+        class="math inline">\Lambda^W{}^{\otimes 4}</span> ⇒
+        unconstrained</td>
+        <td><span class="math inline">\neq 0</span> (non-Gaussian)</td>
+        </tr>
+        </tbody>
+        </table>
+        <p>“Gaussian” is the assumption that all cumulants above 2nd
+        vanish — a strictly stronger statement than what Schur’s lemma
+        delivers. The space of invariant 2-tensors is one-dimensional
+        (just <span class="math inline">\delta_{ab}</span>), so the
+        2-point function is pinned; the space of invariant 4-tensors
+        counts the irreps in <span
+        class="math inline">\Lambda^W\otimes\Lambda^W</span> and is
+        multi-dimensional, so <span
+        class="math inline">\kappa_{abcd}</span> is free. Exact diagonal
+        covariance and finite-<span class="math inline">N</span>
+        non-Gaussianity are independent facts at different cumulant
+        orders.</p>
+        <h3 id="plugging-kappa-into-varm2">Plugging <span
+        class="math inline">\kappa</span> into Var(M2)</h3>
+        <p>With <span class="math inline">g_{ab}=\delta_{ab}</span>: -
+        diagonal (<span class="math inline">a=b</span>): <span
+        class="math inline">\mathbb{E}(\xi_a^4)=3\sigma^4+\kappa_{aaaa}\Rightarrow\mathrm{Var}(\xi_a^2)=2\sigma^4+\kappa_{aaaa}</span>,
+        where <span class="math inline">\kappa_{aaaa}=(\text{marginal
+        excess kurtosis})\times\sigma^4</span>; - off-diagonal (<span
+        class="math inline">a\neq b</span>): <span
+        class="math inline">\mathbb{E}(\xi_a^2\xi_b^2)=\sigma^4+\kappa_{aabb}\Rightarrow\mathrm{Cov}(\xi_a^2,\xi_b^2)=\kappa_{aabb}</span>.</p>
+        <p>Hence <span
+        class="math display">\mathrm{Var}(M_2)=\frac{2\sigma^4}{D}\Bigg[\,1+\underbrace{\frac{\overline{\kappa_{aaaa}}}{2\sigma^4}}_{\text{marginal
+        kurtosis}/2}+\underbrace{\frac{1}{2\sigma^4 D}\sum_{a\neq
+        b}\kappa_{aabb}}_{\text{cross-string sum}}\Bigg].</span> This is
+        exactly the <code>diag_part + off-diag_part</code> decomposition
+        in the body. The marginal term is an average of a quantity that
+        is genuinely <span class="math inline">\approx 0</span>, so it
+        stays <span class="math inline">\approx 0</span>; the
+        cross-string term sums <span class="math inline">\sim D^2</span>
+        small cumulants, so even a per-pair <span
+        class="math inline">\kappa_{aabb}\sim\sigma^4/D</span> survives
+        the <span class="math inline">1/D</span> prefactor and gives an
+        <span class="math inline">O(1)</span> correction. That asymmetry
+        is why the excess lives entirely off-diagonal.</p>
+        <h3
+        id="marginal-gaussianity-is-not-joint-gaussianity-the-wick-diagnostic">Marginal
+        Gaussianity is not joint Gaussianity (the Wick diagnostic)</h3>
+        <p>For <em>jointly</em> Gaussian mean-zero variables, <span
+        class="math inline">\mathrm{Cov}(\xi_a^2,\xi_b^2)=2\,\mathrm{Cov}(\xi_a,\xi_b)^2</span>.
+        Since the right side is exactly zero for <span
+        class="math inline">a\neq b</span>, joint Gaussianity would
+        force <span
+        class="math inline">\mathrm{Cov}(\xi_a^2,\xi_b^2)=0</span>. The
+        data (<span class="math inline">N=14</span>, <span
+        class="math inline">\beta=1</span>, 1000 samples) violate
+        this:</p>
+        <table>
+        <colgroup>
+        <col style="width: 25%" />
+        <col style="width: 25%" />
+        <col style="width: 25%" />
+        <col style="width: 25%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th>overlap <span class="math inline">k=\lvert a\cap
+        b\rvert</span></th>
+        <th><span
+        class="math inline">\langle\mathrm{Cov}(\xi_a,\xi_b)\rangle/\sigma^2</span></th>
+        <th><span
+        class="math inline">2\langle\mathrm{Cov}^2\rangle/\sigma^4</span>
+        (Wick pred.)</th>
+        <th><span
+        class="math inline">\langle\mathrm{Cov}(\xi_a^2,\xi_b^2)\rangle/\sigma^4</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td>0</td>
+        <td><span class="math inline">-7\times10^{-5}</span></td>
+        <td><span class="math inline">2.0\times10^{-3}</span></td>
+        <td><span class="math inline">4\times10^{-4}</span></td>
+        </tr>
+        <tr class="even">
+        <td>1</td>
+        <td><span class="math inline">6\times10^{-5}</span></td>
+        <td><span class="math inline">2.0\times10^{-3}</span></td>
+        <td><span class="math inline">-4.1\times10^{-3}</span></td>
+        </tr>
+        <tr class="odd">
+        <td>2</td>
+        <td><span class="math inline">6\times10^{-5}</span></td>
+        <td><span class="math inline">2.0\times10^{-3}</span></td>
+        <td><span class="math inline">+1.3\times10^{-2}</span></td>
+        </tr>
+        <tr class="even">
+        <td>3</td>
+        <td><span class="math inline">-2\times10^{-4}</span></td>
+        <td><span class="math inline">2.0\times10^{-3}</span></td>
+        <td><span class="math inline">-3.0\times10^{-3}</span></td>
+        </tr>
+        </tbody>
+        </table>
+        <p>The linear covariance is at the <span
+        class="math inline">1/\sqrt{S}</span> noise floor with random
+        sign (consistent with the exact <span
+        class="math inline">\delta_{ab}</span>). The Wick prediction is
+        flat at <span class="math inline">\approx 2\times10^{-3}</span>
+        across all overlap classes — the tell-tale sign that it is pure
+        sampling noise on a quantity that is really zero. The measured
+        <span class="math inline">\mathrm{Cov}(\xi_a^2,\xi_b^2)</span>,
+        by contrast, is ~6× larger at overlap 2 and <strong>varies
+        systematically with overlap</strong> (zero for disjoint strings,
+        nonzero for shared-fermion pairs), structure that noise cannot
+        produce. So the Wick identity fails, and the failure is a
+        genuine connected 4-point cumulant.</p>
+        <p>Two “Gaussian” statements are therefore distinct, and finite
+        <span class="math inline">N</span> separates them: -
+        <strong>each marginal <span class="math inline">\xi_a</span> is
+        very nearly Gaussian</strong> — excess kurtosis <span
+        class="math inline">\approx 0</span>, equivalently the
+        <em>diagonal</em> Wick identity <span
+        class="math inline">\mathrm{Var}(\xi_a^2)=2\sigma^4</span> holds
+        to sub-percent; - <strong>the joint vector <span
+        class="math inline">(\xi_a)_a</span> is non-Gaussian</strong> —
+        the <em>cross</em> Wick identity fails, i.e. <span
+        class="math inline">\kappa_{aabb}\neq 0</span>.</p>
+        <p>These coexist because nearly-Gaussian 1D marginals do not
+        imply a jointly Gaussian vector. In the entry’s <span
+        class="math inline">\mathbb{E}_J(M_2^2)</span> derivation,
+        “<span class="math inline">\xi(a)</span> is Gaussian” read as
+        marginal Gaussianity correctly gives the diagonal terms <span
+        class="math inline">\mathbb{E}(\xi_a^4)=3\sigma^4</span> (which
+        check out), but the off-diagonal terms <span
+        class="math inline">\mathbb{E}(\xi_a^2\xi_b^2)=\sigma^4</span>
+        silently require the stronger <em>joint</em> Gaussianity
+        (independence). That upgrade — from “marginally Gaussian + zero
+        pairwise covariance” to “independent” — is exactly what finite
+        <span class="math inline">N</span> violates, and it is the
+        entire source of the <span class="math inline">M_2</span>
+        excess.</p>
+        <h3 id="physical-mechanism">Physical mechanism</h3>
+        <p>At leading order <span class="math inline">\xi_a\sim
+        J_a</span>, so distinct strings depend on independent couplings
+        and <span class="math inline">\kappa=0</span>. Beyond leading
+        order (higher powers of <span class="math inline">\beta</span>),
+        <span class="math inline">\xi_a</span> picks up multi-<span
+        class="math inline">J</span> contributions, and two strings
+        <em>that share fermions</em> build them from overlapping
+        couplings, generating <span
+        class="math inline">\kappa_{aabb}\neq 0</span>. The
+        overlap-resolved table above confirms this directly — disjoint
+        strings (<span class="math inline">k=0</span>) have <span
+        class="math inline">\kappa\approx 0</span>, all the action is in
+        the shared-fermion classes. Lower temperature shifts weight onto
+        these higher-order pieces, which is why the off-diagonal part
+        balloons to <span class="math inline">\sim 5</span> at <span
+        class="math inline">\beta=4</span> while the marginals stay
+        near-Gaussian (indeed develop a small <em>negative</em>
+        kurtosis). At fixed <span class="math inline">\beta</span> and
+        large <span class="math inline">N</span> the per-pair cumulant
+        is <span class="math inline">N</span>-suppressed faster than the
+        pair count grows, so the bracket <span class="math inline">\to
+        1</span> and the ideal <span
+        class="math inline">\sqrt{2/D}</span> coefficient is recovered
+        asymptotically.</p>
+        <h3
+        id="temperature-scan-the-off-diagonal-cumulant-is-the-temperature-sensitive-piece">Temperature
+        scan: the off-diagonal cumulant is the temperature-sensitive
+        piece</h3>
+        <p>Holding <span class="math inline">N=14</span>, <span
+        class="math inline">D=1001</span> fixed (1000 samples, matched
+        seed) and varying <span class="math inline">\beta</span>
+        isolates the temperature dependence:</p>
+        <table>
+        <colgroup>
+        <col style="width: 20%" />
+        <col style="width: 20%" />
+        <col style="width: 20%" />
+        <col style="width: 20%" />
+        <col style="width: 20%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th><span class="math inline">\beta</span></th>
+        <th>relstd<span class="math inline">(M_2)</span>/pred</th>
+        <th>diag part</th>
+        <th>off-diag part</th>
+        <th>marginal kurtosis</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td>0.5</td>
+        <td>1.10</td>
+        <td>1.00</td>
+        <td>0.20</td>
+        <td><span class="math inline">-0.01</span></td>
+        </tr>
+        <tr class="even">
+        <td>1</td>
+        <td>1.36</td>
+        <td>1.00</td>
+        <td>0.86</td>
+        <td><span class="math inline">-0.01</span></td>
+        </tr>
+        <tr class="odd">
+        <td>2</td>
+        <td>1.93</td>
+        <td>1.00</td>
+        <td>2.73</td>
+        <td><span class="math inline">-0.00</span></td>
+        </tr>
+        </tbody>
+        </table>
+        <p>The diagonal part is pinned at <span
+        class="math inline">1.00</span> and the marginal kurtosis stays
+        <span class="math inline">\approx 0</span> at every temperature
+        — single-string statistics are essentially Gaussian throughout.
+        The entire temperature dependence is carried by the off-diagonal
+        (cross-string connected 4-point) part, which collapses as the
+        temperature rises: roughly <span
+        class="math inline">\propto\beta^2</span> at small <span
+        class="math inline">\beta</span> (each doubling of <span
+        class="math inline">\beta</span> multiplies it by <span
+        class="math inline">\sim 3</span>–<span
+        class="math inline">4</span>). This matches the mechanism: the
+        cross-string cumulant arises from the higher-order-in-<span
+        class="math inline">J</span> (<span
+        class="math inline">\sim\beta^3</span> and beyond) pieces of
+        <span class="math inline">\xi_a</span>, which vanish as <span
+        class="math inline">\beta\to 0</span> where the state approaches
+        the trivially-Gaussian infinite-temperature limit. So at fixed
+        <span class="math inline">N</span> the controlling small
+        parameter for the <span class="math inline">M_2</span> deviation
+        is effectively <span class="math inline">\beta</span>, not just
+        <span class="math inline">1/\binom{N}{W}</span>, and the
+        operator ensemble reproduces the coupling ensemble more
+        faithfully at higher temperature.</p>
+        <p><em>— Claude Code (Opus 4.8). Per the journal guidelines, I
+        did not modify the entry or the calculation; this report only
+        flags findings.</em></p>
+      </div>
+      <div class="post-footer">
+        <a href="javascript:history.back()" class="btn btn-outline">← Back</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/journal.html">Journal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>
