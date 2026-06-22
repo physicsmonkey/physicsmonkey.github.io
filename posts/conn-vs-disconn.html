@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Toy Model of Wormholes — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+  <script>
+    window.addEventListener("load", function () {
+      document.querySelectorAll(".math").forEach(function (el) {
+        try {
+          katex.render(el.textContent, el, {
+            throwOnError: false,
+            displayMode: el.classList.contains("display"),
+          });
+        } catch (e) { console.error(e); }
+      });
+    });
+  </script>
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="../journal.html" class="nav-name">← Journal</a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../papers.html">Papers</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-hero">
+    <div class="container">
+      <span class="eyebrow">Journal</span>
+      <h2 class="post-title-heading">A Toy Model of Wormholes</h2>
+      <div class="post-meta">
+        <span class="lecture-date">2026-06-22</span>
+                <span class="post-tags"><span class="post-tag">holography</span> <span class="post-tag">wormholes</span> <span class="post-tag">closed
+universes</span> <span class="post-tag">gravitational path
+integral</span> <span class="post-tag">toy model</span></span>
+              </div>
+    </div>
+  </section>
+
+  <section id="post-body">
+    <div class="container">
+      <div class="post-content">
+        <h1 id="a-toy-model-of-wormholes">A Toy Model of Wormholes</h1>
+        <blockquote>
+        <p>Brian Swingle + Claude Code with Opus 4.8 + Codex with GPT
+        5.5<br> June 22, 2026<br> Confidence: Medium (as a toy
+        model)<br> Reports from <a
+        href="conn-vs-disconn/reports/report-2026-06-22-codex-gpt5.html"
+        target="_blank" rel="noopener">GPT 5.5</a> and <a
+        href="conn-vs-disconn/reports/report-2026-06-22-claude-opus-4-8.html"
+        target="_blank" rel="noopener">Opus 4.8</a><br>
+        Acknowledgements: I thank Martin Sasieta and Mark Van Raamsdonk
+        for discussions.</p>
+        </blockquote>
+        <p>In a paper with my collaborators Stefano Antonini and Martin
+        Sasieta <a href="https://arxiv.org/abs/2307.14416"
+        target="_blank" rel="noopener">(AS<span
+        class="math inline">^2</span>)</a>, we discussed certain
+        wormhole solutions in general relativity sourced by dust-shell
+        matter. We argued these solutions could dominate the Euclidean
+        path integral under the right conditions and that in this case
+        one found interesting closed universe physics. Nevertheless,
+        there is a general concern that there might be other saddle
+        points that qualitatively change the story, and this possibility
+        is usually hard to rule out.</p>
+        <p>One often appeals to other physical intuitions to argue for
+        the correctness of a given saddle, even if one cannot rule out
+        other possibilities with a completely general argument. However,
+        because the physics of closed universes in holography is still a
+        subject in flux, it’s worth thinking more about this issue of
+        saddle points.</p>
+        <p>In recent <a href="https://arxiv.org/abs/2602.12339"
+        target="_blank" rel="noopener">work</a> with my student Val, we
+        gave evidence in a particular microscopic model, the
+        Sachdev-Ye-Kitaev model, that such wormhole solutions do give a
+        good account of the physics, but here I want to think through a
+        toy model of the physics along the lines suggested in an
+        appendix of AS<span class="math inline">^2</span>.</p>
+        <h2 id="holographic-motivation">Holographic motivation</h2>
+        <p>In holography, one specifies some boundary conditions and
+        then searches for a bulk ``filling in’’ of those boundary
+        conditions according to a set of rules. For example, the bulk
+        geometry must obey Einstein’s equations, or some generalization
+        thereof. Often it is not clear what the filled in geometry
+        should be, so one must consider various competing
+        possibilities.</p>
+        <p>I want to consider a case in which the boundary consists of
+        two disjoint pieces, each of which hosts a bunch of matter
+        modelled as non-interacting dust. The bulk can then be either
+        disconnected or connected, in which case it forms a kind of
+        wormhole. Using red to denote the matter, the competition is
+        illustrated in this sketch (made by GPT 5.5 based on my
+        sketch):</p>
+        <figure>
+        <img src="conn-vs-disconn/wormhole-sketch.png"
+        alt="Competing saddles" />
+        <figcaption aria-hidden="true">Competing saddles</figcaption>
+        </figure>
+        <p>If the Euclidean path integral is written schematically as
+        <span class="math display"> Z = \int Dg\, e^{- I[g]},</span>
+        then the most naive rule is to look for the solution with the
+        smallest action <span class="math inline">I</span>, since its
+        contribution, <span class="math inline">e^{-I}</span>, to <span
+        class="math inline">Z</span> is presumably the largest.</p>
+        <p>One often finds that the wormhole geometry costs more action,
+        meaning the disconnected solution would dominate. This would
+        render the closed universe physics associated with the wormhole
+        solution somehow subleading to the dominant disconnected
+        physics. That certainly may be the way it works in some
+        cases.</p>
+        <p>However, a nice feature of the wormhole solution is that the
+        red matter worldline can smoothly connect between the two
+        boundaries, whereas in the disconnected case the matter must
+        somehow self-annihilate within each disconnected space. Such a
+        self-annihilation should generically be possible in quantum
+        gravity, assuming the matter is essentially non-interacting
+        dust, but perhaps this self-annihilation process is sufficiently
+        suppressed that the two saddles have an interesting
+        competition.</p>
+        <p>For example, suppose the dust consisted of a dilute gas of
+        Hydrogen. There is no conservation law that forbids
+        self-annihilation (Hydrogen is electrically neutral, baryon and
+        lepton number are not exact symmetries, etc.), but the process
+        is unlikely to occur. The boundary interpretation could be that
+        on boundary A we are trying to create a lot of Hydrogen
+        (e.g. applying many copies of a Hydrogen creation operator) and
+        on boundary B we are trying to destroy a lot of Hydrogen
+        (e.g. applying many copies of a Hydrogen annihilation operator).
+        It is not impossible that the corresponding annihilation and
+        creation of Hydrogen occur in the bulk of A and B, respectively,
+        but it is unlikely. The question is whether this suppression
+        from the matter sector can compete with the suppression arising
+        from the wormhole’s larger action.</p>
+        <p>For a simple bulk model, we could take a scalar field <span
+        class="math inline">\phi</span> representing the dust and
+        include a weak <span class="math inline">\phi^4</span>
+        interaction that allows for self-annihilation or creation. For
+        parameters, assuming Newton’s constant, <span
+        class="math inline">G</span>, is small (the usual large <span
+        class="math inline">N</span> limit), it’s interesting to
+        consider an <span class="math inline">O(1/G)</span> amount of
+        matter (to generate backreaction and stabilize the wormhole)
+        along with a weak <span class="math inline">O(G)</span> <span
+        class="math inline">\phi^4</span> coupling. Below I will
+        consider an even simpler version of this as a first step to a
+        more complete bulk analysis.</p>
+        <h2 id="oscillator-model">Oscillator model</h2>
+        <p>I propose to model the competition using a simple quantum
+        anharmonic oscillator. The Hamiltonian is <span
+        class="math display"> H = \omega a^\dagger a + g( a+
+        a^\dagger)^4,</span> and I’ll suppose that <span
+        class="math inline">g</span> is very small. <span
+        class="math inline">a^\dagger</span> and <span
+        class="math inline">a</span> are creation and annihilation
+        operators that correspond to the matter particles described by
+        the scalar field <span class="math inline">\phi</span>, and the
+        smallness of <span class="math inline">g</span> translates to a
+        weak <span class="math inline">\phi^4</span>-type coupling in
+        the bulk. Crucially, the quanta counted by <span
+        class="math inline">a^\dagger a</span> are not conserved by the
+        Hamiltonian, but they may be approximately conserved owing to
+        the weakness of the interaction. To capture the large <span
+        class="math inline">N</span> scaling, I’ll introduce a parameter
+        <span class="math inline">K</span> and assume that the number of
+        quanta added is <span class="math inline">O(K)</span> and <span
+        class="math inline">g</span> is <span
+        class="math inline">O(1/K)</span>.</p>
+        <p>I’ll model the connected vs disconnected competition as a
+        comparison between two quantities, <span
+        class="math display">A_1= |\langle 0 | e^{- s H}
+        (a^\dagger)^{4K} | 0\rangle|^2</span> and <span
+        class="math display"> A_2 = \langle 0| a^{4K} e^{- 2 s H}
+        (a^\dagger)^{4K} | 0\rangle </span> where <span
+        class="math inline">a|0\rangle=0</span>. <span
+        class="math inline">|0\rangle</span> is the ground state of
+        <span class="math inline">H</span> when <span
+        class="math inline">g=0</span>.</p>
+        <p>I think of <span class="math inline">(a^\dagger)^{4K}</span>
+        as creating the dust, which is specifically chosen to consist of
+        a lot of approximately conserved quanta. By analogy with the
+        holographic setting, the basic quantity is <span
+        class="math display"> \langle 0 | a^{4K} (\mathrm{something})
+        (a^\dagger)^{4K} | 0\rangle</span> where <span
+        class="math inline">(\mathrm{something})</span> stands for the
+        unknown ``filling in’’ of different bulk options in the
+        gravitational path integral. In other words, I consider
+        different choices of <span
+        class="math inline">(\mathrm{something})</span> and look to
+        determine which option is larger.</p>
+        <p>From this perspective, <span class="math inline">A_1</span>
+        amounts to the replacement <span
+        class="math display">(\mathrm{something}) \to e^{-s H} |0\rangle
+        \langle 0 | e^{- sH},</span> which is analogous to the
+        disconnected saddle. By contrast, <span
+        class="math inline">A_2</span> arises from the replacement <span
+        class="math display">(\mathrm{something}) \to e^{-2 s H}
+        ,</span> which is analogous to the connected bulk saddle in
+        which the particles can join with their partners at the other
+        end of the wormhole. I will also include an additional factor in
+        <span class="math inline">A_2</span> to model the different
+        action costs of the disconnected and wormhole saddles (the part
+        not directly associated with the matter).</p>
+        <p>So the final comparison is between <span
+        class="math inline">A_1</span> and <span class="math inline">A_2
+        e^{-\Delta I}</span> where <span class="math inline">\Delta
+        I</span> is an additional free parameter of the model. I will
+        assume <span class="math inline">\Delta I</span> is also <span
+        class="math inline">O(K)</span>. An application of
+        Cauchy-Schwarz shows that <span class="math inline">A_1 \leq
+        A_2</span>, so if <span class="math inline">\Delta
+        I&gt;0</span>, there is the possibility of an interesting
+        competition between the two terms. For the large <span
+        class="math inline">K</span> comparison, define <span
+        class="math inline">\delta</span> and <span
+        class="math inline">\gamma</span> by <span
+        class="math inline">\Delta I = K \delta</span> and <span
+        class="math inline">g = \gamma/K</span>.</p>
+        <h2 id="perturbative-calculation">Perturbative calculation</h2>
+        <p>The calculations of <span class="math inline">A_1</span> and
+        <span class="math inline">A_2</span> are straightforward to
+        leading order in perturbation theory. The basic point in the
+        case of <span class="math inline">A_1</span> is that one needs
+        at least <span class="math inline">K</span> factors of the
+        quartic interaction to get a non-zero result, so <span
+        class="math inline">A_1=0</span> when <span
+        class="math inline">s=0</span> (or <span
+        class="math inline">\gamma=0</span>). By contrast, <span
+        class="math inline">A_2=(4K)!</span> when <span
+        class="math inline">s=0</span>. In the opposite limit, <span
+        class="math inline">s\to \infty</span>, the results instead are
+        <span class="math display">A_1 \to e^{-2 s E_{\mathrm{gs}}}
+        |\langle 0 | \mathrm{gs} \rangle \langle \mathrm{gs} |
+        (a^\dagger)^{4K} |0\rangle|^2</span> and <span
+        class="math display">A_2 \to e^{- 2 s E_{\mathrm{gs}}} |\langle
+        \mathrm{gs} | (a^\dagger)^{4K} |0\rangle|^2</span> where <span
+        class="math inline">|\mathrm{gs}\rangle</span> is the ground
+        state of <span class="math inline">H</span>. In this limit,
+        <span class="math inline">A_1</span> and <span
+        class="math inline">A_2</span> differ only by a factor of <span
+        class="math inline">|\langle \mathrm{gs} | 0 \rangle|^2</span>,
+        which will be close to unity at large <span
+        class="math inline">K</span> since <span
+        class="math inline">g=\gamma/K</span> is small. Thus for <span
+        class="math inline">\delta&gt;0</span> and sufficiently large
+        <span class="math inline">s</span>, I expect a phase transition
+        in which <span class="math inline">A_1</span> and <span
+        class="math inline">A_2 e^{-\Delta I}</span> exchange dominance
+        as <span class="math inline">\gamma</span> is increased.</p>
+        <p>Here is the detailed calculation. Let <span
+        class="math display">n=4K,\qquad I(s)=\int_0^s d\tau\,
+        e^{-4\omega \tau}
+        =\frac{1-e^{-4\omega s}}{4\omega}.</span> In the interaction
+        picture, <span class="math display">V_I(\tau)=\left(a e^{-\omega
+        \tau}+a^\dagger e^{\omega \tau}\right)^4.</span> For <span
+        class="math display">B(s)=\langle
+        0|e^{-sH}(a^\dagger)^n|0\rangle,</span> the first non-zero
+        contribution comes from <span class="math inline">K</span>
+        insertions of the term that lowers the particle number by four.
+        Thus <span class="math display">B(s)=\frac{(-g)^K}{K!}I(s)^K
+        \langle 0|a^{4K}(a^\dagger)^{4K}|0\rangle+O(g^{K+1}),</span> and
+        hence <span
+        class="math display">A_1(s)=\left[\frac{(4K)!}{K!}\right]^2
+        \left[g I(s)\right]^{2K}+O(g^{2K+1}).</span></p>
+        <p>For <span class="math inline">A_2</span>, write <span
+        class="math display">|\psi(s)\rangle=e^{-sH}(a^\dagger)^n|0\rangle,\qquad
+        A_2(s)=\langle \psi(s)|\psi(s)\rangle.</span> Keeping the
+        leading process in each Fock-number sector, the component with
+        <span class="math inline">n-4j</span> particles is <span
+        class="math display">c_j(s)=\langle n-4j|\psi(s)\rangle
+        =(-1)^j\frac{n!}{j!\sqrt{(n-4j)!}}\,
+        e^{-s\omega(n-4j)}
+        \left[gI(s)\right]^j+O(g^{j+1}).</span> This gives the
+        approximation <span class="math display">A_2(s)\simeq
+        \sum_{j=0}^K
+        \frac{(n!)^2}{(n-4j)!(j!)^2}
+        e^{-2s\omega(n-4j)}
+        \left[gI(s)\right]^{2j}.</span> This is not meant as the
+        fixed-order leading expansion of <span
+        class="math inline">A_2</span>, which would only keep the <span
+        class="math inline">j=0</span> term. Instead, it keeps the
+        leading process in each sector with a different final particle
+        number.</p>
+        <p>The final term, <span class="math inline">j=K</span>, is
+        precisely the leading expression for <span
+        class="math inline">A_1</span>. Therefore <span
+        class="math display">\frac{A_2(s)}{A_1(s)}\simeq
+        \sum_{\ell=0}^K \frac{1}{(4\ell)!}
+        \left[\frac{K!}{(K-\ell)!}\right]^2 y(s)^{2\ell},</span> where
+        <span class="math display">y(s)=\frac{e^{-4\omega s}}{gI(s)}
+        =\frac{4\omega e^{-4\omega s}}{g(1-e^{-4\omega s})}.</span></p>
+        <p>Now set <span class="math inline">g=\gamma/K</span> and <span
+        class="math inline">\Delta I=K\delta</span>. Then <span
+        class="math display">y(s)=Kc(s),\qquad
+        c(s)=\frac{4\omega e^{-4\omega s}}
+        {\gamma(1-e^{-4\omega s})}.</span> At large <span
+        class="math inline">K</span>, the ratio has the form <span
+        class="math display">\frac{A_2(s)}{A_1(s)}\sim \exp\left[K
+        f(c(s))\right],</span> where <span
+        class="math display">f(c)=\max_{0\leq \rho\leq
+        1}\Phi(\rho;c)</span> with <span
+        class="math display">\Phi(\rho;c)=
+        -2(1-\rho)\log(1-\rho)+2\rho+2\rho\log c
+        -4\rho\log(4\rho).</span> The saddle obeys <span
+        class="math display">c(1-\rho)=16\rho^2.</span> At this saddle
+        the rate function simplifies to <span
+        class="math display">f(c)=2\rho_*(c)-2\log(1-\rho_*(c)).</span></p>
+        <p>The weighted comparison is therefore controlled by <span
+        class="math display">\frac{A_2(s)e^{-K\delta}}{A_1(s)}
+        \sim \exp\left[K(f(c(s))-\delta)\right].</span> Thus the large
+        <span class="math inline">K</span> transition occurs when <span
+        class="math display">f(c_*)=\delta.</span> Equivalently, if
+        <span class="math inline">q=1-\rho_*</span>, then <span
+        class="math display">\frac{\delta}{2}=1-q-\log q,\qquad
+        c_*=\frac{16(1-q)^2}{q}.</span> For fixed <span
+        class="math inline">\gamma</span> and <span
+        class="math inline">\delta</span>, the transition time is <span
+        class="math display">s_*=\frac{1}{4\omega}\log\left(1+\frac{4\omega}{\gamma
+        c_*}\right).</span> Equivalently, at fixed <span
+        class="math inline">s</span> the critical interaction strength
+        is <span class="math display">\gamma_*=\frac{4\omega e^{-4\omega
+        s}}
+        {c_*(1-e^{-4\omega s})}.</span></p>
+        <p>The conclusion is that there is a non-zero <span
+        class="math inline">\gamma_*</span> such that for <span
+        class="math inline">\gamma&lt;\gamma_*</span>, the connected
+        answer wins despite the extra action cost, while for <span
+        class="math inline">\gamma&gt;\gamma_*</span>, the disconnected
+        answer wins because the weak self-annihilation process is no
+        longer sufficiently suppressed. For small <span
+        class="math inline">\delta</span>, one has <span
+        class="math inline">c_*\simeq \delta^2</span>, which makes
+        explicit that even a small action cost can lead to a sharp
+        large-<span class="math inline">K</span> competition.</p>
+        <p>Agent note: Codex (GPT-5) added the perturbative calculation
+        and large-<span class="math inline">K</span> comparison in this
+        section on June 22, 2026.</p>
+        <h2 id="numerical-calculation">Numerical calculation</h2>
+        <p>As an example, consider the case <span
+        class="math inline">\omega=1</span>, <span
+        class="math inline">s=1</span>, and <span
+        class="math inline">\delta=1</span>. At large <span
+        class="math inline">K</span>, the perturbative prediction then
+        yields a crossover at <span
+        class="math display">q_*=0.7662486082,\qquad
+        c_*=1.140929199,</span> and hence <span
+        class="math display">\gamma_*^{(\infty)}=0.06541110658.</span></p>
+        <p>I can also compare this to numerics at finite <span
+        class="math inline">K</span>. For <span
+        class="math inline">K=1,2,3,\cdots</span>, the exact answer can
+        be computed by imposing a cutoff <span
+        class="math inline">n_{\max}</span> on the number of quanta and
+        making sure the answer is converged as a function of <span
+        class="math inline">n_{\max}</span>. Since the Hamiltonian
+        preserves parity, I restricted to the even Fock sector. The
+        numerical calculation is in <code>calculation-1</code>; it
+        diagonalizes the cutoff Hamiltonian and finds the first crossing
+        of <span class="math display">\frac{A_2
+        e^{-K\delta}}{A_1}</span> as <span
+        class="math inline">\gamma</span> is increased. For comparison,
+        I also show the finite-<span class="math inline">K</span>
+        crossing predicted by the perturbative sum above. Using <span
+        class="math inline">n_{\max}=220</span>, I find <span
+        class="math display">
+        \begin{array}{c|ccc}
+        K &amp; \gamma_*^{\rm exact, first} &amp;
+        \gamma_*^{\rm pert} &amp; \gamma_*^{(\infty)} \\
+        \hline
+        1 &amp; 0.10765449 &amp; 0.01162137 &amp; 0.06541111\\
+        2 &amp; 0.03435154 &amp; 0.02437472 &amp; 0.06541111\\
+        3 &amp; 0.02397843 &amp; 0.03305853 &amp; 0.06541111\\
+        4 &amp; 0.02301296 &amp; 0.03840007 &amp; 0.06541111\\
+        5 &amp; 0.04798293 &amp; 0.04203323 &amp; 0.06541111\\
+        6 &amp; 0.03439949 &amp; 0.04482553 &amp; 0.06541111\\
+        7 &amp; 0.02892992 &amp; 0.04706499 &amp; 0.06541111\\
+        8 &amp; 0.02821508 &amp; 0.04887944 &amp; 0.06541111\\
+        9 &amp; 0.04047296 &amp; 0.05036770 &amp; 0.06541111\\
+        10 &amp; 0.03380631 &amp; 0.05160906 &amp; 0.06541111\\
+        11 &amp; 0.03055754 &amp; 0.05266126 &amp; 0.06541111\\
+        12 &amp; 0.03048058 &amp; 0.05356492 &amp; 0.06541111\\
+        13 &amp; 0.00496243 &amp; 0.05434938 &amp; 0.06541111\\
+        14 &amp; 0.00541595 &amp; 0.05503664 &amp; 0.06541111\\
+        15 &amp; 0.00633907 &amp; 0.05564363 &amp; 0.06541111\\
+        16 &amp; 0.00611356 &amp; 0.05618363 &amp; 0.06541111\\
+        \end{array}
+        </span> The finite-<span class="math inline">K</span>
+        perturbative estimate moves steadily toward the large-<span
+        class="math inline">K</span> prediction as <span
+        class="math inline">K</span> grows, as expected. The exact
+        cutoff crossings show a more complicated story. For small <span
+        class="math inline">K</span>, they give a direct
+        full-Hamiltonian check of the same competition, but by larger
+        <span class="math inline">K</span> the first crossing is
+        strongly affected by zeros or near-zeros of the transition
+        amplitude in <span class="math inline">A_1</span>. Thus the
+        exact first-crossing column should not be read as a clean
+        approach to the large-<span class="math inline">K</span>
+        perturbative saddle. Rather, it is a useful warning that the
+        full oscillator has additional finite-<span
+        class="math inline">K</span> structure, including the
+        number-conserving pieces of <span
+        class="math inline">(a+a^\dagger)^4</span> that are not resummed
+        in the simple leading perturbative estimate.</p>
+        <figure>
+        <img
+        src="conn-vs-disconn/calculation-1/figures/finite_k_crossings.svg"
+        alt="Finite-K crossover comparison." />
+        <figcaption aria-hidden="true">Finite-<span
+        class="math inline">K</span> crossover comparison.</figcaption>
+        </figure>
+        <p>For a more direct view of the competition, here are the two
+        common-factor-stripped weights for <span
+        class="math inline">K=10</span> as functions of <span
+        class="math inline">\gamma</span>. The plotted quantities are
+        <span class="math inline">K^{-1}\log(A_1/(4K)!)</span> and <span
+        class="math inline">K^{-1}\log(A_2e^{-K\delta}/(4K)!)</span>.</p>
+        <figure>
+        <img
+        src="conn-vs-disconn/calculation-1/figures/k10_options_vs_gamma.svg"
+        alt="The two competing weights for K=10." />
+        <figcaption aria-hidden="true">The two competing weights for
+        <span class="math inline">K=10</span>.</figcaption>
+        </figure>
+        <p>The cutoff dependence of the exact first crossing is shown
+        separately in
+        <code>calculation-1/figures/cutoff_convergence.svg</code>.</p>
+        <p>Agent note: Codex (GPT-5) implemented
+        <code>calculation-1</code> and added the finite-<span
+        class="math inline">K</span> numerical comparison in this
+        section on June 22, 2026; Codex later upgraded the calculation
+        to use NumPy/SciPy and extended the scan to <span
+        class="math inline">K=16</span>.</p>
+        <h2 id="refined-numerical-study">Refined numerical study</h2>
+        <p>The first numerical calculation uncovered some subtleties
+        worth a closer look. The exact first crossing of the previous
+        section is apparently not a very clean observable at larger
+        <span class="math inline">K</span>, for two distinct reasons
+        that I disentangle in <code>calculation-2</code>.</p>
+        <p>First, the disconnected amplitude <span
+        class="math inline">B(\gamma)=\langle
+        0|e^{-sH}(a^\dagger)^{4K}|0\rangle</span>, whose square is <span
+        class="math inline">A_1</span>, is not sign-definite. Beyond its
+        leading small-<span class="math inline">\gamma</span> behavior
+        <span class="math inline">B\sim(-\gamma)^K</span>, competing
+        multi-step processes cancel and <span
+        class="math inline">B</span> develops honest zeros at a discrete
+        set of finite <span class="math inline">\gamma</span> (I
+        confirmed this at <span class="math inline">60</span>-digit
+        precision). At such a zero <span class="math inline">A_1\to
+        0</span> and <span class="math inline">\log(A_2
+        e^{-K\delta}/A_1)\to+\infty</span>, so the first crossing as
+        <span class="math inline">\gamma</span> increases is set by the
+        location of the nearest zero rather than by the smooth
+        competition of the two weights.</p>
+        <p>Second, and more insidiously, a double-precision
+        diagonalization cannot reach the crossover region at all once
+        <span class="math inline">K\gtrsim 12</span>. There <span
+        class="math inline">|B|</span> falls below <span
+        class="math inline">\sim 10^{-21}</span>, and the value returned
+        for <span class="math inline">B</span> is then floating-point
+        round-off: it reproduces across cutoffs <span
+        class="math inline">n_{\max}</span> (the same banded round-off
+        each time) yet is wrong in magnitude and even in sign. This is
+        the real reason the exact first crossings above fail to settle
+        as <span class="math inline">n_{\max}</span> is increased — the
+        obstruction is the precision floor, not the Hilbert-space
+        truncation.</p>
+        <p>Both problems are cured in <code>calculation-2</code>. I
+        recompute <span class="math inline">A_1</span> and <span
+        class="math inline">A_2</span> at <span
+        class="math inline">s=1</span> in extended precision (<span
+        class="math inline">40</span> digits), and I replace the fragile
+        first crossing with a crossover read off from the smooth
+        envelope of <span class="math inline">A_1</span>. Writing <span
+        class="math inline">B=E(\gamma)\times(\mathrm{oscillation})</span>,
+        the local maxima of <span class="math inline">|B|</span> between
+        consecutive zeros trace the smooth envelope <span
+        class="math inline">E</span>; interpolating <span
+        class="math inline">\log A_1</span> through these peaks and
+        intersecting it with the smooth weight <span
+        class="math inline">\log(A_2 e^{-K\delta})</span> yields a
+        single, zero-insensitive crossover <span
+        class="math inline">\gamma_*(K)</span>. The construction is
+        shown for <span class="math inline">K=15</span> here:</p>
+        <figure>
+        <img
+        src="conn-vs-disconn/calculation-2/figures/diagnostic_K15.svg"
+        alt="Envelope construction at K=15." />
+        <figcaption aria-hidden="true">Envelope construction at <span
+        class="math inline">K=15</span>.</figcaption>
+        </figure>
+        <p>The resulting crossover shows no downward drift with <span
+        class="math inline">K</span>, in contrast to the first-crossing
+        column. Cutoff-convergence spot checks leave it unchanged to the
+        digits shown as <span class="math inline">n_{\max}</span> is
+        varied (at <span class="math inline">K=14</span> over <span
+        class="math inline">n_{\max}=80,120,160</span>, and at <span
+        class="math inline">K=16,18</span> up to <span
+        class="math inline">n_{\max}=140</span>); the limiting
+        uncertainty is instead the grid resolution of the envelope
+        construction, which fixes <span
+        class="math inline">\gamma_*</span> only to about two
+        significant figures (of order <span
+        class="math inline">1\%</span>). Using <span
+        class="math inline">n_{\max}=90</span>: <span
+        class="math display">
+        \begin{array}{c|cc}
+        K &amp; \gamma_*^{\rm env} &amp; \gamma_*^{(\infty)} \\
+        \hline
+        10 &amp; 0.0399 &amp; 0.0654\\
+        11 &amp; 0.0412 &amp; 0.0654\\
+        12 &amp; 0.0392 &amp; 0.0654\\
+        13 &amp; 0.0399 &amp; 0.0654\\
+        14 &amp; 0.0393 &amp; 0.0654\\
+        15 &amp; 0.0385 &amp; 0.0654\\
+        16 &amp; 0.0393 &amp; 0.0654\\
+        17 &amp; 0.0386 &amp; 0.0654\\
+        18 &amp; 0.0376 &amp; 0.0654\\
+        \end{array}
+        </span> Across <span class="math inline">K=10</span> through
+        <span class="math inline">18</span> the crossover sits on a
+        flat, nonzero plateau, <span class="math inline">\gamma_*\simeq
+        0.038</span>–<span class="math inline">0.041</span>. This lies
+        about <span class="math inline">40\%</span> below the
+        large-<span class="math inline">K</span> perturbative value
+        <span class="math inline">\gamma_*^{(\infty)}=0.0654</span> — a
+        genuine finite-<span class="math inline">K</span> suppression —
+        but it is plainly approaching a nonzero limit rather than
+        collapsing to zero. Two further smoothings, a running average of
+        <span class="math inline">A_1</span> in <span
+        class="math inline">\gamma</span> and an average over the
+        evolution parameter <span class="math inline">s</span>, give the
+        same qualitative picture of a stable nonzero crossover (the
+        <span class="math inline">s</span>-average samples <span
+        class="math inline">s&lt;1</span>, since the weights grow as
+        <span class="math inline">s</span> decreases, so it only
+        corroborates the trend, and its double-precision implementation
+        itself breaks down at the largest <span
+        class="math inline">K</span>, with the <span
+        class="math inline">K=18</span> point falling into the collapsed
+        band rather than the plateau). The comparison of all the
+        diagnostics, including the misleading first-crossing column, is
+        collected here:</p>
+        <figure>
+        <img
+        src="conn-vs-disconn/calculation-2/figures/robust_crossover_vs_K.svg"
+        alt="Robust crossover \gamma_*(K) from the envelope, the two smoothing cross-checks, and the original first crossing, against the large-K value." />
+        <figcaption aria-hidden="true">Robust crossover <span
+        class="math inline">\gamma_*(K)</span> from the envelope, the
+        two smoothing cross-checks, and the original first crossing,
+        against the large-<span class="math inline">K</span>
+        value.</figcaption>
+        </figure>
+        <p>The absolute crossover value retains a method dependence at
+        the <span class="math inline">\sim30\%</span> level (the
+        envelope gives <span class="math inline">\simeq 0.039</span>,
+        the <span class="math inline">\gamma</span>-window average <span
+        class="math inline">\simeq 0.030</span>), which reflects a
+        genuine ambiguity in pinning the crossing of an oscillating
+        finite-<span class="math inline">K</span> amplitude. The robust,
+        method-independent statement is the existence of a nonzero
+        plateau with no downward drift.</p>
+        <p>Agent note: Claude (Opus 4.8) implemented
+        <code>calculation-2</code> and added this section on June 22,
+        2026, after the precision and zero-structure issues were
+        identified in
+        <code>reports/report-2026-06-22-claude-opus-4-8.md</code>.
+        Earlier sections and <code>calculation-1</code> were left
+        unchanged. The precision claims and table digits here were
+        subsequently tightened the same day, following the Codex (GPT-5)
+        report (<code>reports/report-2026-06-22-codex-gpt5.md</code>)
+        and a grid-resolution check.</p>
+        <h2 id="outlook">Outlook</h2>
+        <p>I think the summary is overall positive for this toy model.
+        The perturbative calculation gives a clean answer in the large
+        <span class="math inline">K</span> limit, while the finite <span
+        class="math inline">K</span> numerics exhibit more structure. In
+        particular, there are subtleties to do with precision and zeros
+        in <span class="math inline">A_1</span>. However, some refined
+        numerics gave a result that is largely stable as <span
+        class="math inline">K</span> is increased. The perturbative
+        large <span class="math inline">K</span> value of <span
+        class="math inline">\gamma_*</span> is not quantitatively
+        accurate, but the finite <span class="math inline">K</span>
+        result is of the same order of magnitude. Although this issue
+        could benefit from further scrutiny (and one attempt is recorded
+        in calculation-3), the crossover between the two competing terms
+        appears robust. Thus, at least in this toy model, there is good
+        evidence that the connected wormhole saddle can dominate at
+        sufficiently weak coupling, i.e. when the
+        self-annihilation/creation processes are sufficiently
+        suppressed.</p>
+      </div>
+      <div class="post-footer">
+        <a href="../journal.html" class="btn btn-outline">← All posts</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="../index.html">Home</a>
+        <a href="../journal.html">Journal</a>
+        <a href="../papers.html">Papers</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>

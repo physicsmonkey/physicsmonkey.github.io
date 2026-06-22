@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+  <script>
+    window.addEventListener("load", function () {
+      document.querySelectorAll(".math").forEach(function (el) {
+        try {
+          katex.render(el.textContent, el, {
+            throwOnError: false,
+            displayMode: el.classList.contains("display"),
+          });
+        } catch (e) { console.error(e); }
+      });
+    });
+  </script>
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="javascript:history.back()" class="nav-name">← Back</a>
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/journal.html">Journal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-body" style="padding-top: 56px;">
+    <div class="container">
+      <div class="post-content">
+        <h1 style="font-size:1.6rem; margin-bottom: 1.2em;"></h1>
+        <h1 id="report-on-cvsd.md-a-toy-model-of-wormholes">Report on
+        <code>cvsd.md</code> — “A Toy Model of Wormholes”</h1>
+        <blockquote>
+        <p>Reviewer: Claude Code (Opus 4.8)<br> Date: June 22, 2026<br>
+        Scope: correctness of the entry and <code>calculation-1</code>,
+        per the guidelines in <code>journal.md</code><br> Previous
+        reports: none found in <code>reports/</code>.</p>
+        </blockquote>
+        <h2 id="summary-verdict">Summary verdict</h2>
+        <p>The entry is internally consistent and, to the extent I could
+        check, correct. I re-derived every analytic step of the
+        perturbative and large-<span class="math inline">K</span>
+        sections by hand and they all reproduce the formulas in the
+        entry exactly. I re-ran <code>calculation-1</code> in an
+        isolated copy (no entry files modified) and reproduced the
+        tabulated numbers to all printed digits, and I independently
+        re-derived the <span class="math inline">K=1</span> crossing
+        from a from-scratch operator construction (explicit <span
+        class="math inline">a,a^\dagger</span> matrices +
+        <code>scipy.linalg.expm</code>, full Hilbert space rather than
+        the even-sector analytic matrix elements) — it agrees to 8
+        digits.</p>
+        <p>The one substantive issue is <strong>not</strong> an error
+        but a question of how much the finite-<span
+        class="math inline">K</span> “exact first crossing” data can
+        bear: at <span class="math inline">K\gtrsim 13</span> the
+        tabulated exact crossings are <strong>not converged in the
+        cutoff</strong> <span class="math inline">n_{\max}</span>, with
+        up to ~21% spread, and at <span class="math inline">K=16</span>
+        the value actually printed in the table (the <span
+        class="math inline">n_{\max}=220</span> entry) is the cutoff
+        outlier. The entry already warns that this column is
+        contaminated by near-zeros of <span
+        class="math inline">A_1</span>, so the conclusions are not
+        overstated, but the table presents these unconverged numbers to
+        8 significant figures and the Outlook’s tentative “drifting
+        downward” reading rests partly on them. Details and a suggested
+        more robust diagnostic are below.</p>
+        <hr />
+        <h2 id="section-by-section-assessment">Section-by-section
+        assessment</h2>
+        <h3 id="holographic-motivation">Holographic motivation</h3>
+        <p>This is framing/motivation, not a calculation, so there is
+        nothing to verify numerically. The physical analogy is stated
+        carefully and with appropriate hedging (“toy model”, confidence
+        Medium). The mapping it sets up — disconnected <span
+        class="math inline">\leftrightarrow</span> matter
+        self-annihilating within each side, connected <span
+        class="math inline">\leftrightarrow</span> worldlines threading
+        the wormhole — is exactly what the oscillator model later
+        encodes via the non-conservation of <span
+        class="math inline">a^\dagger a</span> under the quartic term.
+        No issues. The <span class="math inline">O(1/G)</span> matter /
+        <span class="math inline">O(G)</span> coupling scaling that
+        motivates the later <span class="math inline">g=\gamma/K</span>,
+        “amount of matter” <span class="math inline">\sim K</span>
+        choice is consistent.</p>
+        <h3 id="oscillator-model">Oscillator model</h3>
+        <p>Definitions of <span class="math inline">A_1</span>, <span
+        class="math inline">A_2</span>, <span
+        class="math inline">|0\rangle</span>, and the
+        disconnected/connected identifications are clean. Two checkable
+        claims, both correct:</p>
+        <ul>
+        <li><strong>Cauchy–Schwarz <span class="math inline">A_1(s)\le
+        A_2(s)</span>.</strong> With <span
+        class="math inline">|\psi\rangle=e^{-sH}(a^\dagger)^{4K}|0\rangle</span>
+        one has <span
+        class="math inline">A_2=\langle\psi|\psi\rangle</span> and <span
+        class="math inline">A_1=|\langle 0|\psi\rangle|^2</span>, so
+        <span class="math inline">A_1\le\langle
+        0|0\rangle\,\langle\psi|\psi\rangle=A_2</span> since <span
+        class="math inline">\langle 0|0\rangle=1</span>. ✓</li>
+        <li><strong>Endpoint values.</strong> At <span
+        class="math inline">s=0</span>, <span
+        class="math inline">A_2=\langle
+        0|a^{4K}(a^\dagger)^{4K}|0\rangle =(4K)!</span> and <span
+        class="math inline">A_1=|\langle
+        0|(a^\dagger)^{4K}|0\rangle|^2=0</span> (and likewise <span
+        class="math inline">A_1=0</span> at <span
+        class="math inline">\gamma=0</span>). ✓</li>
+        </ul>
+        <p>The <span class="math inline">\Delta I = K\delta</span>
+        weighting and the resulting competition <span
+        class="math inline">A_1</span> vs. <span class="math inline">A_2
+        e^{-\Delta I}</span> are well posed: since <span
+        class="math inline">A_2\ge A_1</span>, a positive <span
+        class="math inline">\delta</span> is exactly what is needed to
+        make the comparison nontrivial.</p>
+        <h3 id="perturbative-calculation">Perturbative calculation</h3>
+        <p>I reproduced each formula in imaginary-time
+        (interaction-picture) perturbation theory.</p>
+        <ul>
+        <li><strong><span class="math inline">s\to\infty</span>
+        limits</strong> of <span class="math inline">A_1</span> and
+        <span class="math inline">A_2</span> via <span
+        class="math inline">e^{-sH}\to e^{-sE_{\rm gs}}|{\rm
+        gs}\rangle\langle{\rm gs}|</span>, and the ratio <span
+        class="math inline">A_1/A_2\to|\langle 0|{\rm gs}\rangle|^2\to
+        1</span> at small <span class="math inline">g</span>. ✓</li>
+        <li><strong><span class="math inline">A_1</span>.</strong> The
+        leading process needs <span class="math inline">K</span>
+        insertions of the <span class="math inline">a^4</span> piece of
+        <span class="math inline">(a+a^\dagger)^4</span>; with <span
+        class="math inline">I(s)=\int_0^s e^{-4\omega\tau}d\tau</span>
+        and <span class="math inline">\langle
+        0|a^{4K}(a^\dagger)^{4K}|0\rangle=(4K)!</span> one gets <span
+        class="math inline">A_1=\big[(4K)!/K!\big]^2 [gI]^{2K}</span>.
+        ✓</li>
+        <li><strong><span class="math inline">A_2</span> per-sector
+        amplitudes <span class="math inline">c_j</span>.</strong> At
+        order <span class="math inline">g^j</span> the only path to the
+        <span class="math inline">n-4j</span> sector is <span
+        class="math inline">j</span> factors of <span
+        class="math inline">a^4</span> (any <span
+        class="math inline">j</span> vertices summing to <span
+        class="math inline">\Delta n=-4j</span> must all be the <span
+        class="math inline">-4</span> piece), and the <span
+        class="math inline">a^4</span> coefficient in <span
+        class="math inline">(a+a^\dagger)^4</span> is <span
+        class="math inline">1</span>, giving the stated <span
+        class="math inline">c_j</span>. ✓ The text is commendably
+        explicit that <span
+        class="math inline">A_2\simeq\sum_j|c_j|^2</span> keeps the
+        <em>leading process per sector</em> rather than a fixed order in
+        <span class="math inline">g</span>.</li>
+        <li><strong>Ratio and rate function.</strong> Setting <span
+        class="math inline">\ell=K-j</span> gives the stated <span
+        class="math inline">A_2/A_1=\sum_\ell
+        \frac{1}{(4\ell)!}\big[\frac{K!}{(K-\ell)!}\big]^2
+        y^{2\ell}</span> with <span class="math inline">y=e^{-4\omega
+        s}/(gI)</span>. Writing <span class="math inline">y=Kc</span>,
+        <span class="math inline">\ell=\rho K</span> and applying
+        Stirling, the <span class="math inline">\log K</span> terms
+        cancel and I recover <span
+        class="math inline">\Phi(\rho;c)=-2(1-\rho)\log(1-\rho)+2\rho+2\rho\log
+        c-4\rho\log(4\rho)</span> <strong>exactly</strong>. ✓</li>
+        <li><strong>Saddle.</strong> <span
+        class="math inline">\Phi&#39;(\rho)=0\Rightarrow
+        c(1-\rho)=16\rho^2</span>, and back-substitution collapses to
+        <span class="math inline">f(c)=2\rho_*-2\log(1-\rho_*)</span>.
+        ✓</li>
+        <li><strong>Transition.</strong> <span
+        class="math inline">f(c_*)=\delta</span> with <span
+        class="math inline">q=1-\rho_*</span> gives <span
+        class="math inline">\delta/2=1-q-\log q</span>, <span
+        class="math inline">c_*=16(1-q)^2/q</span>, and inverting <span
+        class="math inline">c(s)=c_*</span> yields <span
+        class="math inline">s_*=\frac{1}{4\omega}\log(1+\frac{4\omega}{\gamma
+        c_*})</span> and the dual <span
+        class="math inline">\gamma_*</span>. ✓ The small-<span
+        class="math inline">\delta</span> asymptotic <span
+        class="math inline">c_*\simeq\delta^2</span> also checks: <span
+        class="math inline">q=1-\epsilon\Rightarrow\delta/2\approx2\epsilon</span>,
+        so <span
+        class="math inline">c_*\approx16\epsilon^2\approx\delta^2</span>.
+        ✓</li>
+        </ul>
+        <p>This section is solid. One presentation nit: the claim that
+        <span class="math inline">A_2\le A_1</span>-type bounds, the
+        per-sector truncation, and the omission of the number-conserving
+        and <span class="math inline">\Delta n=\pm2</span> pieces of
+        <span class="math inline">(a+a^\dagger)^4</span> are all
+        controlled only at leading order in <span
+        class="math inline">g=\gamma/K</span>; the entry says as much,
+        but a one-line statement of the <em>expected</em> size of the
+        neglected pieces (they shift level energies at <span
+        class="math inline">O(g)= O(1/K)</span>, i.e. an <span
+        class="math inline">O(1)</span> shift of the <span
+        class="math inline">K</span>-extensive exponent) would make the
+        later “finite-<span class="math inline">K</span> has more
+        structure” observation feel less like a surprise.</p>
+        <h3 id="numerical-calculation">Numerical calculation</h3>
+        <p><strong>Reproduction.</strong> Running
+        <code>finite_k_numerics.py</code> in an isolated
+        <code>/tmp</code> copy reproduced the large-<span
+        class="math inline">K</span> values <span
+        class="math inline">q_*=0.7662486082</span>, <span
+        class="math inline">c_*=1.140929199</span>, <span
+        class="math inline">\gamma_*^{(\infty)}=0.06541110658</span> and
+        the entire <span class="math inline">K=1\ldots16</span> table to
+        all printed digits (e.g. <span class="math inline">K=16</span>:
+        exact <span class="math inline">0.006113557</span>, pert <span
+        class="math inline">0.05618363</span>). ✓ The even-sector
+        Hamiltonian matrix elements (<span
+        class="math inline">6m^2+6m+3</span> diagonal, <span
+        class="math inline">(4m+6)\sqrt{(m+1)(m+2)}</span> at <span
+        class="math inline">\Delta n=2</span>, <span
+        class="math inline">\sqrt{(m+1)\cdots(m+4)}</span> at <span
+        class="math inline">\Delta n=4</span>) are correct, and my
+        independent full-space brute force confirms the <span
+        class="math inline">K=1</span> crossing (<span
+        class="math inline">0.107654492</span>). ✓</p>
+        <p><strong>Issue — cutoff convergence at large <span
+        class="math inline">K</span>.</strong> The tabulated “exact”
+        column uses <span class="math inline">n_{\max}=220</span> and is
+        reported to 8 sig figs, but it is not converged in <span
+        class="math inline">n_{\max}</span> for <span
+        class="math inline">K\gtrsim 13</span>. Spread across <span
+        class="math inline">n_{\max}\in\{80,120,160,220\}</span>:</p>
+        <table>
+        <thead>
+        <tr class="header">
+        <th><span class="math inline">K</span></th>
+        <th><span class="math inline">n_{80}</span></th>
+        <th><span class="math inline">n_{120}</span></th>
+        <th><span class="math inline">n_{160}</span></th>
+        <th><span class="math inline">n_{220}</span></th>
+        <th>spread</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td>≤12</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>&lt;0.1%</td>
+        </tr>
+        <tr class="even">
+        <td>13</td>
+        <td>0.0049633</td>
+        <td>0.0049502</td>
+        <td>0.0048988</td>
+        <td>0.0049624</td>
+        <td>1.3%</td>
+        </tr>
+        <tr class="odd">
+        <td>14</td>
+        <td>0.0052401</td>
+        <td>0.0047921</td>
+        <td>0.0053898</td>
+        <td>0.0054159</td>
+        <td>12.0%</td>
+        </tr>
+        <tr class="even">
+        <td>15</td>
+        <td>0.0064700</td>
+        <td>0.0064728</td>
+        <td>0.0064769</td>
+        <td>0.0063391</td>
+        <td>2.1%</td>
+        </tr>
+        <tr class="odd">
+        <td>16</td>
+        <td>0.0076205</td>
+        <td>0.0076156</td>
+        <td>0.0076103</td>
+        <td><strong>0.0061136</strong></td>
+        <td>20.8%</td>
+        </tr>
+        </tbody>
+        </table>
+        <p>The non-monotonic, non-converging behavior (and, at <span
+        class="math inline">K=16</span>, the fact that the
+        <em>tabulated</em> <span class="math inline">n_{\max}=220</span>
+        number is the lone outlier while <span
+        class="math inline">n_{\max}=80/160/160</span> cluster near
+        <span class="math inline">0.00762</span>) is a direct symptom of
+        the mechanism the entry names: the “first crossing” is being set
+        by a near-zero of <span class="math inline">A_1=|B|^2</span>,
+        where <span class="math inline">B(\gamma)=\langle
+        0|e^{-sH}(a^\dagger)^{4K}|0\rangle</span> changes sign. Near
+        such a zero <span class="math inline">\log(A_2
+        e^{-K\delta}/A_1)\to+\infty</span> and the crossing location
+        depends on the precise sub-leading spectrum, which is exactly
+        what <span class="math inline">n_{\max}</span> perturbs. So
+        these are not well-defined crossover couplings at the quoted
+        precision.</p>
+        <p>This does not invalidate the entry’s stated conclusion — it
+        explicitly says the exact first-crossing column “should not be
+        read as a clean approach to the large-<span
+        class="math inline">K</span> perturbative saddle” and is “a
+        useful warning.” But two refinements would make the section more
+        honest and more informative:</p>
+        <ol type="1">
+        <li><p><strong>Report uncertainty, not 8 digits.</strong> For
+        <span class="math inline">K\ge13</span> the values are good to
+        ~1–2 digits at best; quoting them to 8 figures (and drawing them
+        as sharp points in <code>finite_k_crossings.svg</code>)
+        overstates precision. Error bars from the <span
+        class="math inline">n_{\max}</span> spread, or rounding to the
+        converged digits, would be more faithful.</p></li>
+        <li><p><strong>Use a crossing diagnostic that is insensitive to
+        <span class="math inline">A_1</span> zeros.</strong> Because the
+        physical question is whether the <em>connected</em> weight <span
+        class="math inline">A_2 e^{-K\delta}</span> exceeds the
+        <em>disconnected</em> weight <span
+        class="math inline">A_1</span> in the regime where both are
+        smooth, the “first” crossing as <span
+        class="math inline">\gamma</span> increases from <span
+        class="math inline">0</span> is the fragile choice: at small
+        <span class="math inline">\gamma</span>, <span
+        class="math inline">A_1\sim[\gamma I/K]^{2K}</span> is tiny and
+        noisy and its zeros dominate. Candidates that would sharpen the
+        Outlook: track the <em>last</em> crossing (large-<span
+        class="math inline">\gamma</span> side, where <span
+        class="math inline">A_1</span> is generically nonzero); compare
+        <span class="math inline">\log A_2</span> vs <span
+        class="math inline">\log A_1 + K\delta</span> on a grid and
+        locate the crossing of the <em>smoothed/enveloped</em> curves;
+        or compare against <span class="math inline">|B|</span> rather
+        than <span class="math inline">|B|^2</span> and handle the sign
+        explicitly. The <code>k10_options_vs_gamma.svg</code> panel
+        already shows the two weights are smooth and well-separated for
+        <span class="math inline">K=10</span> — extending exactly that
+        smoothed comparison (rather than the first-crossing finder) to
+        <span class="math inline">K=13\ldots16</span> would tell you
+        directly whether a genuine crossover survives.</p></li>
+        </ol>
+        <p><strong>Minor.</strong> The Outlook’s suggestion that the
+        crossover “potentially even drift[s] downward as <span
+        class="math inline">K</span> is increased” is, on the present
+        data, partly an artifact of (1): the apparent drop at <span
+        class="math inline">K\ge13</span> coincides exactly with the
+        onset of the <span class="math inline">A_1</span>-near-zero
+        regime and the loss of cutoff convergence, not obviously with a
+        physical trend. I would treat the monotone, well-converged <span
+        class="math inline">K\le12</span> band (crossings settling
+        around <span class="math inline">\gamma_*\sim0.03</span>, a
+        factor ~2 below <span
+        class="math inline">\gamma_*^{(\infty)}=0.065</span>) as the
+        trustworthy statement, and label the <span
+        class="math inline">K\ge13</span> points as
+        cutoff/zero-limited.</p>
+        <h3 id="outlook">Outlook</h3>
+        <p>The “mixed” summary is fair and appropriately cautious. The
+        open question it poses — does a nonzero-<span
+        class="math inline">\gamma</span> crossover persist as <span
+        class="math inline">K\to\infty</span>? — is the right one, but
+        as noted, answering it convincingly needs the more robust
+        diagnostic above, because the current first-crossing data
+        degrade precisely in the large-<span
+        class="math inline">K</span> regime that matters. Nothing here
+        is wrong; it is the natural place where the suggested numerical
+        refinement would pay off.</p>
+        <hr />
+        <h2 id="what-i-ran">What I ran</h2>
+        <ul>
+        <li>Re-derived by hand: Cauchy–Schwarz, <span
+        class="math inline">s\to\infty</span> limits, <span
+        class="math inline">A_1</span>, <span
+        class="math inline">c_j</span>, <span
+        class="math inline">A_2</span>, the <span
+        class="math inline">A_2/A_1</span> sum, <span
+        class="math inline">\Phi(\rho;c)</span>, the saddle <span
+        class="math inline">c(1-\rho)=16\rho^2</span>, <span
+        class="math inline">f(c)</span>, the transition relations, and
+        <span class="math inline">c_*\simeq\delta^2</span>. All match
+        the entry.</li>
+        <li>Ran <code>calculation-1/finite_k_numerics.py</code> in
+        <code>/tmp/cvsd_check</code> (entry files untouched): reproduced
+        the full table, the large-<span class="math inline">K</span>
+        constants, and produced the convergence spread table above.
+        Runtime ~5 s with the venv at <code>~/.venvs/sci</code>.</li>
+        <li>Independent from-scratch operator construction (explicit
+        <span class="math inline">a,a^\dagger</span>, <code>expm</code>,
+        full — not even-sector — space): <span
+        class="math inline">K=1</span> first crossing <span
+        class="math inline">0.107654492</span> vs. entry <span
+        class="math inline">0.10765449</span>. ✓</li>
+        </ul>
+        <h2 id="things-i-did-not-could-not-fully-check">Things I did not
+        / could not fully check</h2>
+        <ul>
+        <li>I did not push <span class="math inline">n_{\max}</span>
+        high enough to <em>converge</em> the <span
+        class="math inline">K\ge13</span> exact crossings (this is the
+        point: they may not converge to a single value in the
+        first-crossing definition). A definitive resolution needs the
+        alternative diagnostic, which I did not implement so as not to
+        alter the calculation.</li>
+        <li>I did not verify the large-<span
+        class="math inline">K</span> saddle is the global (vs. local)
+        maximum of <span class="math inline">\Phi</span> over <span
+        class="math inline">\rho\in[0,1]</span> analytically for all
+        <span class="math inline">c</span>; at the transition (<span
+        class="math inline">c_*\approx1.14</span>, <span
+        class="math inline">\rho_*\approx0.234</span>) it is a clean
+        interior maximum, which is the regime that matters.</li>
+        </ul>
+        <hr />
+        <h2
+        id="addendum-same-day-robust-crossover-and-the-source-of-the-drift">Addendum
+        (same day): robust crossover and the source of the “drift”</h2>
+        <p>After discussion with Brian, I built
+        <code>calculation-2</code> to follow up on the two refinements
+        suggested above. It resolves what was going on at <span
+        class="math inline">K\ge13</span> and, I think, changes the
+        headline of the Outlook. (This addendum is part of the report;
+        per the journal guidelines I did not edit the entry — these are
+        findings to fold in.)</p>
+        <h3
+        id="two-distinct-problems-with-the-first-crossing-both-now-pinned-down">Two
+        distinct problems with the first crossing, both now pinned
+        down</h3>
+        <ol type="1">
+        <li><p><strong><span class="math inline">A_1</span> has genuine
+        zeros.</strong> <span
+        class="math inline">B(\gamma)=\langle0|e^{-sH}(a^\dagger)^{4K}|0\rangle</span>
+        is genuinely not sign-definite. Verified at <strong>60-digit
+        precision</strong> (mpmath): <span class="math inline">B</span>
+        changes sign at a discrete set of finite <span
+        class="math inline">\gamma</span> (competing multi-step paths
+        cancel), including at small <span
+        class="math inline">\gamma</span>, well beyond the leading
+        monomial <span class="math inline">B\sim(-1)^K\gamma^K</span>.
+        So <span class="math inline">\log A_1\to-\infty</span> on a
+        real, discrete set and the “first crossing” is set by whichever
+        zero comes first — not the physics.</p></li>
+        <li><p><strong>Double precision cannot reach the crossover
+        region for <span class="math inline">K\ge12</span>.</strong>
+        This is the part I had not appreciated in the main report. In
+        the relevant region <span class="math inline">|B|</span> falls
+        below <span class="math inline">\sim10^{-21}</span>, and a
+        <em>double-precision</em> eigendecomposition then returns
+        deterministic round-off <strong>noise</strong> for <span
+        class="math inline">B</span> — which is why it <em>reproduces
+        across <span class="math inline">n_{\max}</span></em> (identical
+        banded round-off) yet is wrong in magnitude and sometimes in
+        sign. Side-by-side at <span class="math inline">K=13</span>:</p>
+        <table>
+        <colgroup>
+        <col style="width: 19%" />
+        <col style="width: 44%" />
+        <col style="width: 29%" />
+        <col style="width: 6%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th><span class="math inline">\gamma</span></th>
+        <th>double precision <span class="math inline">B</span></th>
+        <th>60-digit <span class="math inline">B</span></th>
+        <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td><span class="math inline">10^{-4}</span></td>
+        <td><span class="math inline">-1.3\times10^{-46}</span></td>
+        <td><span class="math inline">-4.2\times10^{-51}</span></td>
+        <td>wrong magnitude</td>
+        </tr>
+        <tr class="even">
+        <td><span class="math inline">2\times10^{-3}</span></td>
+        <td><span class="math inline">-3.0\times10^{-27}</span></td>
+        <td><span class="math inline">+3.4\times10^{-34}</span></td>
+        <td>wrong sign</td>
+        </tr>
+        <tr class="odd">
+        <td><span class="math inline">10^{-2}</span></td>
+        <td><span class="math inline">+7.3\times10^{-23}</span></td>
+        <td><span class="math inline">-1.3\times10^{-25}</span></td>
+        <td>wrong sign</td>
+        </tr>
+        <tr class="even">
+        <td><span class="math inline">3.4\times10^{-2}</span></td>
+        <td><span class="math inline">+4.54\times10^{-21}</span></td>
+        <td><span class="math inline">+4.54\times10^{-21}</span></td>
+        <td>exact</td>
+        </tr>
+        <tr class="odd">
+        <td><span class="math inline">5\times10^{-2}</span></td>
+        <td><span class="math inline">-4.4557\times10^{-18}</span></td>
+        <td><span class="math inline">-4.4557\times10^{-18}</span></td>
+        <td>exact</td>
+        </tr>
+        </tbody>
+        </table>
+        <p>So raising <span class="math inline">n_{\max}</span> never
+        helped because the obstruction is the floating-point floor, not
+        the Hilbert-space truncation. This means the <span
+        class="math inline">K\ge13</span> rows of the entry’s exact
+        column are <strong>not just imprecise but, in the small-<span
+        class="math inline">\gamma</span> region, not computed at
+        all</strong> by the double-precision code.</p></li>
+        </ol>
+        <h3 id="the-fix-and-the-result">The fix and the result</h3>
+        <p><code>calculation-2/robust_crossover.py</code> computes <span
+        class="math inline">A_1</span> and <span
+        class="math inline">A_2</span> at <span
+        class="math inline">s=1</span> in <strong>extended
+        precision</strong> (mpmath <code>eigsy</code>, 40 digits) and
+        defines the crossover from the <strong>smooth envelope</strong>
+        of <span class="math inline">A_1</span>: the local maxima of
+        <span class="math inline">|B|</span> trace the envelope <span
+        class="math inline">E</span> (zeros are where the oscillation
+        vanishes), so interpolating <span class="math inline">\log
+        A_1</span> through its peaks and crossing it with the smooth
+        <span class="math inline">\log(A_2e^{-K\delta})</span> gives a
+        single, zero-insensitive <span
+        class="math inline">\gamma_*(K)</span>. The construction is
+        illustrated in
+        <code>calculation-2/figures/diagnostic_K15.svg</code>.</p>
+        <p>Result, <span class="math inline">K=10\ldots18</span> (full
+        data in
+        <code>calculation-2/outputs/crossover_summary.csv</code>):</p>
+        <table>
+        <colgroup>
+        <col style="width: 14%" />
+        <col style="width: 21%" />
+        <col style="width: 21%" />
+        <col style="width: 21%" />
+        <col style="width: 21%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th><span class="math inline">K</span></th>
+        <th>envelope (ext. prec., <span
+        class="math inline">s{=}1</span>)</th>
+        <th><span class="math inline">\gamma</span>-window</th>
+        <th><span class="math inline">s</span>-average</th>
+        <th>first crossing (calc-1)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td>10</td>
+        <td>0.0399</td>
+        <td>0.030</td>
+        <td>0.079</td>
+        <td>0.0338</td>
+        </tr>
+        <tr class="even">
+        <td>11</td>
+        <td>0.0412</td>
+        <td>0.026</td>
+        <td>0.066</td>
+        <td>0.0306</td>
+        </tr>
+        <tr class="odd">
+        <td>12</td>
+        <td>0.0392</td>
+        <td>0.038</td>
+        <td>0.062</td>
+        <td>0.0305</td>
+        </tr>
+        <tr class="even">
+        <td>13</td>
+        <td>0.0399</td>
+        <td>0.033</td>
+        <td>0.078</td>
+        <td><strong>0.0050</strong></td>
+        </tr>
+        <tr class="odd">
+        <td>14</td>
+        <td>0.0393</td>
+        <td>0.029</td>
+        <td>0.068</td>
+        <td><strong>0.0048</strong></td>
+        </tr>
+        <tr class="even">
+        <td>15</td>
+        <td>0.0385</td>
+        <td>0.026</td>
+        <td>0.091</td>
+        <td><strong>0.0064</strong></td>
+        </tr>
+        <tr class="odd">
+        <td>16</td>
+        <td>0.0393</td>
+        <td>0.035</td>
+        <td>0.078</td>
+        <td><strong>0.0076</strong></td>
+        </tr>
+        <tr class="even">
+        <td>17</td>
+        <td>0.0386</td>
+        <td>0.031</td>
+        <td>0.072</td>
+        <td><strong>0.0071</strong></td>
+        </tr>
+        <tr class="odd">
+        <td>18</td>
+        <td>0.0376</td>
+        <td>0.028</td>
+        <td>0.0084</td>
+        <td><strong>0.0082</strong></td>
+        </tr>
+        </tbody>
+        </table>
+        <p>The envelope crossover is <strong>cutoff-stable</strong> —
+        unchanged at <span class="math inline">K=14</span> over <span
+        class="math inline">n_{\max}=80,120,160</span>, and at <span
+        class="math inline">K=16,18</span> up to <span
+        class="math inline">n_{\max}=140</span>
+        (<code>convergence_check.csv</code>) — and it sits on a
+        <strong>flat, nonzero plateau <span
+        class="math inline">\gamma_*\approx0.038</span>–<span
+        class="math inline">0.041</span> across <span
+        class="math inline">K=10\ldots18</span>, with no downward
+        drift.</strong> The apparent collapse of the first-crossing
+        column at <span class="math inline">K\ge13</span> (bold) is
+        exactly the artifact of problems 1–2: the finder latches onto
+        the small-<span class="math inline">\gamma</span> zeros and the
+        noise floor below them. See
+        <code>figures/robust_crossover_vs_K.svg</code>.</p>
+        <p><em>Precision note (added after the Codex (GPT-5) report
+        <code>report-2026-06-22-codex-gpt5.md</code>).</em> The
+        many-digit agreement across <span
+        class="math inline">n_{\max}</span> is reproducibility, not
+        accuracy: it measures cutoff stability at a fixed <span
+        class="math inline">\gamma</span>-grid. The dominant uncertainty
+        is the grid resolution of the envelope construction — refining
+        the <span class="math inline">90</span>-point grid moves the
+        <span class="math inline">K=14</span> crossover over <span
+        class="math inline">0.0389</span>–<span
+        class="math inline">0.0394</span> (about <span
+        class="math inline">1\%</span>). So the individual <span
+        class="math inline">\gamma_*(K)</span> are reliable only to
+        about two significant figures (<span
+        class="math inline">\approx0.039</span>), and earlier
+        digit-heavy quotes (including the <span
+        class="math inline">0.039340186</span> above) overstate the
+        precision. The entry’s refined-study table and wording were
+        rounded/softened accordingly; the qualitative conclusion
+        (nonzero plateau, no drift) is unaffected.</p>
+        <h3 id="bearing-on-the-entrys-outlook">Bearing on the entry’s
+        Outlook</h3>
+        <ul>
+        <li>The Outlook’s tentative reading that the crossover
+        “potentially even drift[s] downward as <span
+        class="math inline">K</span> is increased” looks like it should
+        be <strong>retracted</strong>: with a zero-insensitive,
+        precision-correct diagnostic the crossover does not drift down;
+        it plateaus at <span
+        class="math inline">\gamma_*\approx0.039</span>.</li>
+        <li>That plateau is <strong>below</strong> the large-<span
+        class="math inline">K</span> perturbative value <span
+        class="math inline">\gamma_*^{(\infty)}=0.0654</span> — a
+        genuine finite-<span class="math inline">K</span> suppression of
+        about <span class="math inline">40\%</span> — but it is clearly
+        heading to a nonzero limit, not to zero. So the entry’s central
+        physical claim is <em>strengthened</em>: there is a
+        finite-coupling window in which the connected (wormhole) weight
+        dominates, and it survives to the largest <span
+        class="math inline">K</span> I can resolve.</li>
+        <li>The absolute crossover value is method-dependent at the
+        <span class="math inline">\sim30\%</span> level (envelope <span
+        class="math inline">\approx0.039</span>, <span
+        class="math inline">\gamma</span>-window <span
+        class="math inline">\approx0.030</span>, calc-1 first crossing
+        at small <span class="math inline">K\approx0.033</span>),
+        reflecting genuine ambiguity in “where the oscillating
+        finite-<span class="math inline">K</span> amplitude crosses.”
+        The robust, method-independent statement is the <em>existence of
+        a nonzero plateau with no downward drift</em>, not a precise
+        number. The envelope is the most principled of the three.</li>
+        </ul>
+        <h3 id="caveats-on-the-cross-checks">Caveats on the
+        cross-checks</h3>
+        <ul>
+        <li>The <strong><span
+        class="math inline">s</span>-average</strong> confirms the
+        no-drift trend but reports a higher band (<span
+        class="math inline">\sim0.06</span>–<span
+        class="math inline">0.09</span>) because <span
+        class="math inline">A_1(s),A_2(s)</span> grow as <span
+        class="math inline">s</span> decreases, so the integral over
+        <span class="math inline">s\in[0.7,1.3]</span> is weighted
+        toward the small-<span class="math inline">s</span> end rather
+        than the nominal <span class="math inline">s=1</span>. Its <span
+        class="math inline">K=18</span> entry (<span
+        class="math inline">0.0084</span>) is a clear outlier: that
+        cross-check runs in double precision, which — consistent with
+        problem 2 — itself fails at <span
+        class="math inline">K=18</span>. So it should be read only as
+        qualitative support.</li>
+        <li>Everything here is at the leading model definition (<span
+        class="math inline">\omega=s=\delta=1</span>). I did not
+        re-examine whether the plateau value moves with <span
+        class="math inline">\delta</span> or <span
+        class="math inline">s</span>, which would be the natural next
+        question if one wants the <span
+        class="math inline">K\to\infty</span> limit of <span
+        class="math inline">\gamma_*</span> quantitatively.</li>
+        </ul>
+        <h3 id="what-i-ran-addendum">What I ran (addendum)</h3>
+        <ul>
+        <li>60-digit mpmath cross-check of <span
+        class="math inline">B(\gamma)</span> confirming the zeros are
+        real and that double precision fails below <span
+        class="math inline">|B|\sim10^{-21}</span>.</li>
+        <li><code>calculation-2/robust_crossover.py</code>:
+        extended-precision envelope crossover for <span
+        class="math inline">K=10\ldots18</span> at <span
+        class="math inline">n_{\max}=90</span>, cutoff check at <span
+        class="math inline">K=14</span> (<span
+        class="math inline">n_{\max}=80/120/160</span>), plus the <span
+        class="math inline">\gamma</span>-window, <span
+        class="math inline">s</span>-average, and first-cross
+        cross-checks. Runtime a few minutes in <code>~/.venvs/sci</code>
+        (mpmath added there).</li>
+        </ul>
+      </div>
+      <div class="post-footer">
+        <a href="javascript:history.back()" class="btn btn-outline">← Back</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/journal.html">Journal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>

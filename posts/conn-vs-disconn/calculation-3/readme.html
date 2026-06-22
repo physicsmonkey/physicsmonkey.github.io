@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+  <script>
+    window.addEventListener("load", function () {
+      document.querySelectorAll(".math").forEach(function (el) {
+        try {
+          katex.render(el.textContent, el, {
+            throwOnError: false,
+            displayMode: el.classList.contains("display"),
+          });
+        } catch (e) { console.error(e); }
+      });
+    });
+  </script>
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="javascript:history.back()" class="nav-name">← Back</a>
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/journal.html">Journal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-body" style="padding-top: 56px;">
+    <div class="container">
+      <div class="post-content">
+        <h1 style="font-size:1.6rem; margin-bottom: 1.2em;"></h1>
+        <h1 id="diagonal-resummed-perturbation-theory">Diagonal-resummed
+        perturbation theory</h1>
+        <p>This folder tests an analytic improvement over the bare
+        perturbative estimate in <code>../cvsd.md</code>. The idea is to
+        treat the diagonal part of the quartic interaction exactly and
+        then keep the leading monotone <code>a^4</code> lowering process
+        into each <code>4</code>-spaced Fock sector.</p>
+        <p>For the state <code>|4q&gt;</code>, the diagonal energy is
+        <span class="math display">
+        E_q=4\omega q+\frac{\gamma}{K}(96q^2+24q+3),
+        </span> because <span class="math display">
+        \langle n|(a+a^\dagger)^4|n\rangle=6n^2+6n+3.
+        </span> The common-factor-stripped amplitude to end in
+        <code>|4(K-j)&gt;</code> is approximated by <span
+        class="math display">
+        d_j =
+        \left(\frac{\gamma}{K}\right)^j
+        \sqrt{\frac{(4K)!}{(4K-4j)!}}\,
+        [E_{K-j},\ldots,E_K]\,e^{-s x},
+        </span> where the bracket denotes a divided difference of the
+        function <code>exp(-s x)</code>. The approximation then compares
+        <span class="math display">
+        A_1^{\rm diag}=|d_K|^2,\qquad
+        A_2^{\rm diag}=\sum_{j=0}^K |d_j|^2.
+        </span></p>
+        <p>The script <code>diagonal_resummation.py</code> evaluates
+        this formula at <code>omega=s=delta=1</code>, finds the crossing
+        of <code>A2_diag exp(-K delta) / A1_diag</code>, and compares it
+        to the bare perturbative finite-<code>K</code> prediction and
+        the refined envelope data from <code>calculation-2</code>.</p>
+        <h2 id="outputs">Outputs</h2>
+        <ul>
+        <li><code>outputs/diagonal_resummed_summary.csv</code> –
+        diagonal-resummed and bare perturbative crossovers for
+        <code>K=1..40,50,60,80</code>.</li>
+        <li><code>outputs/comparison_to_refined.csv</code> – comparison
+        against the <code>calculation-2</code> envelope data where
+        available.</li>
+        <li><code>figures/diagonal_resummed_vs_K.svg</code> – main
+        comparison plot.</li>
+        <li><code>figures/diagonal_resummed_K15_rates.svg</code> – the
+        two diagonal-resummed weights versus <code>gamma</code> at
+        <code>K=15</code>.</li>
+        </ul>
+        <h2 id="status">Status</h2>
+        <p>Self-contained. Run
+        <code>python diagonal_resummation.py</code> from this folder or
+        from the repository root. This approximation captures a large
+        correction to the bare large-<code>K</code> result but appears
+        to undershoot the refined envelope crossover, suggesting that
+        the diagonal self-energy is important but not the whole finite
+        <code>K</code> story.</p>
+      </div>
+      <div class="post-footer">
+        <a href="javascript:history.back()" class="btn btn-outline">← Back</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/journal.html">Journal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>

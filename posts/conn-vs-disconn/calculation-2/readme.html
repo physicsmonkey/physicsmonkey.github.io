@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+  <script>
+    window.addEventListener("load", function () {
+      document.querySelectorAll(".math").forEach(function (el) {
+        try {
+          katex.render(el.textContent, el, {
+            throwOnError: false,
+            displayMode: el.classList.contains("display"),
+          });
+        } catch (e) { console.error(e); }
+      });
+    });
+  </script>
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="javascript:history.back()" class="nav-name">← Back</a>
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/journal.html">Journal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-body" style="padding-top: 56px;">
+    <div class="container">
+      <div class="post-content">
+        <h1 style="font-size:1.6rem; margin-bottom: 1.2em;"></h1>
+        <h1 id="robust-zero-insensitive-crossover">Robust
+        (zero-insensitive) crossover</h1>
+        <p>This folder supports a follow-up to the numerical section of
+        <code>../cvsd.md</code>. It addresses why the
+        <code>calculation-1</code> “exact first crossing” fails to
+        converge for <code>K &gt;= 13</code> and replaces it with a
+        crossover diagnostic that is well defined.</p>
+        <h2 id="why-the-first-crossing-is-not-a-good-observable">Why the
+        first crossing is not a good observable</h2>
+        <p>The disconnected weight is <code>A1 = |B|^2</code> with
+        <code>B(gamma) = &lt;0|e^{-sH}|4K&gt;</code>. Two facts, both
+        checked here:</p>
+        <ol type="1">
+        <li><p><strong><code>B</code> has genuine zeros.</strong>
+        <code>B</code> is not sign definite; competing multi-step paths
+        cancel and <code>B</code> vanishes at a discrete set of
+        <code>gamma</code> (verified at 60-digit precision). At those
+        points <code>log A1 -&gt; -inf</code>, so the first crossing of
+        <code>A2 e^{-K delta}/A1</code> is set by the nearest zero, not
+        by the smooth competition of the two weights.</p></li>
+        <li><p><strong>Double precision cannot reach the crossover
+        region for <code>K &gt;= 12</code>.</strong> In the relevant
+        region <code>|B|</code> falls below ~<code>1e-21</code> and the
+        value returned by a double-precision eigendecomposition is
+        deterministic round-off noise — it reproduces across
+        <code>nmax</code> (same banded round-off) yet is wrong in
+        magnitude and sometimes in sign. Increasing <code>nmax</code>
+        does not help because it does not raise the floating-point
+        floor. This is the real reason the <code>calculation-1</code>
+        first crossings wander for <code>K &gt;= 13</code>.</p></li>
+        </ol>
+        <h2 id="what-this-calculation-does">What this calculation
+        does</h2>
+        <p><code>robust_crossover.py</code> (NumPy/SciPy + mpmath)
+        computes <code>A1</code> and
+        <code>A2 = &lt;4K|e^{-2sH}|4K&gt;</code> at <code>s=1</code> in
+        <strong>extended precision</strong> (mpmath <code>eigsy</code>,
+        40 digits), so the small-<code>gamma</code> weights are the true
+        values. It then defines the crossover from the <strong>smooth
+        envelope</strong> of <code>A1</code>: writing
+        <code>B = E(gamma) * oscillation</code>, the local maxima of
+        <code>|B|</code> trace the envelope <code>E</code> (the zeros
+        are where the oscillation vanishes). It interpolates
+        <code>log A1</code> through its peaks and crosses it with the
+        smooth <code>log(A2 e^{-K delta})</code> to get a single
+        <code>gamma_*(K)</code>.</p>
+        <p>Cross-checks, all reaching the same qualitative
+        conclusion:</p>
+        <ul>
+        <li><code>window</code> – a multiplicative running average of
+        <code>A1</code> in <code>gamma</code>.</li>
+        <li><code>s_avg</code> – average of <code>A1(s), A2(s)</code>
+        over <code>s in [0.7,1.3]</code> (double precision). The
+        <code>B(gamma,s)</code> zeros are isolated in <code>s</code>, so
+        the <code>s</code>-integral is smooth. Because
+        <code>A1(s), A2(s)</code> grow as <code>s</code> decreases, this
+        integral is weighted toward small <code>s</code> and reports a
+        crossover at a somewhat <em>larger</em> <code>gamma</code> than
+        the true <code>s=1</code> value; it is used only to confirm the
+        trend.</li>
+        <li><code>first</code> – the original <code>calculation-1</code>
+        double-precision first crossing, for contrast.</li>
+        </ul>
+        <p>Defaults: <code>omega = s = delta = 1</code>,
+        <code>K = 10..18</code>, <code>nmax = 90</code> for the
+        extended-precision scan, with cutoff-convergence spot checks at
+        <code>K=14</code> (<code>nmax = 80,120,160</code>) and
+        <code>K=16,18</code> (<code>nmax = 90,140</code>). The envelope
+        crossover is grid-resolution limited: refining the
+        <code>gamma</code> grid moves it by about one percent, so the
+        crossover is reliable to roughly two significant figures
+        (<code>gamma_* ~ 0.039</code>), not to the digits printed in the
+        raw output CSVs.</p>
+        <h2 id="outputs">Outputs</h2>
+        <ul>
+        <li><code>outputs/crossover_summary.csv</code> –
+        <code>gamma_*</code> per <code>K</code> for all four
+        diagnostics.</li>
+        <li><code>outputs/convergence_check.csv</code> – envelope
+        <code>gamma_*</code> vs <code>nmax</code> at
+        <code>K=14</code>.</li>
+        <li><code>outputs/diagnostic_K15.csv</code> – the
+        <code>log A1</code>, envelope, and
+        <code>log(A2 e^{-K delta})</code> curves used in the
+        illustration figure.</li>
+        <li><code>figures/robust_crossover_vs_K.svg</code> –
+        <code>gamma_*(K)</code> for the four diagnostics and the
+        large-<code>K</code> line.</li>
+        <li><code>figures/diagnostic_K15.svg</code> – the envelope
+        construction at <code>K=15</code>.</li>
+        </ul>
+        <h2 id="status">Status</h2>
+        <p>Self-contained; run <code>python robust_crossover.py</code>
+        from this folder. The headline finding is that the envelope
+        crossover is cutoff-converged and, unlike the
+        <code>calculation-1</code> first crossing, <strong>does not
+        drift downward</strong> with <code>K</code> — it sits near
+        <code>gamma_* ~ 0.04</code> over <code>K = 10..18</code>. See
+        <code>../reports/report-2026-06-22-claude-opus-4-8.md</code>
+        (addendum) for discussion.</p>
+      </div>
+      <div class="post-footer">
+        <a href="javascript:history.back()" class="btn btn-outline">← Back</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/journal.html">Journal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>
