@@ -1,0 +1,21 @@
+{
+  "n_majorana": 20,
+  "weight": 3,
+  "relative_weight": 0.15,
+  "beta_j": 0.5,
+  "disorder_samples": 100,
+  "time_points": 9,
+  "path_slices": 80,
+  "path_iterations": 3605,
+  "path_relative_update": 9.996204228270384e-09,
+  "path_converged": true,
+  "raw_fitted_amplitude": -4.4288254687558925e-08,
+  "raw_cosine_similarity": -0.022895012644745246,
+  "raw_relative_residual": 0.9997378748431996,
+  "centered_fitted_amplitude": 0.00014109069085076965,
+  "centered_shape_correlation": 0.9900547376350552,
+  "centered_relative_residual": 0.14068268012226118,
+  "ed_imaginary_fraction": 1.2419340143396406e-17,
+  "ed_signal_to_noise": 27.984332667568303,
+  "seed": 20260729
+}

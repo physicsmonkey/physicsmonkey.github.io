@@ -1,0 +1,256 @@
+{
+  "n_majorana": 24,
+  "outside_weight": 7,
+  "target_weight": 8,
+  "inside_weight": 9,
+  "disorder_samples": 16,
+  "time_points": 9,
+  "betas": [
+    0.5,
+    1.0
+  ],
+  "coupling_j": 1.0,
+  "path_slices_coarse": 90,
+  "path_slices_fine": 180,
+  "continuum_extrapolation": "2 G_(2L) - G_L",
+  "seed": 20260730,
+  "compact_action_source": "loaded",
+  "compact_action_mib": 124.5234375,
+  "ed_total_seconds": 235.28857561599943,
+  "mean_seconds_per_sample": 14.705361814687649,
+  "sample_seconds": [
+    15.039615409001271,
+    15.132673321000766,
+    15.38033995600199,
+    14.43671114099925,
+    14.618020448997413,
+    14.26758155400239,
+    14.870274240998697,
+    13.925057440999808,
+    14.366394643999229,
+    14.457030576999387,
+    14.978349709002941,
+    14.733767313999124,
+    14.816326265001408,
+    14.893295703997865,
+    15.001394044000335,
+    14.368957266000507
+  ],
+  "peak_rss_mib": 887.9609375,
+  "temperatures": {
+    "0p5": {
+      "beta_j": 0.5,
+      "sectors": {
+        "inside_p": {
+          "background_weight": 9,
+          "probe_count": 9,
+          "probe_indices_one_based": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "collision_coefficient_squared": 0.4999999999999999,
+          "denominator_effective_sample_size": 11.889705664616418,
+          "path_cases": {
+            "0p375": {
+              "relative_weight": 0.375,
+              "coarse_iterations": 1303,
+              "coarse_converged": true,
+              "fine_iterations": 1230,
+              "fine_converged": true,
+              "relative_residual_all_entries": 0.002387271783872698,
+              "relative_residual_away_from_collision": 0.0024021821112124027,
+              "cosine_similarity": 0.9999997269608902,
+              "difference_to_jackknife_error_norm": 0.46687550081572055,
+              "ed_collision_value": 0.4999999999999999,
+              "predicted_collision_value": 0.49999999999999994,
+              "max_absolute_difference": 0.0016518503406114937
+            },
+            "0p333333": {
+              "relative_weight": 0.3333333333333333,
+              "coarse_iterations": 1377,
+              "coarse_converged": true,
+              "fine_iterations": 1273,
+              "fine_converged": true,
+              "relative_residual_all_entries": 0.002790014502393404,
+              "relative_residual_away_from_collision": 0.0028074402642166867,
+              "cosine_similarity": 0.9999995991786382,
+              "difference_to_jackknife_error_norm": 0.545639347345256,
+              "ed_collision_value": 0.4999999999999999,
+              "predicted_collision_value": 0.4999999999999999,
+              "max_absolute_difference": 0.001966168018329939
+            }
+          }
+        },
+        "outside_ap": {
+          "background_weight": 7,
+          "probe_count": 17,
+          "probe_indices_one_based": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24
+          ],
+          "collision_coefficient_squared": -0.4999999999999999,
+          "denominator_effective_sample_size": 13.632808639432026,
+          "path_cases": {
+            "0p291667": {
+              "relative_weight": 0.2916666666666667,
+              "coarse_iterations": 1495,
+              "coarse_converged": true,
+              "fine_iterations": 1368,
+              "fine_converged": true,
+              "relative_residual_all_entries": 0.05570285911484261,
+              "relative_residual_away_from_collision": 0.05892336981197417,
+              "cosine_similarity": 0.9984498834829978,
+              "difference_to_jackknife_error_norm": 35.59096502550415,
+              "ed_collision_value": -0.49999999999999994,
+              "predicted_collision_value": -0.4999999999999999,
+              "max_absolute_difference": 0.01734436350226599
+            },
+            "0p333333": {
+              "relative_weight": 0.3333333333333333,
+              "coarse_iterations": 1377,
+              "coarse_converged": true,
+              "fine_iterations": 1273,
+              "fine_converged": true,
+              "relative_residual_all_entries": 0.05607663003111937,
+              "relative_residual_away_from_collision": 0.05931875062859132,
+              "cosine_similarity": 0.9984300263226894,
+              "difference_to_jackknife_error_norm": 35.82978342405942,
+              "ed_collision_value": -0.49999999999999994,
+              "predicted_collision_value": -0.4999999999999999,
+              "max_absolute_difference": 0.017459047531884552
+            }
+          }
+        }
+      }
+    },
+    "1": {
+      "beta_j": 1.0,
+      "sectors": {
+        "inside_p": {
+          "background_weight": 9,
+          "probe_count": 9,
+          "probe_indices_one_based": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "collision_coefficient_squared": 0.4999999999999999,
+          "denominator_effective_sample_size": 11.807371683678086,
+          "path_cases": {
+            "0p375": {
+              "relative_weight": 0.375,
+              "coarse_iterations": 2920,
+              "coarse_converged": true,
+              "fine_iterations": 2663,
+              "fine_converged": true,
+              "relative_residual_all_entries": 0.0038425967914082378,
+              "relative_residual_away_from_collision": 0.0038670212173742024,
+              "cosine_similarity": 0.9999993584496246,
+              "difference_to_jackknife_error_norm": 0.37325955143693346,
+              "ed_collision_value": 0.4999999999999999,
+              "predicted_collision_value": 0.4999999999999999,
+              "max_absolute_difference": 0.0025346573538632677
+            },
+            "0p333333": {
+              "relative_weight": 0.3333333333333333,
+              "coarse_iterations": 4220,
+              "coarse_converged": true,
+              "fine_iterations": 3836,
+              "fine_converged": true,
+              "relative_residual_all_entries": 0.0053701414425029875,
+              "relative_residual_away_from_collision": 0.005404275292399089,
+              "cosine_similarity": 0.9999985029382016,
+              "difference_to_jackknife_error_norm": 0.5216411439429108,
+              "ed_collision_value": 0.4999999999999999,
+              "predicted_collision_value": 0.4999999999999999,
+              "max_absolute_difference": 0.0037188317524199377
+            }
+          }
+        },
+        "outside_ap": {
+          "background_weight": 7,
+          "probe_count": 17,
+          "probe_indices_one_based": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24
+          ],
+          "collision_coefficient_squared": -0.4999999999999999,
+          "denominator_effective_sample_size": 13.650311597411715,
+          "path_cases": {
+            "0p291667": {
+              "relative_weight": 0.2916666666666667,
+              "coarse_iterations": 9926,
+              "coarse_converged": true,
+              "fine_iterations": 8862,
+              "fine_converged": true,
+              "relative_residual_all_entries": 0.10995940769834016,
+              "relative_residual_away_from_collision": 0.11644186641030348,
+              "cosine_similarity": 0.9939940030344667,
+              "difference_to_jackknife_error_norm": 35.76935667632342,
+              "ed_collision_value": -0.4999999999999999,
+              "predicted_collision_value": -0.49999999999999983,
+              "max_absolute_difference": 0.03378465726100226
+            },
+            "0p333333": {
+              "relative_weight": 0.3333333333333333,
+              "coarse_iterations": 4220,
+              "coarse_converged": true,
+              "fine_iterations": 3836,
+              "fine_converged": true,
+              "relative_residual_all_entries": 0.11089403580099566,
+              "relative_residual_away_from_collision": 0.11743159382836386,
+              "cosine_similarity": 0.9939096024709565,
+              "difference_to_jackknife_error_norm": 36.07338746971687,
+              "ed_collision_value": -0.4999999999999999,
+              "predicted_collision_value": -0.4999999999999999,
+              "max_absolute_difference": 0.03411530316957259
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "compact_hamiltonian_max_error": 0.0,
+  "streaming_same_side_max_error": 3.007410322181073e-16,
+  "cross_replica_trace_max_error": 9.479959908229633e-16
+}

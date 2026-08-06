@@ -1,0 +1,157 @@
+{
+  "disorder_samples": 16,
+  "method": "global centered metrics with delete-one-sample jackknife; the resampling preserves correlations among all time points",
+  "covariance_note": "A full 81-entry covariance has rank at most 15 with 16 samples, so no pseudoinverse chi-square or p-value is reported.",
+  "temperatures": {
+    "0p5": {
+      "beta_j": 0.5,
+      "sectors": {
+        "inside_p": {
+          "background_weight": 9,
+          "path_cases": {
+            "0p375": {
+              "relative_weight": 0.375,
+              "ed_mean": 0.4993980244265076,
+              "prediction_mean": 0.49826401554534516,
+              "ed_centered_rms": 0.000135263822006547,
+              "prediction_centered_rms": 0.0004966902175211625,
+              "centered_fitted_amplitude": 0.26273791488983067,
+              "centered_correlation": 0.9647764654422547,
+              "centered_fitted_relative_residual": 0.26307103931970666,
+              "centered_no_fit_relative_residual": 2.719986066978354,
+              "centered_fitted_amplitude_jackknife_se": 1.6477006013793132,
+              "centered_correlation_jackknife_se": 2.828156763749995,
+              "centered_fitted_relative_residual_jackknife_se": 1.1413951607924977,
+              "centered_no_fit_relative_residual_jackknife_se": 11.255580232123856
+            },
+            "0p333333": {
+              "relative_weight": 0.3333333333333333,
+              "ed_mean": 0.4993980244265076,
+              "prediction_mean": 0.4980778785917893,
+              "ed_centered_rms": 0.000135263822006547,
+              "prediction_centered_rms": 0.0005733248236905188,
+              "centered_fitted_amplitude": 0.22576781482422292,
+              "centered_correlation": 0.9569320954336649,
+              "centered_fitted_relative_residual": 0.29031184049042014,
+              "centered_no_fit_relative_residual": 3.2944515640017444,
+              "centered_fitted_amplitude_jackknife_se": 1.4318747865572738,
+              "centered_correlation_jackknife_se": 2.846872430796126,
+              "centered_fitted_relative_residual_jackknife_se": 1.1145829331394523,
+              "centered_no_fit_relative_residual_jackknife_se": 12.786830416997848
+            }
+          }
+        },
+        "outside_ap": {
+          "background_weight": 7,
+          "path_cases": {
+            "0p291667": {
+              "relative_weight": 0.2916666666666667,
+              "ed_mean": -0.006172839506172805,
+              "prediction_mean": 0.0015458066556395408,
+              "ed_centered_rms": 0.17026503429121145,
+              "prediction_centered_rms": 0.170485929936075,
+              "centered_fitted_amplitude": 0.9981806215027306,
+              "centered_correlation": 0.9994756246312062,
+              "centered_fitted_relative_residual": 0.03238017554091162,
+              "centered_no_fit_relative_residual": 0.03243138141758605,
+              "centered_fitted_amplitude_jackknife_se": 0.0013537486089332678,
+              "centered_correlation_jackknife_se": 2.516785910662878e-06,
+              "centered_fitted_relative_residual_jackknife_se": 7.76904260615564e-05,
+              "centered_no_fit_relative_residual_jackknife_se": 1.870755779047054e-05
+            },
+            "0p333333": {
+              "relative_weight": 0.3333333333333333,
+              "ed_mean": -0.006172839506172805,
+              "prediction_mean": 0.0015979000154748859,
+              "ed_centered_rms": 0.17026503429121145,
+              "prediction_centered_rms": 0.1705560931112801,
+              "centered_fitted_amplitude": 0.997763846969936,
+              "centered_correlation": 0.9994694700252811,
+              "centered_fitted_relative_residual": 0.03256959452286042,
+              "centered_no_fit_relative_residual": 0.032646530874296094,
+              "centered_fitted_amplitude_jackknife_se": 0.0013533513703782433,
+              "centered_correlation_jackknife_se": 2.3487016339198023e-06,
+              "centered_fitted_relative_residual_jackknife_se": 7.207884102783396e-05,
+              "centered_no_fit_relative_residual_jackknife_se": 3.1671782450665846e-05
+            }
+          }
+        }
+      }
+    },
+    "1": {
+      "beta_j": 1.0,
+      "sectors": {
+        "inside_p": {
+          "background_weight": 9,
+          "path_cases": {
+            "0p375": {
+              "relative_weight": 0.375,
+              "ed_mean": 0.4950781640931238,
+              "prediction_mean": 0.4932581520001101,
+              "ed_centered_rms": 0.0013709328799241063,
+              "prediction_centered_rms": 0.0019195673205894285,
+              "centered_fitted_amplitude": 0.7134210536048429,
+              "centered_correlation": 0.9989254473174117,
+              "centered_fitted_relative_residual": 0.04634598905740515,
+              "centered_no_fit_relative_residual": 0.40393275053489525,
+              "centered_fitted_amplitude_jackknife_se": 0.8495690210793305,
+              "centered_correlation_jackknife_se": 0.06955715721319636,
+              "centered_fitted_relative_residual_jackknife_se": 0.3260132880718688,
+              "centered_no_fit_relative_residual_jackknife_se": 3.539856489260286
+            },
+            "0p333333": {
+              "relative_weight": 0.3333333333333333,
+              "ed_mean": 0.4950781640931238,
+              "prediction_mean": 0.4925575171471081,
+              "ed_centered_rms": 0.0013709328799241063,
+              "prediction_centered_rms": 0.0022085087667468887,
+              "centered_fitted_amplitude": 0.6193947473234461,
+              "centered_correlation": 0.9978159759480952,
+              "centered_fitted_relative_residual": 0.06605511443294948,
+              "centered_no_fit_relative_residual": 0.6166851583346782,
+              "centered_fitted_amplitude_jackknife_se": 0.7407582797619863,
+              "centered_correlation_jackknife_se": 0.07949948238080336,
+              "centered_fitted_relative_residual_jackknife_se": 0.3470423345221229,
+              "centered_no_fit_relative_residual_jackknife_se": 4.1147421516900815
+            }
+          }
+        },
+        "outside_ap": {
+          "background_weight": 7,
+          "path_cases": {
+            "0p291667": {
+              "relative_weight": 0.2916666666666667,
+              "ed_mean": -0.006172839506172835,
+              "prediction_mean": 0.008952690610798035,
+              "ed_centered_rms": 0.16874735117429704,
+              "prediction_centered_rms": 0.16942166478965442,
+              "centered_fitted_amplitude": 0.994007525830097,
+              "centered_correlation": 0.9979795751912905,
+              "centered_fitted_relative_residual": 0.06353556091679075,
+              "centered_no_fit_relative_residual": 0.06381978385617752,
+              "centered_fitted_amplitude_jackknife_se": 0.002639726760323935,
+              "centered_correlation_jackknife_se": 9.15377175349163e-06,
+              "centered_fitted_relative_residual_jackknife_se": 0.00014380019973212873,
+              "centered_no_fit_relative_residual_jackknife_se": 0.00012652085358962504
+            },
+            "0p333333": {
+              "relative_weight": 0.3333333333333333,
+              "ed_mean": -0.006172839506172835,
+              "prediction_mean": 0.009077953065352782,
+              "ed_centered_rms": 0.16874735117429704,
+              "prediction_centered_rms": 0.1696831680925369,
+              "centered_fitted_amplitude": 0.9924499100087302,
+              "centered_correlation": 0.997953708496995,
+              "centered_fitted_relative_residual": 0.06394056378461646,
+              "centered_no_fit_relative_residual": 0.06438970071474587,
+              "centered_fitted_amplitude_jackknife_se": 0.002636891284044893,
+              "centered_correlation_jackknife_se": 7.84670034584097e-06,
+              "centered_fitted_relative_residual_jackknife_se": 0.00012247864461720106,
+              "centered_no_fit_relative_residual_jackknife_se": 0.0002093226134623471
+            }
+          }
+        }
+      }
+    }
+  }
+}

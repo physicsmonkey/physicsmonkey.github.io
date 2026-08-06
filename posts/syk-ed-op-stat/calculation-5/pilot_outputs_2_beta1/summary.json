@@ -1,0 +1,62 @@
+{
+  "n_majorana": 24,
+  "weight": 8,
+  "relative_weight": 0.3333333333333333,
+  "beta_j": 1.0,
+  "disorder_samples": 2,
+  "time_points": 5,
+  "seed": 20260730,
+  "compact_action_source": "loaded",
+  "compact_action_mib": 124.5234375,
+  "compact_action_seconds": 0.07229489900055341,
+  "ed_total_seconds": 67.55266804501298,
+  "mean_seconds_per_sample": 33.77627185849997,
+  "sample_timings": [
+    {
+      "diagonalization_seconds": 3.3067928420205135,
+      "background_transform_seconds": 0.35334103601053357,
+      "kernel_seconds": 1.2267773750063498,
+      "probe_transform_seconds": 26.87370403201203,
+      "trace_contraction_seconds": 2.757110368082067,
+      "hamiltonian_seconds": 0.6339537170133553,
+      "total_seconds": 35.17676119200769,
+      "peak_rss_mib": 887.6796875
+    },
+    {
+      "diagonalization_seconds": 3.5870873050007503,
+      "background_transform_seconds": 0.36922084901016206,
+      "kernel_seconds": 1.2603399380168412,
+      "probe_transform_seconds": 23.67161728910287,
+      "trace_contraction_seconds": 2.8127988549822476,
+      "hamiltonian_seconds": 0.6445069650071673,
+      "total_seconds": 32.375782524992246,
+      "peak_rss_mib": 887.6796875
+    }
+  ],
+  "peak_rss_mib": 887.6796875,
+  "denominator_mean_xa_squared": 0.4569792877436265,
+  "denominator_effective_sample_size": 1.8047339306008758,
+  "path_slices_coarse": 60,
+  "path_slices_fine": 120,
+  "saddle_seconds": 9.044286711985478,
+  "path_coarse_converged": true,
+  "path_fine_converged": true,
+  "inside_p": {
+    "relative_residual_all_entries": 0.006696075608511381,
+    "relative_residual_off_diagonal": 0.010119596543882817,
+    "off_diagonal_cosine_similarity": 0.9999796415274581,
+    "ed_contact_mean": -0.5,
+    "path_contact_mean": -0.4999827647004388,
+    "max_absolute_difference": 0.0035368637982597373,
+    "difference_to_jackknife_error_norm": 0.694174527628184
+  },
+  "outside_ap": {
+    "relative_residual_all_entries": 0.004175734294339206,
+    "relative_residual_off_diagonal": 0.004683738793032927,
+    "off_diagonal_cosine_similarity": 0.999999024758389,
+    "ed_contact_mean": -0.5,
+    "path_contact_mean": -0.5000036134315036,
+    "max_absolute_difference": 0.0031529117831752274,
+    "difference_to_jackknife_error_norm": 1.816318988156228
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "n_majorana": 20,
+  "weight": 5,
+  "sector": "inside",
+  "conditional_boundary_condition": "P",
+  "beta_j": 0.5,
+  "disorder_samples": 100,
+  "time_points": 9,
+  "path_slices_coarse": 90,
+  "path_slices_fine": 180,
+  "continuum_extrapolation": "2 G_(2L) - G_L",
+  "seed": 20260729,
+  "collision_replay_relative_error": 7.776320171091649e-15,
+  "groups": {
+    "sector_average": {
+      "indices_one_based": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "collision_coefficient_squared": 0.49999999999999994,
+      "denominator_mean": 13.449510900466903
+    },
+    "probe_5": {
+      "indices_one_based": [
+        5
+      ],
+      "collision_coefficient_squared": 0.4999999999999999,
+      "denominator_mean": 10.027568724372665
+    }
+  },
+  "path_cases": {
+    "0p25": {
+      "relative_weight": 0.25,
+      "coarse_iterations": 1683,
+      "coarse_converged": true,
+      "fine_iterations": 1536,
+      "fine_converged": true,
+      "groups": {
+        "sector_average": {
+          "relative_residual_all_entries": 0.0008197567136255701,
+          "relative_residual_away_from_collision": 0.0008249060468309078,
+          "cosine_similarity": 0.9999999690752984,
+          "difference_to_jackknife_error_norm": 0.6308211628944358,
+          "ed_collision_value": 0.5000000000000003,
+          "predicted_collision_value": 0.4999999999999999,
+          "max_absolute_difference": 0.0005538097195993963
+        },
+        "probe_5": {
+          "relative_residual_all_entries": 0.0018740615276767272,
+          "relative_residual_away_from_collision": 0.0018858945210277207,
+          "cosine_similarity": 0.9999998289262648,
+          "difference_to_jackknife_error_norm": 0.4752365520562163,
+          "ed_collision_value": 0.5000000000000029,
+          "predicted_collision_value": 0.4999999999999999,
+          "max_absolute_difference": 0.0013109642205446081
+        }
+      }
+    },
+    "0p2": {
+      "relative_weight": 0.2,
+      "coarse_iterations": 2128,
+      "coarse_converged": true,
+      "fine_iterations": 1938,
+      "fine_converged": true,
+      "groups": {
+        "sector_average": {
+          "relative_residual_all_entries": 0.0016117033356141883,
+          "relative_residual_away_from_collision": 0.001621827311868712,
+          "cosine_similarity": 0.9999998585405367,
+          "difference_to_jackknife_error_norm": 1.2402418370157648,
+          "ed_collision_value": 0.5000000000000003,
+          "predicted_collision_value": 0.4999999999999999,
+          "max_absolute_difference": 0.001144046218210737
+        },
+        "probe_5": {
+          "relative_residual_all_entries": 0.0010815839530224996,
+          "relative_residual_away_from_collision": 0.0010884131715596958,
+          "cosine_similarity": 0.9999999538340013,
+          "difference_to_jackknife_error_norm": 0.27427500164893787,
+          "ed_collision_value": 0.5000000000000029,
+          "predicted_collision_value": 0.4999999999999999,
+          "max_absolute_difference": 0.0007206273857289225
+        }
+      }
+    }
+  }
+}

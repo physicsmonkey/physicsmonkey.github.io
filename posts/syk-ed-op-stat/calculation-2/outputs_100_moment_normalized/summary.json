@@ -1,0 +1,77 @@
+{
+  "n_majorana": 20,
+  "weight": 3,
+  "sector": "outside",
+  "conditional_boundary_condition": "AP",
+  "beta_j": 0.5,
+  "disorder_samples": 100,
+  "time_points": 9,
+  "path_slices_coarse": 90,
+  "path_slices_fine": 180,
+  "continuum_extrapolation": "2 G_(2L) - G_L",
+  "seed": 20260729,
+  "collision_replay_relative_error": 4.989520979293295e-15,
+  "groups": {
+    "sector_average": {
+      "indices_one_based": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "collision_coefficient_squared": -0.4999999999999999,
+      "denominator_mean": 13.074665726659491
+    }
+  },
+  "path_cases": {
+    "0p15": {
+      "relative_weight": 0.15,
+      "coarse_iterations": 3549,
+      "coarse_converged": true,
+      "fine_iterations": 3223,
+      "fine_converged": true,
+      "groups": {
+        "sector_average": {
+          "relative_residual_all_entries": 0.04791843790922208,
+          "relative_residual_away_from_collision": 0.05070375093689322,
+          "cosine_similarity": 0.9988535948279945,
+          "difference_to_jackknife_error_norm": 1551.3001818384257,
+          "ed_collision_value": -0.5000000000000001,
+          "predicted_collision_value": -0.49999999999999994,
+          "max_absolute_difference": 0.014865963682239396
+        }
+      }
+    },
+    "0p2": {
+      "relative_weight": 0.2,
+      "coarse_iterations": 2128,
+      "coarse_converged": true,
+      "fine_iterations": 1938,
+      "fine_converged": true,
+      "groups": {
+        "sector_average": {
+          "relative_residual_all_entries": 0.05213442138395566,
+          "relative_residual_away_from_collision": 0.05516479318668261,
+          "cosine_similarity": 0.9986453895086204,
+          "difference_to_jackknife_error_norm": 1687.787434268733,
+          "ed_collision_value": -0.5000000000000001,
+          "predicted_collision_value": -0.4999999999999999,
+          "max_absolute_difference": 0.01619029968907209
+        }
+      }
+    }
+  }
+}

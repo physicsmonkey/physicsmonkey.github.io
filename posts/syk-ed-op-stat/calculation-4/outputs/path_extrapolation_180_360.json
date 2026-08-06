@@ -1,0 +1,20 @@
+{
+  "beta_j": 0.5,
+  "relative_weight": 0.2,
+  "coarse_length": 180,
+  "fine_length": 360,
+  "continuum_extrapolation": "2 G_360 - G_180",
+  "fine_iterations": 1748,
+  "fine_relative_update": 9.98446227782624e-09,
+  "fine_converged": true,
+  "inside_p": {
+    "ed_imaginary_fraction": 0.0,
+    "relative_residual_all_entries": 0.0004384624437125605,
+    "relative_residual_off_diagonal": 0.0005339544163464994,
+    "difference_to_standard_error_all_entries": 4.1138413992548335,
+    "off_diagonal_cosine_similarity": 0.9999999423161963,
+    "ed_contact_mean": -0.5,
+    "path_contact_mean": -0.499991189755037,
+    "max_absolute_difference": 0.0002299561817735718
+  }
+}

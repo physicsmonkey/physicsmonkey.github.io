@@ -1,0 +1,79 @@
+{
+  "n_majorana": 20,
+  "weight": 4,
+  "relative_weight": 0.2,
+  "beta_j": 0.5,
+  "disorder_samples": 24,
+  "time_points": 9,
+  "path_slices_coarse": 90,
+  "path_slices_fine": 180,
+  "continuum_extrapolation": "2 G_(2L) - G_L",
+  "seed": 20260729,
+  "path_coarse_iterations": 2128,
+  "path_coarse_relative_update": 9.9953261819285e-09,
+  "path_coarse_converged": true,
+  "path_fine_iterations": 1938,
+  "path_fine_relative_update": 9.990503719106051e-09,
+  "path_fine_converged": true,
+  "denominator_mean_xa_squared": 13.438367597877118,
+  "inside_p": {
+    "ed_imaginary_fraction": 0.0,
+    "relative_residual_all_entries": 0.0004341955095337996,
+    "relative_residual_off_diagonal": 0.0005287144185368372,
+    "difference_to_standard_error_all_entries": 4.073807205393548,
+    "off_diagonal_cosine_similarity": 0.9999999451497262,
+    "ed_contact_mean": -0.5,
+    "path_contact_mean": -0.4999916402368074,
+    "max_absolute_difference": 0.00022798734044970903
+  },
+  "inside_p_coarse": {
+    "ed_imaginary_fraction": 0.0,
+    "relative_residual_all_entries": 0.020587508197563612,
+    "relative_residual_off_diagonal": 0.02365501062006491,
+    "difference_to_standard_error_all_entries": 193.16077065464125,
+    "off_diagonal_cosine_similarity": 0.9997206513997823,
+    "ed_contact_mean": -0.5,
+    "path_contact_mean": -0.5059798384156988,
+    "max_absolute_difference": 0.006546891652065123
+  },
+  "inside_p_fine": {
+    "ed_imaginary_fraction": 0.0,
+    "relative_residual_all_entries": 0.010286494342674962,
+    "relative_residual_off_diagonal": 0.011820149858276754,
+    "difference_to_standard_error_all_entries": 96.51227120341083,
+    "off_diagonal_cosine_similarity": 0.9999302913277553,
+    "ed_contact_mean": -0.5,
+    "path_contact_mean": -0.502985739326253,
+    "max_absolute_difference": 0.0032737360903735135
+  },
+  "outside_ap": {
+    "ed_imaginary_fraction": 0.0,
+    "relative_residual_all_entries": 0.001466874042470694,
+    "relative_residual_off_diagonal": 0.0015562198036019675,
+    "difference_to_standard_error_all_entries": 1.6112189490229427,
+    "off_diagonal_cosine_similarity": 0.9999999049624352,
+    "ed_contact_mean": -0.5,
+    "path_contact_mean": -0.5000001324995176,
+    "max_absolute_difference": 0.0009912725576801673
+  },
+  "outside_ap_coarse": {
+    "ed_imaginary_fraction": 0.0,
+    "relative_residual_all_entries": 0.0014775496948440591,
+    "relative_residual_off_diagonal": 0.0015672553367519443,
+    "difference_to_standard_error_all_entries": 1.6229451183456853,
+    "off_diagonal_cosine_similarity": 0.9999999018866479,
+    "ed_contact_mean": -0.5,
+    "path_contact_mean": -0.5000087487135703,
+    "max_absolute_difference": 0.0010120295976618898
+  },
+  "outside_ap_fine": {
+    "ed_imaginary_fraction": 0.0,
+    "relative_residual_all_entries": 0.0014718438294647597,
+    "relative_residual_off_diagonal": 0.0015614183687516574,
+    "difference_to_standard_error_all_entries": 1.616677778305898,
+    "off_diagonal_cosine_similarity": 0.9999999039285737,
+    "ed_contact_mean": -0.5,
+    "path_contact_mean": -0.500004440606544,
+    "max_absolute_difference": 0.0010000744024260544
+  }
+}

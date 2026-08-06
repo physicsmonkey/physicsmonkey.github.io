@@ -1,0 +1,9 @@
+{
+  "n_majorana": 6,
+  "beta_j": 0.7,
+  "time_points": 4,
+  "x_a_max_error": 2.2652081847742004e-16,
+  "inside_surface_max_error": 7.222710579578653e-16,
+  "outside_surface_max_error": 5.553069435556069e-16,
+  "overall_max_error": 7.222710579578653e-16
+}
