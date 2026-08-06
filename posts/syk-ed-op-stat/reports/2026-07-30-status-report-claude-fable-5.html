@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+  <script>
+    window.addEventListener("load", function () {
+      document.querySelectorAll(".math").forEach(function (el) {
+        try {
+          katex.render(el.textContent, el, {
+            throwOnError: false,
+            displayMode: el.classList.contains("display"),
+          });
+        } catch (e) { console.error(e); }
+      });
+    });
+  </script>
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="javascript:history.back()" class="nav-name">← Back</a>
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/journal.html">Journal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-body" style="padding-top: 56px;">
+    <div class="container">
+      <div class="post-content">
+        <h1 style="font-size:1.6rem; margin-bottom: 1.2em;"></h1>
+        <h1 id="status-report-on-syk-ed-op-stat.md">Status report on
+        <code>syk-ed-op-stat.md</code></h1>
+        <blockquote>
+        <p>Claude Fable 5 (Anthropic), July 30, 2026. Prepared at the
+        author’s request as a status assessment with emphasis on the
+        meaning of the conditional P and AP propagators. Per
+        <code>journal.md</code>, this report does not modify the entry
+        or the calculations. The supporting scan in this folder
+        (<code>scan_quarter_product.py</code>,
+        <code>quarter_product_scan.json</code>) was run independently
+        for this report.</p>
+        </blockquote>
+        <h2 id="verification-of-quoted-results">1. Verification of
+        quoted results</h2>
+        <p>Every quantitative claim in the entry’s “Testing the
+        proposal” section was checked against the saved outputs in
+        calculations 1–3 and matches exactly:</p>
+        <ul>
+        <li>AP test (calculation 2, 100 samples, moment-normalized):
+        residual <span class="math inline">0.05070</span>, cosine <span
+        class="math inline">0.998854</span> at <span
+        class="math inline">w=3/20</span>; residual <span
+        class="math inline">0.05516</span> at <span
+        class="math inline">w=4/20</span>; ED collision value <span
+        class="math inline">-1/2</span> to machine precision.</li>
+        <li>P test (calculation 3): residual <span
+        class="math inline">8.25\times10^{-4}</span>, cosine <span
+        class="math inline">0.999999969</span> at <span
+        class="math inline">w=5/20</span>; <span
+        class="math inline">1.62\times10^{-3}</span> at <span
+        class="math inline">w=4/20</span>; difference norm below the
+        jackknife-error norm (<span class="math inline">0.631</span>);
+        collision <span class="math inline">+1/2</span> exact.</li>
+        <li>The figure paths referenced by the entry exist.</li>
+        </ul>
+        <p>Two provenance gaps:</p>
+        <ol type="1">
+        <li>The collision values <span class="math inline">G^{\mathrm
+        P}_{12}(0,0)=4.75227</span>, <span
+        class="math inline">G^{\mathrm{AP}}_{12}(0,0)=-0.052608</span>,
+        and the product <span
+        class="math inline">-0.250005\simeq-1/4</span> appear in the
+        entry but are produced by no script and recorded in no output in
+        any calculation folder. The scan in this folder independently
+        reproduces all three (at <span class="math inline">\beta
+        J=0.5</span>, <span class="math inline">w=0.2</span>: <span
+        class="math inline">4.752266</span>, <span
+        class="math inline">-0.052608</span>, <span
+        class="math inline">-0.250005</span>).</li>
+        <li>Calculation 4 — arguably the strongest evidence, a
+        parameter-free absolute-normalization test of the same-side
+        objects <span class="math inline">\mathcal C^{(s)}_{11}</span>
+        against <span class="math inline">G^{\mathrm{P/AP}}_{11}</span>
+        with residuals <span class="math inline">5.3\times10^{-4}</span>
+        (P) and <span class="math inline">1.6\times10^{-3}</span> (AP),
+        with the normalization <em>derived</em> from the
+        source-derivative identity <span class="math inline">\delta\log
+        M_A/\delta K_{11}</span> — is not mentioned in the entry.</li>
+        </ol>
+        <h2 id="independent-scan-of-the--14-product">2. Independent scan
+        of the <span class="math inline">-1/4</span> product</h2>
+        <p><code>scan_quarter_product.py</code> solves the connected
+        two-replica saddle over <span class="math inline">\beta
+        J\in\{0.25,0.5,1,2\}</span>, <span
+        class="math inline">w\in\{0.1,0.2,0.3\}</span> (same solver as
+        calculation 1; collision values Richardson-extrapolated from
+        aligned <span class="math inline">L_\tau=90,180</span>
+        lattices). Results in
+        <code>quarter_product_scan.json</code>:</p>
+        <table>
+        <colgroup>
+        <col style="width: 16%" />
+        <col style="width: 16%" />
+        <col style="width: 22%" />
+        <col style="width: 22%" />
+        <col style="width: 22%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th><span class="math inline">\beta J</span></th>
+        <th><span class="math inline">w</span></th>
+        <th style="text-align: right;"><span
+        class="math inline">G^{\mathrm P}_{12}(0,0)</span></th>
+        <th style="text-align: right;"><span
+        class="math inline">G^{\mathrm{AP}}_{12}(0,0)</span></th>
+        <th style="text-align: right;">product <span
+        class="math inline">+1/4</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td>0.25</td>
+        <td>0.1 / 0.2 / 0.3</td>
+        <td style="text-align: right;">11.267 / 6.696 / 4.938</td>
+        <td style="text-align: right;">−0.0222 / −0.0373 / −0.0506</td>
+        <td style="text-align: right;"><span
+        class="math inline">\approx-2\times10^{-6}</span></td>
+        </tr>
+        <tr class="even">
+        <td>0.50</td>
+        <td>0.2 / 0.3</td>
+        <td style="text-align: right;">4.752266 / 3.5010</td>
+        <td style="text-align: right;">−0.052608 / −0.071410</td>
+        <td style="text-align: right;"><span
+        class="math inline">-5\times10^{-6}</span></td>
+        </tr>
+        <tr class="odd">
+        <td>1.00</td>
+        <td>0.3</td>
+        <td style="text-align: right;">2.5007</td>
+        <td style="text-align: right;">−0.099990</td>
+        <td style="text-align: right;"><span
+        class="math inline">-4.3\times10^{-5}</span></td>
+        </tr>
+        </tbody>
+        </table>
+        <p>At the remaining scan points (<span
+        class="math inline">w=0.1</span> for <span
+        class="math inline">\beta J\ge0.5</span>; <span
+        class="math inline">w\le0.2</span> at <span
+        class="math inline">\beta J=1</span>; all of <span
+        class="math inline">\beta J=2</span>) the plain damped iteration
+        collapses to the replica-diagonal branch <span
+        class="math inline">G_{12}=0</span>, so the connected branch was
+        not reached; testing there requires continuation in <span
+        class="math inline">w</span> or <span class="math inline">\beta
+        J</span>.</p>
+        <p>Conclusion: the <span class="math inline">-1/4</span> product
+        is genuine on the reachable connected branch, but the deviation
+        grows steadily with coupling (about two orders of magnitude from
+        <span class="math inline">\beta J=0.25</span> to <span
+        class="math inline">1</span>). It is a leading-order identity,
+        not an exact one.</p>
+        <h2 id="mechanism-a-periodic-sector-grassmann-zero-mode">3.
+        Mechanism: a periodic-sector Grassmann zero mode</h2>
+        <p>The P kernel <span class="math inline">D^{\mathrm
+        P}-\Sigma</span> is singular as <span
+        class="math inline">\Sigma\to0</span>: each periodic replica
+        carries a fermionic zero mode <span
+        class="math inline">\theta_r</span>, and the only term pairing
+        <span class="math inline">(\theta_1,\theta_2)</span> is the
+        cross-replica self-energy. Integrating the pair out gives, at
+        leading order in <span class="math inline">\Sigma_{12}</span>,
+        <span class="math display">
+        G^{\mathrm
+        P}_{12}(0,0)\simeq\frac{1}{\iint\Sigma_{12}\,d\tau\,d\tau&#39;},
+        </span> while the AP off-diagonal has no zero mode and starts at
+        first order, <span class="math display">
+        G^{\mathrm{AP}}_{12}(0,0)
+        \simeq\big[G^{\mathrm{AP}}_{d}\star\Sigma_{12}\star
+        G^{\mathrm{AP}}_{d}\big](0,0)
+        \simeq-\frac{\beta^2}{4}\,\bar\sigma_{12},
+        </span> using <span class="math inline">\int_0^\beta
+        G_d(\tau,0)\,d\tau=\beta/2</span> for the nearly free diagonal
+        AP propagator and <span
+        class="math inline">\bar\sigma_{12}</span> the double-time
+        average of <span class="math inline">\Sigma_{12}</span>. Both
+        formulas were checked against the converged saddles in the scan:
+        the zero-mode formula reproduces <span
+        class="math inline">G^{\mathrm P}_{12}(0,0)</span> to 0.2–1.6%
+        across all points, and the first-order AP formula matches to
+        <span class="math inline">\sim10^{-4}</span> relative
+        (e.g. predicted <span class="math inline">-0.052614</span>
+        vs. actual <span class="math inline">-0.052608</span>). The
+        product cancels <span class="math inline">\Sigma_{12}</span>
+        exactly at this order: <span
+        class="math inline">\bigl(-\tfrac{\beta^2\bar\sigma}{4}\bigr)\cdot\tfrac{1}{\beta^2\bar\sigma}
+        =-\tfrac14</span>. Consequently the entry’s conjectured
+        normalization has a concrete identity: <span
+        class="math display">
+        \Lambda=2G^{\mathrm
+        P}_{12}(0,0)\simeq\frac{2}{\iint\Sigma_{12}},
+        </span> the inverse zero-mode pairing amplitude between the two
+        twisted (periodic) replicas — a boundary-state normalization in
+        exactly the sense the entry speculates.</p>
+        <p>The product is far more accurate than the individual
+        leading-order formulas (deviation <span
+        class="math inline">10^{-6}</span> where the zero-mode formula
+        errs at <span class="math inline">10^{-2}</span>), i.e. the
+        subleading corrections cancel. A likely structural reason: <span
+        class="math inline">D^{\mathrm{AP}}</span> and <span
+        class="math inline">D^{\mathrm P}</span> differ by a rank-one
+        corner update per replica, so the Woodbury identity expresses
+        the collision values of <span
+        class="math inline">G^{\mathrm{AP}}</span> exactly in terms of a
+        <span class="math inline">2\times2</span> replica matrix of
+        corner values of <span class="math inline">G^{\mathrm P}</span>.
+        Writing that matrix as <span
+        class="math inline">\begin{pmatrix}k&amp;m\\-m&amp;k\end{pmatrix}</span>
+        with <span class="math inline">m\sim G^{\mathrm
+        P}_{12}(0,0)</span> large, the expansion gives <span
+        class="math inline">G^{\mathrm{AP}}_{12}(0,0)=-c/G^{\mathrm
+        P}_{12}(0,0)</span> with <span
+        class="math inline">c\to1/4</span> as the equal-time contact
+        <span class="math inline">k\to-1/2</span>, and the deviation
+        from <span class="math inline">-1/4</span> controlled by the
+        <span class="math inline">O(\Sigma)</span> shift of the contact
+        — consistent with the observed growth in <span
+        class="math inline">\beta J</span>. This appears to be the
+        “determinant/Pfaffian/monodromy relation” the entry asks for,
+        and should be provable in a page.</p>
+        <h2
+        id="why-inside-leftrightarrow-p-and-outside-leftrightarrow-ap">4.
+        Why inside <span class="math inline">\leftrightarrow</span> P
+        and outside <span class="math inline">\leftrightarrow</span>
+        AP</h2>
+        <p>The dictionary follows from a one-line operator identity. For
+        <span
+        class="math inline">Y_{Ai}(\tau)=\operatorname{Tr}(e^{-\beta
+        H}\psi_i(\tau)\mu_A)</span>, <span class="math display">
+        Y_{Ai}(\beta)=\operatorname{Tr}(\psi_i e^{-\beta H}\mu_A)
+        =\operatorname{Tr}(e^{-\beta H}\mu_A\psi_i),
+        \qquad
+        \mu_A\psi_i=
+        \begin{cases}
+        (-1)^{|A|}\,\psi_i\mu_A,&amp;i\notin A,\\
+        (-1)^{|A|-1}\,\psi_i\mu_A,&amp;i\in A,
+        \end{cases}
+        </span> because <span class="math inline">\psi_i</span>
+        anticommutes with every distinct Majorana in <span
+        class="math inline">\mu_A</span> but commutes through its own
+        factor. For odd <span class="math inline">|A|</span> this gives
+        <span class="math inline">Y(\beta)=-Y(0)</span> outside (AP) and
+        <span class="math inline">Y(\beta)=+Y(0)</span> inside (P).</p>
+        <p>A tempting but incorrect argument runs: (i) the thermal trace
+        gives AP boundary conditions; (ii) transporting <span
+        class="math inline">\psi_i</span> (<span
+        class="math inline">i\notin A</span>) around the circle past the
+        odd string <span class="math inline">\mu_A</span> gives an extra
+        <span class="math inline">(-1)</span>; hence P for outside
+        probes. The flaw is in (i): KMS antiperiodicity is not a
+        property of the trace by itself. A lone fermion insertion in a
+        trace is <span class="math inline">\beta</span>-periodic —
+        cyclicity carries no sign. The familiar AP of <span
+        class="math inline">\langle T\psi(\tau)\psi(0)\rangle</span> is
+        itself the crossing sign past the <em>partner</em> insertion
+        <span class="math inline">\psi(0)</span>. In the cross-replica
+        object <span class="math inline">\mathbb
+        E_J[Y_{Ai}(\tau)Y_{Ai}(\tau&#39;)]</span> the partner lives on
+        the other replica circle and is never crossed, so the only
+        monodromy source is <span class="math inline">\mu_A</span>:
+        <span class="math inline">(-1)^{|A|}</span> outside, <span
+        class="math inline">(-1)^{|A|-1}</span> inside. Starting from an
+        AP baseline and then adding the <span
+        class="math inline">\mu_A</span> crossing double-counts.</p>
+        <p>In the flavor-factorized Gaussian (fixed-<span
+        class="math inline">\Sigma</span>) description the same rule
+        reads: spectator flavors decouple by Wick’s theorem, so
+        reordering <span class="math inline">\psi_i(\tau)</span> past
+        the other-flavor content of <span
+        class="math inline">\mu_A</span> costs a <span
+        class="math inline">\tau</span>-independent overall sign that
+        cannot affect the boundary condition; only same-flavor
+        insertions produce <span
+        class="math inline">\tau</span>-dependent signs. Each <span
+        class="math inline">\psi_i</span> insertion at a point is a
+        <span class="math inline">\mathbb Z_2</span> twist for flavor
+        <span class="math inline">i</span>’s kernel: an odd number of
+        <span class="math inline">\psi_i</span> insertions on the circle
+        flips AP to P. Outside probes see zero <span
+        class="math inline">\psi_i</span> insertions in <span
+        class="math inline">\mu_A</span> (AP); inside probes see one
+        (P). The count is uniform across the experiments: for the
+        even-<span class="math inline">|A|</span> same-side objects of
+        calculation 4 the probe pair <span
+        class="math inline">\psi_i(\tau)\psi_i(\tau&#39;)</span> sits on
+        one circle, contributing one crossing itself, again giving <span
+        class="math inline">i\in A\to</span> P, <span
+        class="math inline">i\notin A\to</span> AP.</p>
+        <h2 id="a-caution-on-the-entrys-framing">5. A caution on the
+        entry’s framing</h2>
+        <p>The P-sector agreement is described as “considerably
+        stronger” (<span class="math inline">8\times10^{-4}</span>
+        vs. <span class="math inline">5\times10^{-2}</span>).
+        Numerically true, but unequal: the P surface is dominated by the
+        normalization-protected zero-mode constant, which the moment
+        normalization fixes by construction. After centering, the P
+        shape residual is <span class="math inline">\sim\!4\%</span>
+        (calculation 3: <span
+        class="math inline">0.0406\pm0.0030</span>) — the same scale as
+        the AP sector’s <span class="math inline">5\%</span>. The honest
+        summary is that both sectors carry a comparable few-percent
+        finite-<span class="math inline">N</span> shape correction; the
+        P sector hides it under a large protected constant.</p>
+        <h2 id="textual-and-structural-items">6. Textual and structural
+        items</h2>
+        <ul>
+        <li>Line “sum over the remaining <span
+        class="math inline">N-W-1</span> fermions”: should be <span
+        class="math inline">N-W+1</span> (check: <span
+        class="math inline">N=20</span>, <span
+        class="math inline">W=4</span> gives <span
+        class="math inline">17</span> probes, as used in calculation
+        2).</li>
+        <li>“the specific example of <span
+        class="math inline">A=\{1,2,3,5\}</span>”: the example set up in
+        the text was <span
+        class="math inline">A=\{1,2,3,4\}</span>.</li>
+        <li><code>\sum_{ i in (A \cup 5)}</code>: <code>in</code> should
+        be <code>\in</code>.</li>
+        <li>“symmetries that constraint” → “constrain”; “there are
+        strong discrete since every odd weight vanishes” is missing a
+        noun.</li>
+        <li>Header placeholders (Confidence, Reports, Acknowledgements)
+        are unfilled.</li>
+        <li>Byline says “Codex with GPT 5.6”; the section footer and
+        calculation readmes say “Codex (GPT-5)”.</li>
+        </ul>
+        <h2 id="suggested-next-steps">7. Suggested next steps</h2>
+        <ol type="1">
+        <li>Add calculation 4 to the entry; its source-derivative
+        normalization argument partially supplies the missing derivation
+        of the dictionary.</li>
+        <li>Record provenance for the collision values and the <span
+        class="math inline">-1/4</span> product (the scan in this folder
+        can be promoted to a calculation).</li>
+        <li>Derive the finite-<span class="math inline">L</span>
+        Woodbury/monodromy relation of section 3 to make the <span
+        class="math inline">-1/4</span> statement and its corrections
+        exact.</li>
+        <li>To test persistence at stronger coupling, add
+        continuation/annealing to the saddle iteration so the connected
+        branch is reachable at <span class="math inline">\beta
+        J\gtrsim1</span> and small <span
+        class="math inline">w</span>.</li>
+        </ol>
+      </div>
+      <div class="post-footer">
+        <a href="javascript:history.back()" class="btn btn-outline">← Back</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/journal.html">Journal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>

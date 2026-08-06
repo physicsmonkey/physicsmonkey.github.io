@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+  <script>
+    window.addEventListener("load", function () {
+      document.querySelectorAll(".math").forEach(function (el) {
+        try {
+          katex.render(el.textContent, el, {
+            throwOnError: false,
+            displayMode: el.classList.contains("display"),
+          });
+        } catch (e) { console.error(e); }
+      });
+    });
+  </script>
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="javascript:history.back()" class="nav-name">← Back</a>
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/journal.html">Journal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-body" style="padding-top: 56px;">
+    <div class="container">
+      <div class="post-content">
+        <h1 style="font-size:1.6rem; margin-bottom: 1.2em;"></h1>
+        <h1
+        id="calculation-5-larger-n-larger-weight-same-side-comparison">Calculation
+        5: larger-<span class="math inline">N</span>, larger-weight
+        same-side comparison</h1>
+        <p>This calculation implements the proposed extension of
+        calculation 4 to</p>
+        <p><span class="math display">
+        N=24,\qquad A=\{1,\ldots,8\},\qquad w=8/24=1/3.
+        </span></p>
+        <p>The observable and normalization are unchanged:</p>
+        <p><span class="math display">
+        \mathcal C^{(s)}_{11}(\tau,\tau&#39;)
+        =
+        \frac{\mathbb E_J[
+        X^{(11)}_{A;i}(\tau,\tau&#39;)X_A]}
+        {\mathbb E_J[X_A^2]},
+        </span></p>
+        <p>with <span class="math inline">i\in A</span> compared
+        directly to <span class="math inline">G^{\rm P}_{11}</span> and
+        <span class="math inline">i\notin A</span> compared directly to
+        <span class="math inline">G^{\rm AP}_{11}</span>.</p>
+        <p><code>compare_large_same_side.py</code> replaces the
+        memory-heavy Hamiltonian action tables by compact permutation
+        and phase-code arrays and consumes exact-trace intermediates one
+        time separation at a time. Its default four-sample,
+        five-time-point run is a timing and memory pilot, not a
+        production statistics result.</p>
+        <p>The compact <span class="math inline">N=24</span> action
+        table occupies 124.5 MiB, compared with roughly 1 GiB for the
+        original Python representation. It is cached in
+        <code>/tmp</code> by default so that a generated file above
+        GitHub’s ordinary size limit is not placed in the journal
+        repository. Building it takes 12.1 seconds and loading it takes
+        about 0.07 seconds.</p>
+        <p>Run the pilot from this directory with</p>
+        <div class="sourceCode" id="cb1"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> compare_large_same_side.py <span class="at">--validate-compact</span></span></code></pre></div>
+        <p>For an ED-only benchmark, add <code>--skip-saddle</code>.</p>
+        <h2 id="validation">Validation</h2>
+        <p>At <span class="math inline">N=10</span>, the compact
+        Hamiltonian is identical to the original constructor to machine
+        precision. The streaming and calculation-4 trace surfaces agree
+        with maximum error <span
+        class="math inline">3.1\times10^{-16}</span>. These checks,
+        together with the small-<span class="math inline">N</span>
+        cross-replica evaluator check, are collected by
+        <code>validate_implementations.py</code> and recorded in
+        <code>validation.json</code>.</p>
+        <h2 id="timing-pilot">Timing pilot</h2>
+        <p>The pilot used 16 OpenBLAS threads on a 32-logical-core host
+        with 15 GiB RAM.</p>
+        <table>
+        <colgroup>
+        <col style="width: 15%" />
+        <col style="width: 21%" />
+        <col style="width: 21%" />
+        <col style="width: 21%" />
+        <col style="width: 21%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th>parameters</th>
+        <th style="text-align: right;">samples</th>
+        <th style="text-align: right;">ED seconds/sample</th>
+        <th style="text-align: right;">both saddles</th>
+        <th style="text-align: right;">peak RSS</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td><span class="math inline">\beta J=0.5</span>, five times,
+        <span class="math inline">L_\tau=60,120</span></td>
+        <td style="text-align: right;">2</td>
+        <td style="text-align: right;">31.5</td>
+        <td style="text-align: right;">3.1 s</td>
+        <td style="text-align: right;">888 MiB</td>
+        </tr>
+        <tr class="even">
+        <td><span class="math inline">\beta J=1</span>, five times,
+        <span class="math inline">L_\tau=60,120</span></td>
+        <td style="text-align: right;">2</td>
+        <td style="text-align: right;">33.8</td>
+        <td style="text-align: right;">9.0 s</td>
+        <td style="text-align: right;">888 MiB</td>
+        </tr>
+        </tbody>
+        </table>
+        <p>The measured stage costs predicted approximately 62–68
+        seconds per sample for nine ED times. Memory was not a limiting
+        factor.</p>
+        <p>The two-sample results are only smoke tests, not estimates of
+        the final finite-<span class="math inline">N</span>
+        discrepancies. Nevertheless, both comparisons already have the
+        right normalization and shape:</p>
+        <table>
+        <colgroup>
+        <col style="width: 20%" />
+        <col style="width: 26%" />
+        <col style="width: 26%" />
+        <col style="width: 26%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th><span class="math inline">\beta J</span></th>
+        <th style="text-align: right;">P off-diagonal residual</th>
+        <th style="text-align: right;">AP off-diagonal residual</th>
+        <th style="text-align: right;">denominator ESS</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td>0.5</td>
+        <td style="text-align: right;"><span
+        class="math inline">4.86\times10^{-3}</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">2.82\times10^{-3}</span></td>
+        <td style="text-align: right;">1.75 / 2</td>
+        </tr>
+        <tr class="even">
+        <td>1</td>
+        <td style="text-align: right;"><span
+        class="math inline">1.01\times10^{-2}</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">4.68\times10^{-3}</span></td>
+        <td style="text-align: right;">1.80 / 2</td>
+        </tr>
+        </tbody>
+        </table>
+        <p>The preliminary difference/error norms are below one for P
+        and about 1.8 for AP, but a two-sample jackknife is not
+        quantitatively meaningful.</p>
+        <p>Outputs are in <code>pilot_outputs_2/</code> and
+        <code>pilot_outputs_2_beta1/</code>. The three-time-point safety
+        run is retained in <code>pilot_outputs_safety/</code>.</p>
+        <h2 id="sixteen-sample-comparison">Sixteen-sample
+        comparison</h2>
+        <p>The production calculation used 16 disorder samples, nine
+        equally spaced times, and saddle grids <span
+        class="math inline">L_\tau=90,180</span> at each of <span
+        class="math inline">\beta J=0.5</span> and 1. The same disorder
+        seed was used at the two temperatures. The reported saddle
+        object is the linear continuum estimate</p>
+        <p><span class="math display">
+        G_{\rm ext}=2G_{L_\tau=180}-G_{L_\tau=90}.
+        </span></p>
+        <p>Both grid solves converged. The normalized ED surfaces
+        require no fitted scale, offset, or shape parameters:</p>
+        <table>
+        <colgroup>
+        <col style="width: 16%" />
+        <col style="width: 16%" />
+        <col style="width: 22%" />
+        <col style="width: 22%" />
+        <col style="width: 22%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th><span class="math inline">\beta J</span></th>
+        <th>sector</th>
+        <th style="text-align: right;">off-diagonal residual</th>
+        <th style="text-align: right;">cosine similarity</th>
+        <th style="text-align: right;">difference/error norm</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td>0.5</td>
+        <td>P, <span class="math inline">i\in A</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">1.52\times10^{-3}</span></td>
+        <td style="text-align: right;">0.9999989</td>
+        <td style="text-align: right;">1.04</td>
+        </tr>
+        <tr class="even">
+        <td>0.5</td>
+        <td>AP, <span class="math inline">i\notin A</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">3.37\times10^{-4}</span></td>
+        <td style="text-align: right;">0.99999996</td>
+        <td style="text-align: right;">0.24</td>
+        </tr>
+        <tr class="odd">
+        <td>1</td>
+        <td>P, <span class="math inline">i\in A</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">2.80\times10^{-3}</span></td>
+        <td style="text-align: right;">0.9999961</td>
+        <td style="text-align: right;">0.95</td>
+        </tr>
+        <tr class="even">
+        <td>1</td>
+        <td>AP, <span class="math inline">i\notin A</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">5.21\times10^{-4}</span></td>
+        <td style="text-align: right;">0.99999987</td>
+        <td style="text-align: right;">0.19</td>
+        </tr>
+        </tbody>
+        </table>
+        <p>Here the residual, with the contact diagonal omitted, is</p>
+        <p><span class="math display">
+        \frac{\lVert\mathcal C_{11}-G_{\rm ext}\rVert}
+        {\lVert G_{\rm ext}\rVert}.
+        </span></p>
+        <p>The last column is the norm of the difference divided by the
+        norm of the delete-one jackknife error surface. The denominator
+        effective sample sizes are 7.25 of 16 at <span
+        class="math inline">\beta J=0.5</span> and 7.32 of 16 at <span
+        class="math inline">\beta J=1</span>.</p>
+        <p>The P saddle has the larger grid dependence: the off-diagonal
+        relative change from <span class="math inline">L_\tau=90</span>
+        to 180 is <span class="math inline">6.47\times10^{-3}</span> at
+        <span class="math inline">\beta J=0.5</span> and <span
+        class="math inline">1.78\times10^{-2}</span> at <span
+        class="math inline">\beta J=1</span>. The corresponding AP
+        changes are only <span
+        class="math inline">4.03\times10^{-5}</span> and <span
+        class="math inline">2.51\times10^{-4}</span>. Thus the continuum
+        extrapolation is important for the P comparison.</p>
+        <p>Running the two temperatures concurrently took 21 minutes 51
+        seconds of wall time, averaging 77.9 and 77.0 seconds per
+        sample, respectively. Each process peaked at 888 MiB RSS.</p>
+        <p>The production command at each temperature was:</p>
+        <div class="sourceCode" id="cb2"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">OPENBLAS_NUM_THREADS</span><span class="op">=</span>16 <span class="ex">python3</span> compare_large_same_side.py <span class="dt">\</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--samples</span> 16 <span class="at">--time-points</span> 9 <span class="at">--path-slices</span> 90 <span class="dt">\</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--beta</span> 0.5 <span class="at">--outdir</span> outputs_16_beta0p5</span></code></pre></div>
+        <p>Replacing <code>--beta 0.5</code> and the output directory
+        gives the <span class="math inline">\beta J=1</span> run. The
+        complete outputs are in <code>outputs_16_beta0p5/</code> and
+        <code>outputs_16_beta1/</code>.</p>
+        <p>Status: implemented, validated, and run by Codex (GPT 5.6
+        Sol), July 30, 2026.</p>
+        <h2 id="cross-replica-components">Cross-replica components</h2>
+        <p>The same stress test can be extended to <span
+        class="math inline">G_{12}</span>, but not by inserting a single
+        probe into the even <span class="math inline">W=8</span> trace:
+        that trace would have odd fermion parity and vanish. Instead,
+        <code>compare_large_cross_replica.py</code> uses the neighboring
+        odd backgrounds</p>
+        <p><span class="math display">
+        A_- = \{1,\ldots,7\},\quad i\notin A_- \quad(\mathrm{AP}),
+        \qquad
+        A_+ = \{1,\ldots,9\},\quad i\in A_+ \quad(\mathrm P).
+        </span></p>
+        <p>At a probe collision, both cases reduce to even strings of
+        weight eight. The moment-normalized comparisons are
+        therefore</p>
+        <p><span class="math display">
+        \mathcal C^{\mathrm{AP}}_{12}
+        =\frac{\frac1{17}\sum_{i\notin A_-}\mathbb
+        E[Y_{A_-i}(\tau)Y_{A_-i}(\tau&#39;)]}
+        {\frac1{17}\sum_{i\notin A_-}\mathbb E[X_{A_-\cup\{i\}}^2]}
+        \stackrel{?}{=}-\frac12\frac{G^{\mathrm{AP}}_{12}(\tau,\tau&#39;)}
+        {G^{\mathrm{AP}}_{12}(0,0)},
+        </span></p>
+        <p><span class="math display">
+        \mathcal C^{\mathrm P}_{12}
+        =\frac{\frac1{9}\sum_{i\in A_+}\mathbb
+        E[Y_{A_+i}(\tau)Y_{A_+i}(\tau&#39;)]}
+        {\frac1{9}\sum_{i\in A_+}\mathbb E[X_{A_+\setminus\{i\}}^2]}
+        \stackrel{?}{=}+\frac12\frac{G^{\mathrm P}_{12}(\tau,\tau&#39;)}
+        {G^{\mathrm P}_{12}(0,0)}.
+        </span></p>
+        <p>There is no fitted amplitude, offset, or time shift. The
+        production run used the same <span
+        class="math inline">N=24</span>, 16 disorder samples, nine
+        times, and <span class="math inline">L_\tau=90,180</span>
+        continuum extrapolation as the <span
+        class="math inline">G_{11}</span> test. Each Hamiltonian
+        eigensystem was reused for both odd backgrounds and both
+        temperatures.</p>
+        <p>At the common target saddle weight <span
+        class="math inline">w=8/24</span>, the results are</p>
+        <table>
+        <colgroup>
+        <col style="width: 16%" />
+        <col style="width: 16%" />
+        <col style="width: 22%" />
+        <col style="width: 22%" />
+        <col style="width: 22%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th><span class="math inline">\beta J</span></th>
+        <th>component</th>
+        <th style="text-align: right;">residual away from collision</th>
+        <th style="text-align: right;">cosine similarity</th>
+        <th style="text-align: right;">difference/error norm</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td>0.5</td>
+        <td><span class="math inline">G^{\mathrm P}_{12}</span>, <span
+        class="math inline">W=9</span> inside probes</td>
+        <td style="text-align: right;"><span
+        class="math inline">2.81\times10^{-3}</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.99999960</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.55</span></td>
+        </tr>
+        <tr class="even">
+        <td>0.5</td>
+        <td><span class="math inline">G^{\mathrm{AP}}_{12}</span>, <span
+        class="math inline">W=7</span> outside probes</td>
+        <td style="text-align: right;"><span
+        class="math inline">5.93\times10^{-2}</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.998430</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">35.83</span></td>
+        </tr>
+        <tr class="odd">
+        <td>1</td>
+        <td><span class="math inline">G^{\mathrm P}_{12}</span>, <span
+        class="math inline">W=9</span> inside probes</td>
+        <td style="text-align: right;"><span
+        class="math inline">5.40\times10^{-3}</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.99999850</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.52</span></td>
+        </tr>
+        <tr class="even">
+        <td>1</td>
+        <td><span class="math inline">G^{\mathrm{AP}}_{12}</span>, <span
+        class="math inline">W=7</span> outside probes</td>
+        <td style="text-align: right;"><span
+        class="math inline">1.174\times10^{-1}</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.993910</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">36.07</span></td>
+        </tr>
+        </tbody>
+        </table>
+        <p>Thus the normalized P component agrees at the sub-percent
+        level, and its difference is smaller than the pointwise
+        jackknife-error norm. As the centered analysis below shows, this
+        statement is dominated by the protected periodic constant and
+        does not resolve the smaller time-dependent shape. The AP
+        component captures the sign-changing structure but retains a
+        smooth, statistically decisive discrepancy that roughly doubles
+        when <span class="math inline">\beta J</span> is doubled. Using
+        the literal background weights changes little: the P residuals
+        become <span class="math inline">0.240\%</span> and <span
+        class="math inline">0.387\%</span> at <span
+        class="math inline">w=9/24</span>, while the AP residuals become
+        <span class="math inline">5.89\%</span> and <span
+        class="math inline">11.64\%</span> at <span
+        class="math inline">w=7/24</span>.</p>
+        <p>The evaluator was checked directly against the original
+        dense-thermal-kernel trace routine at <span
+        class="math inline">N=8</span>, with maximum error <span
+        class="math inline">9.5\times10^{-16}</span>. The 16-sample ED
+        portion took 235 seconds in total (14.7 seconds per sample) and
+        peaked at 888 MiB RSS. Run it with</p>
+        <div class="sourceCode" id="cb3"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">OPENBLAS_NUM_THREADS</span><span class="op">=</span>16 <span class="ex">python3</span> compare_large_cross_replica.py <span class="dt">\</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--validate</span> <span class="at">--samples</span> 16 <span class="at">--outdir</span> cross_replica_outputs_16</span></code></pre></div>
+        <p>Numerical arrays and diagnostics are in
+        <code>cross_replica_outputs_16/</code>.</p>
+        <h2 id="seeing-the-agreement-directly">Seeing the agreement
+        directly</h2>
+        <p>Cosine similarities close to one are not very discriminating
+        here, because the contact normalization and the dominant
+        constant or sign-changing shape can overwhelm a smooth
+        correction. <code>plot_component_agreement.py</code> therefore
+        puts all four conditional components on the same three
+        diagnostics:</p>
+        <ol type="1">
+        <li>an ED-versus-saddle parity plot with the identity line and a
+        one-percent band;</li>
+        <li>the difference surface as a percentage of the peak saddle
+        signal;</li>
+        <li>the pointwise difference in units of the jackknife standard
+        error, clipped at <span class="math inline">\pm5</span> for
+        readability.</li>
+        </ol>
+        <p>The last panel is not a <span
+        class="math inline">\chi^2</span> map—the time points are
+        strongly correlated—but it cleanly separates a small noisy
+        difference from a coherent one. The dashboards are in
+        <code>component_diagnostics/</code> and can be regenerated
+        with</p>
+        <div class="sourceCode" id="cb4"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> plot_component_agreement.py</span></code></pre></div>
+        <figure>
+        <img src="component_diagnostics/component_agreement_beta0p5.png"
+        alt="Direct component diagnostics at \beta J=0.5." />
+        <figcaption aria-hidden="true">Direct component diagnostics at
+        <span class="math inline">\beta J=0.5</span>.</figcaption>
+        </figure>
+        <figure>
+        <img src="component_diagnostics/component_agreement_beta1.png"
+        alt="Direct component diagnostics at \beta J=1." />
+        <figcaption aria-hidden="true">Direct component diagnostics at
+        <span class="math inline">\beta J=1</span>.</figcaption>
+        </figure>
+        <p>Cross-replica extension and component diagnostics added
+        August 3, 2026.</p>
+        <h2 id="centered-cross-replica-shapes">Centered cross-replica
+        shapes</h2>
+        <p>The full-surface P residuals above are dominated by the
+        nearly constant periodic zero-mode contribution, whose collision
+        normalization is fixed by construction.
+        <code>analyze_cross_replica_shapes.py</code> therefore subtracts
+        the mean of each ED and saddle surface, fits one amplitude to
+        the remaining shape, and reports a centered residual and
+        correlation. Delete-one-sample jackknife errors are applied to
+        these global scalar metrics, preserving the correlations among
+        all 81 time-point pairs.</p>
+        <p>At the common target weight <span
+        class="math inline">w=8/24</span> the results are</p>
+        <table>
+        <colgroup>
+        <col style="width: 16%" />
+        <col style="width: 16%" />
+        <col style="width: 22%" />
+        <col style="width: 22%" />
+        <col style="width: 22%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th><span class="math inline">\beta J</span></th>
+        <th>sector</th>
+        <th style="text-align: right;">fitted centered amplitude</th>
+        <th style="text-align: right;">centered correlation</th>
+        <th style="text-align: right;">fitted centered residual</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td>0.5</td>
+        <td>P</td>
+        <td style="text-align: right;"><span
+        class="math inline">0.226\pm1.432</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.957\pm2.847</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.290\pm1.115</span></td>
+        </tr>
+        <tr class="even">
+        <td>0.5</td>
+        <td>AP</td>
+        <td style="text-align: right;"><span
+        class="math inline">0.99776\pm0.00135</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.9994695\pm0.0000023</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.032570\pm0.000072</span></td>
+        </tr>
+        <tr class="odd">
+        <td>1</td>
+        <td>P</td>
+        <td style="text-align: right;"><span
+        class="math inline">0.619\pm0.741</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.9978\pm0.0795</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.0661\pm0.3470</span></td>
+        </tr>
+        <tr class="even">
+        <td>1</td>
+        <td>AP</td>
+        <td style="text-align: right;"><span
+        class="math inline">0.99245\pm0.00264</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.9979537\pm0.0000078</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.063941\pm0.000122</span></td>
+        </tr>
+        </tbody>
+        </table>
+        <p>The large P jackknife errors are the result: with 16 samples
+        its small time-dependent component is not resolved, so the
+        sub-percent uncentered P agreement tests the protected constant
+        but not the detailed shape. The AP shape is well resolved and
+        differs coherently from the saddle by <span
+        class="math inline">3.26\%</span> at <span
+        class="math inline">\beta J=0.5</span> and <span
+        class="math inline">6.39\%</span> at <span
+        class="math inline">\beta J=1</span> even after allowing a
+        fitted amplitude.</p>
+        <p>A full covariance-aware surface <span
+        class="math inline">\chi^2</span> is not possible with these
+        data: an 81-entry surface estimated from 16 samples has
+        covariance rank at most 15. The correlated scalar jackknife is
+        reported instead, without assigning a <span
+        class="math inline">p</span>-value. Run the postprocessor
+        with</p>
+        <div class="sourceCode" id="cb5"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> analyze_cross_replica_shapes.py</span></code></pre></div>
+        <p>The complete literal- and common-weight results are in
+        <code>cross_replica_outputs_16/shape_diagnostics.json</code>.</p>
+        <p>Centered-shape analysis added by Codex (GPT 5.6 Sol) on
+        August 3, 2026; the entry was updated with the result.</p>
+      </div>
+      <div class="post-footer">
+        <a href="javascript:history.back()" class="btn btn-outline">← Back</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/journal.html">Journal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>

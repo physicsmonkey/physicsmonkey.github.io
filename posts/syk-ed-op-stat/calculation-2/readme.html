@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+  <script>
+    window.addEventListener("load", function () {
+      document.querySelectorAll(".math").forEach(function (el) {
+        try {
+          katex.render(el.textContent, el, {
+            throwOnError: false,
+            displayMode: el.classList.contains("display"),
+          });
+        } catch (e) { console.error(e); }
+      });
+    });
+  </script>
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="javascript:history.back()" class="nav-name">← Back</a>
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/journal.html">Journal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-body" style="padding-top: 56px;">
+    <div class="container">
+      <div class="post-content">
+        <h1 style="font-size:1.6rem; margin-bottom: 1.2em;"></h1>
+        <h1
+        id="calculation-2-outside-fermions-versus-the-ap-propagator">Calculation
+        2: outside fermions versus the AP propagator</h1>
+        <p>This calculation refines calculation 1 by resolving both
+        sides of the proposed dictionary into boundary-condition
+        sectors. It compares <span class="math display">
+        C_{\mathrm{out}}(\tau,\tau&#39;)
+        =\frac{1}{N-W}\sum_{i\notin A}\mathbb E_J[
+        \zeta_{Ai}(\tau)\zeta_{Ai}(\tau&#39;)]
+        </span> with the conditional antiperiodic propagator <span
+        class="math inline">G^{\mathrm{AP}}_{12}</span>.</p>
+        <p>At the self-consistent connected saddle, <span
+        class="math display">
+        G^{\mathrm P}
+        =-\left(D_{\mathrm P}-\Delta\tau^2\Sigma\right)^{-T},
+        \qquad
+        G^{\mathrm{AP}}
+        =-\left(D_{\mathrm{AP}}-\Delta\tau^2\Sigma\right)^{-T},
+        </span> and the original saddle field is recovered as <span
+        class="math inline">G=wG^{\mathrm
+        P}+(1-w)G^{\mathrm{AP}}</span>. The conditional propagators
+        share the same <span class="math inline">\Sigma=J^2G^3</span>
+        and are not independently extremized.</p>
+        <p><code>compare_outside_ap.py</code> reads the raw <span
+        class="math inline">\zeta</span> samples and converged saddle
+        from calculation 1, reconstructs both conditional propagators,
+        checks their weighted recombination, and makes the
+        sector-resolved comparison. Run it from this directory with</p>
+        <div class="sourceCode" id="cb1"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> compare_outside_ap.py <span class="at">--outdir</span> outputs</span></code></pre></div>
+        <p>To recompute the conditional AP object from a connected
+        saddle at a specified relative weight, use for example</p>
+        <div class="sourceCode" id="cb2"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> compare_outside_ap.py <span class="at">--path-weight</span> 0.20 <span class="at">--outdir</span> outputs_w0p20</span></code></pre></div>
+        <h2 id="initial-24-sample-result">Initial 24-sample result</h2>
+        <p>For <span class="math inline">N=20</span>, <span
+        class="math inline">A=\{1,2,3\}</span>, <span
+        class="math inline">\beta J=0.5</span>, 24 disorder samples,
+        nine time points, and an 80-slice saddle:</p>
+        <ul>
+        <li>A raw one-amplitude fit of <span
+        class="math inline">G^{\mathrm{AP}}_{12}</span> to <span
+        class="math inline">C_{\mathrm{out}}</span> has cosine
+        similarity <span class="math inline">0.99822</span> and relative
+        residual <span class="math inline">0.0596</span>.</li>
+        <li>Normalizing both objects at <span
+        class="math inline">\tau=\tau&#39;=0</span> gives cosine
+        similarity <span class="math inline">0.99822</span> and relative
+        residual <span class="math inline">0.0602</span>.</li>
+        <li>After subtracting the two time averages, the shape
+        correlation is <span class="math inline">0.99938</span> and the
+        relative residual is <span
+        class="math inline">0.0351</span>.</li>
+        <li>The weighted P/AP reconstruction of the saved saddle has
+        relative error <span
+        class="math inline">9.97\times10^{-7}</span>, consistent with
+        the saddle iteration tolerance.</li>
+        </ul>
+        <p>The figure is <code>outputs/outside_ap_comparison.png</code>,
+        numerical arrays are in
+        <code>outputs/outside_ap_data.npz</code>, and scalar diagnostics
+        are in <code>outputs/summary.json</code>.</p>
+        <p>This sector-resolved comparison is substantially stronger
+        than the original comparison with the weighted <span
+        class="math inline">G_{12}</span>. It shows that the
+        time-independent mismatch comes from the periodic sector, while
+        the AP object directly captures the ED correlator for <span
+        class="math inline">i\notin A</span>.</p>
+        <h2 id="sample-run-and-common-weight-check">100-sample run and
+        common-weight check</h2>
+        <p>The higher-statistics ED source data are in
+        <code>ed_inputs_100/</code>. They were generated with</p>
+        <div class="sourceCode" id="cb3"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> ../calculation-1/compare_ed_path_integral.py <span class="dt">\</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--samples</span> 100 <span class="at">--outdir</span> ed_inputs_100</span></code></pre></div>
+        <p>The literal-background and common-net-weight comparisons are
+        respectively</p>
+        <div class="sourceCode" id="cb4"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> compare_outside_ap.py <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input</span> ed_inputs_100/comparison_data.npz <span class="dt">\</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--outdir</span> outputs_100_w0p15</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> compare_outside_ap.py <span class="dt">\</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input</span> ed_inputs_100/comparison_data.npz <span class="dt">\</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--path-weight</span> 0.20 <span class="at">--outdir</span> outputs_100_w0p20</span></code></pre></div>
+        <p>The results are</p>
+        <table>
+        <colgroup>
+        <col style="width: 15%" />
+        <col style="width: 21%" />
+        <col style="width: 21%" />
+        <col style="width: 21%" />
+        <col style="width: 21%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th>path weight</th>
+        <th style="text-align: right;">raw residual</th>
+        <th style="text-align: right;">origin-normalized residual</th>
+        <th style="text-align: right;">centered correlation</th>
+        <th style="text-align: right;">centered residual</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td><span class="math inline">w=3/20</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.05962</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.06025</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.999384</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.03511</span></td>
+        </tr>
+        <tr class="even">
+        <td><span class="math inline">w=4/20</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.06325</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.06400</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.999337</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.03640</span></td>
+        </tr>
+        </tbody>
+        </table>
+        <p>The central values are unchanged from 24 samples. Jackknife
+        errors on the shape metrics are only a few parts in <span
+        class="math inline">10^6</span>, because at this temperature the
+        normalized ED time dependence is nearly sample-independent;
+        disorder mainly changes its overall amplitude. The remaining
+        few-percent difference is therefore a small systematic shape
+        mismatch rather than sampling noise.</p>
+        <p>Using the common net weight <span
+        class="math inline">w=4/20</span> remains a useful finite-<span
+        class="math inline">N</span> control, but the literal background
+        weight <span class="math inline">w=3/20</span> gives a slightly
+        better AP comparison.</p>
+        <h2 id="annealed-moment-normalization">Annealed moment
+        normalization</h2>
+        <p>There is a small but essential adjustment to the literal
+        proposal to divide by <span class="math inline">\mathbb
+        E[X_A^2]</span>. Here <span class="math inline">|A|=3</span> is
+        odd, so <span
+        class="math inline">X_A=\operatorname{Tr}(e^{-\beta
+        H}\mu_A)</span> vanishes identically. For each outside probe the
+        collision instead produces the even string <span
+        class="math display">
+        B_i=A\cup\{i\},\qquad
+        \psi_i\mu_A=c_i\mu_{B_i},\qquad c_i^2=-\frac12.
+        </span> The normalization-fixed observable and prediction are
+        therefore <span class="math display">
+        \mathcal C_{\mathrm{out}}(\tau,\tau&#39;)
+        =\frac{\frac1{N-W}\sum_{i\notin A}
+        \mathbb E_J[Y_{Ai}(\tau)Y_{Ai}(\tau&#39;)]}
+        {\frac1{N-W}\sum_{i\notin A}\mathbb E_J[X_{B_i}^2]},
+        \qquad
+        \mathcal C_{\mathrm{out}}\stackrel{?}{=}
+        -\frac12\frac{G^{\mathrm{AP}}_{12}(\tau,\tau&#39;)}
+        {G^{\mathrm{AP}}_{12}(0,0)},
+        </span> where <span
+        class="math inline">Y_{Ai}=\operatorname{Tr}(e^{-\beta
+        H}\psi_i(\tau)\mu_A)</span> and <span
+        class="math inline">X_{B_i}=\operatorname{Tr}(e^{-\beta
+        H}\mu_{B_i})</span> are unnormalized traces. There is no fitted
+        amplitude.</p>
+        <p><code>compare_outside_ap_moment_normalized.py</code> replays
+        the saved 100-sample Hamiltonian ensemble to recover the
+        partition functions and <span
+        class="math inline">X_{B_i}</span>. The shared machinery lives
+        in <code>cross_replica_moment_normalization.py</code> in this
+        folder; it is also loaded by the calculation-3 and calculation-5
+        moment-normalized comparisons. At the collision it verifies the
+        saved trace data and the exact value <span
+        class="math inline">\mathcal C_{\mathrm{out}}(0,0)=-1/2</span>
+        to machine precision. The conditional saddle is sampled on
+        aligned <span class="math inline">L_\tau=90,180</span> grids and
+        extrapolated as <span
+        class="math inline">2G_{180}-G_{90}</span>.</p>
+        <table>
+        <colgroup>
+        <col style="width: 20%" />
+        <col style="width: 26%" />
+        <col style="width: 26%" />
+        <col style="width: 26%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th>path weight</th>
+        <th style="text-align: right;">residual away from collision</th>
+        <th style="text-align: right;">cosine similarity</th>
+        <th style="text-align: right;">maximum difference</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td><span class="math inline">w=3/20</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.05070</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.998854</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.01487</span></td>
+        </tr>
+        <tr class="even">
+        <td><span class="math inline">w=4/20</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.05516</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.998645</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.01619</span></td>
+        </tr>
+        </tbody>
+        </table>
+        <p>Thus moment normalization fixes the sign and absolute scale
+        and modestly improves the previous <span
+        class="math inline">6.02\%</span> origin-normalized residual to
+        <span class="math inline">5.07\%</span> for the literal weight.
+        The remaining smooth difference is far larger than the jackknife
+        error and is a genuine finite-<span class="math inline">N</span>
+        shape discrepancy in this test; identifying it specifically as a
+        <span class="math inline">1/N</span> correction requires a
+        controlled size sequence.</p>
+        <p>Run with</p>
+        <div class="sourceCode" id="cb5"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> compare_outside_ap_moment_normalized.py</span></code></pre></div>
+        <p>The outputs are in
+        <code>outputs_100_moment_normalized/</code>.</p>
+        <p>Status: implemented and run by Codex (GPT-5) on July 29,
+        2026. The journal entry itself was not modified.</p>
+      </div>
+      <div class="post-footer">
+        <a href="javascript:history.back()" class="btn btn-outline">← Back</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/journal.html">Journal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+  <script>
+    window.addEventListener("load", function () {
+      document.querySelectorAll(".math").forEach(function (el) {
+        try {
+          katex.render(el.textContent, el, {
+            throwOnError: false,
+            displayMode: el.classList.contains("display"),
+          });
+        } catch (e) { console.error(e); }
+      });
+    });
+  </script>
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="javascript:history.back()" class="nav-name">← Back</a>
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/journal.html">Journal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-body" style="padding-top: 56px;">
+    <div class="container">
+      <div class="post-content">
+        <h1 style="font-size:1.6rem; margin-bottom: 1.2em;"></h1>
+        <h1 id="note-periodic-versus-antiperiodic-sectors">Note:
+        periodic versus antiperiodic sectors</h1>
+        <p>The <code>WeightedReplicas</code> saddle equation can be
+        resolved before averaging over fermion boundary conditions. At a
+        fixed self-consistent self-energy, <span class="math display">
+        G^{\mathrm P}
+        =-\left(D_{\mathrm P}-\Delta\tau^2\Sigma\right)^{-T},
+        \qquad
+        G^{\mathrm{AP}}
+        =-\left(D_{\mathrm{AP}}-\Delta\tau^2\Sigma\right)^{-T},
+        </span> and <span class="math display">
+        G=wG^{\mathrm P}+(1-w)G^{\mathrm{AP}},
+        \qquad
+        \Sigma=J^2G^3.
+        </span> Thus <span class="math inline">G^{\mathrm P}</span> and
+        <span class="math inline">G^{\mathrm{AP}}</span> are conditional
+        propagators that share the saddle self-energy; they are not
+        independent saddle solutions.</p>
+        <p>For the replica-connected saddle used in calculation 1 (<span
+        class="math inline">\beta J=0.5</span>, <span
+        class="math inline">w=3/20</span>, and 80 time slices), the
+        off-diagonal blocks are</p>
+        <table>
+        <thead>
+        <tr class="header">
+        <th>object</th>
+        <th style="text-align: right;">time average</th>
+        <th style="text-align: right;">centered RMS</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td><span class="math inline">G^{\mathrm P}_{12}</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">5.8641</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.01238</span></td>
+        </tr>
+        <tr class="even">
+        <td><span class="math inline">G^{\mathrm{AP}}_{12}</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">1.68\times10^{-4}</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.01413</span></td>
+        </tr>
+        </tbody>
+        </table>
+        <p>After weighting, the periodic and antiperiodic contributions
+        to the constant part are respectively <span
+        class="math display">
+        w\,\overline{G^{\mathrm P}_{12}}=0.8796,\qquad
+        (1-w)\,\overline{G^{\mathrm{AP}}_{12}}=4.95\times10^{-4}.
+        </span> The large constant that spoiled the original comparison
+        therefore comes almost entirely from the periodic sector.</p>
+        <p>There is a corresponding exact-diagonalization split, <span
+        class="math display">
+        C_{\mathrm{in}}(\tau,\tau&#39;)
+        =\frac{1}{W}\sum_{i\in A}\mathbb E_J[
+        \zeta_{Ai}(\tau)\zeta_{Ai}(\tau&#39;)],
+        </span> <span class="math display">
+        C_{\mathrm{out}}(\tau,\tau&#39;)
+        =\frac{1}{N-W}\sum_{i\notin A}\mathbb E_J[
+        \zeta_{Ai}(\tau)\zeta_{Ai}(\tau&#39;)],
+        </span> with <span
+        class="math inline">C_{\mathrm{ED}}=wC_{\mathrm{in}}+(1-w)C_{\mathrm{out}}</span>.
+        The boundary condition dictionary is <span
+        class="math inline">i\in A\leftrightarrow\mathrm P</span> and
+        <span class="math inline">i\notin
+        A\leftrightarrow\mathrm{AP}</span>.</p>
+        <p>The saved ED data show that <span
+        class="math inline">C_{\mathrm{out}}</span> has centered RMS
+        <span class="math inline">2.13\times10^{-6}</span>, whereas
+        <span class="math inline">C_{\mathrm{in}}</span> has centered
+        RMS only <span class="math inline">1.24\times10^{-12}</span>.
+        This large hierarchy is natural at small <span
+        class="math inline">W</span>: for <span
+        class="math inline">i\notin A</span>, <span
+        class="math inline">\psi_i\mu_A</span> is a weight-4 string and
+        couples directly to the <span class="math inline">q=4</span>
+        Hamiltonian at first order in <span class="math inline">\beta
+        J</span>; for <span class="math inline">i\in A</span> it is a
+        weight-2 string and first appears at higher perturbative
+        order.</p>
+        <p>Most importantly, <span
+        class="math inline">C_{\mathrm{out}}</span> agrees directly with
+        <span class="math inline">G^{\mathrm{AP}}_{12}</span>. A
+        one-amplitude raw fit has cosine similarity <span
+        class="math inline">0.99822</span> and relative residual <span
+        class="math inline">0.0596</span>; after subtracting time
+        averages the shape correlation is <span
+        class="math inline">0.99938</span> and the residual is <span
+        class="math inline">0.0351</span>. Calculation 2 records this
+        comparison separately.</p>
+        <p>For clarity, the exactly replica-diagonal saddle discussed
+        after the original run has <span
+        class="math inline">G_{12}=0</span> in both conditional sectors.
+        The numbers above resolve the nonzero replica-connected saddle
+        used in calculation 1.</p>
+        <p>Status: written by Codex (GPT-5) on July 29, 2026, from the
+        saved calculation-1 data and a direct reconstruction of the
+        conditional propagators.</p>
+      </div>
+      <div class="post-footer">
+        <a href="javascript:history.back()" class="btn btn-outline">← Back</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/journal.html">Journal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>

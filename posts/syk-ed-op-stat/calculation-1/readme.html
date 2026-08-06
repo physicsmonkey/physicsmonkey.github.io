@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+  <script>
+    window.addEventListener("load", function () {
+      document.querySelectorAll(".math").forEach(function (el) {
+        try {
+          katex.render(el.textContent, el, {
+            throwOnError: false,
+            displayMode: el.classList.contains("display"),
+          });
+        } catch (e) { console.error(e); }
+      });
+    });
+  </script>
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="javascript:history.back()" class="nav-name">← Back</a>
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/journal.html">Journal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-body" style="padding-top: 56px;">
+    <div class="container">
+      <div class="post-content">
+        <h1 style="font-size:1.6rem; margin-bottom: 1.2em;"></h1>
+        <h1
+        id="calculation-1-ed-versus-the-two-replica-saddle">Calculation
+        1: ED versus the two-replica saddle</h1>
+        <p>This calculation tests the proposed relation <span
+        class="math display">
+        \frac{1}{N}\sum_i\mathbb E_J[
+        \zeta_{Ai}(\tau)\zeta_{Ai}(\tau&#39;)]
+        \mathrel{\stackrel{?}{\propto}}G_{12}(\tau,\tau&#39;)
+        </span> for the <span class="math inline">q=4</span> SYK model.
+        The main comparison uses <span class="math inline">N=20</span>,
+        <span class="math inline">A=\{1,2,3\}</span>, <span
+        class="math inline">\beta J=0.5</span>, 24 disorder
+        realizations, nine imaginary-time points, and 80 time slices for
+        the saddle. The coupling convention is <span
+        class="math inline">\mathbb E[J_I^2]=3!J^2/N^3</span> for the
+        Hamiltonian and Majorana normalization in the entry.</p>
+        <p><code>compare_ed_path_integral.py</code> contains both parts
+        of the calculation:</p>
+        <ul>
+        <li>Exact diagonalization uses Jordan–Wigner Majoranas and
+        diagonalizes the two fermion-parity blocks of dimension 512. It
+        evaluates the trace defining <span
+        class="math inline">\zeta_{Ai}</span> directly, including the
+        factor <span
+        class="math inline">\psi_i=\gamma_i/\sqrt{2}</span>.</li>
+        <li>The path-integral part is a NumPy port of the <span
+        class="math inline">R=2</span>, <span
+        class="math inline">q=4</span> <code>WeightedReplicas</code>
+        iteration in <a href="https://github.com/vbettaque/SYKRE.jl"
+        target="_blank" rel="noopener">SYKRE.jl</a>, inspected at commit
+        <code>fafda41aa385a89a820b00b18b48a60e25eab453</code>. It solves
+        <span class="math inline">\Sigma=J^2G^3</span> and uses the
+        weighted periodic/antiperiodic propagator at <span
+        class="math inline">w=|A|/N=0.15</span>.</li>
+        </ul>
+        <p>Run the checks and main calculation from this directory
+        with</p>
+        <div class="sourceCode" id="cb1"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> compare_ed_path_integral.py <span class="at">--self-test</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> compare_ed_path_integral.py <span class="at">--outdir</span> outputs</span></code></pre></div>
+        <p>The self-test checks the Clifford algebra, replica block
+        signs, finiteness of a small saddle, and the parity-block trace
+        against a brute-force dense trace.</p>
+        <h2 id="result">Result</h2>
+        <p>The main output is <code>outputs/comparison.png</code>;
+        numerical arrays (including all <span
+        class="math inline">\zeta</span> samples) are in
+        <code>outputs/comparison_data.npz</code>, and scalar diagnostics
+        are in <code>outputs/summary.json</code>. The time-lattice
+        refinement results are recorded in
+        <code>outputs/path_convergence.json</code>.</p>
+        <p>The result has two parts:</p>
+        <ol type="1">
+        <li>The literal raw proportionality is not supported. A
+        one-parameter fit through the origin gives cosine similarity
+        <span class="math inline">-0.0229</span> and relative residual
+        <span class="math inline">0.9997</span>. The saddle has a large
+        time-independent component (<span
+        class="math inline">G_{12}\simeq0.88</span>), whereas the ED
+        surface changes sign and has nearly zero time average.</li>
+        <li>The time-dependent components agree well. After subtracting
+        the time average of each surface and fitting one amplitude, the
+        shape correlation is <span class="math inline">0.9901</span> and
+        the relative residual is <span
+        class="math inline">0.1407</span>. The aggregate ED
+        signal-to-noise ratio is <span
+        class="math inline">11.4</span>.</li>
+        </ol>
+        <p>The centered saddle shape is numerically stable: using 40,
+        80, and 120 time slices gives normalized-shape overlaps of
+        0.99920 (40 versus 80), 0.99975 (80 versus 120), and 0.99905 (40
+        versus 120). Thus the raw mismatch is not a time-discretization
+        effect. It points instead to a missing prescription for the
+        periodic zero mode or a subtraction/normalization in the
+        proposed identification. The centered agreement is evidence for
+        the claimed time-dependent structure, but should not be
+        described as verification of the unmodified equation.</p>
+        <p>The follow-up <a href="sector-decomposition-note.md"
+        target="_blank" rel="noopener">periodic versus antiperiodic
+        sector note</a> localizes the mismatch to the periodic sector
+        and motivates calculation 2.</p>
+        <p>Status: implemented and run by Codex (GPT-5) on July 29,
+        2026. The entry was also edited with these results.</p>
+      </div>
+      <div class="post-footer">
+        <a href="javascript:history.back()" class="btn btn-outline">← Back</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/journal.html">Journal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>

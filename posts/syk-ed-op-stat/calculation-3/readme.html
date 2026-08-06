@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+  <script>
+    window.addEventListener("load", function () {
+      document.querySelectorAll(".math").forEach(function (el) {
+        try {
+          katex.render(el.textContent, el, {
+            throwOnError: false,
+            displayMode: el.classList.contains("display"),
+          });
+        } catch (e) { console.error(e); }
+      });
+    });
+  </script>
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="javascript:history.back()" class="nav-name">← Back</a>
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/journal.html">Journal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-body" style="padding-top: 56px;">
+    <div class="container">
+      <div class="post-content">
+        <h1 style="font-size:1.6rem; margin-bottom: 1.2em;"></h1>
+        <h1
+        id="calculation-3-an-inside-probe-versus-the-p-propagator">Calculation
+        3: an inside probe versus the P propagator</h1>
+        <p>This calculation tests the periodic sector using <span
+        class="math display">
+        A=\{1,2,3,4,5\},\qquad i=5.
+        </span> Since <span class="math inline">i\in A</span>, this is
+        the sector expected to correspond to the conditional periodic
+        propagator <span class="math inline">G^{\mathrm P}_{12}</span>.
+        At coincident time, <span class="math display">
+        \psi_5\mu_A=\frac{1}{\sqrt{2}}\mu_{\{1,2,3,4\}}
+        </span> up to the fixed string convention, so the net operator
+        has weight four and couples directly to the <span
+        class="math inline">q=4</span> Hamiltonian at first order in
+        <span class="math inline">\beta J</span>.</p>
+        <p><code>compare_inside_p.py</code> performs a new 24-sample,
+        <span class="math inline">N=20</span> ED run and compares both
+        the fixed <span class="math inline">i=5</span> probe and the
+        symmetry-improved average over all five <span
+        class="math inline">i\in A</span> with <span
+        class="math inline">G^{\mathrm P}_{12}</span>. It solves
+        connected saddles at two relative weights:</p>
+        <ul>
+        <li><span class="math inline">w=5/20=0.25</span>, the literal
+        weight of the background <span
+        class="math inline">\mu_A</span>;</li>
+        <li><span class="math inline">w=4/20=0.20</span>, a finite-<span
+        class="math inline">N</span> sensitivity check based on the
+        coincident net string weight.</li>
+        </ul>
+        <p>Run from this directory with</p>
+        <div class="sourceCode" id="cb1"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> compare_inside_p.py <span class="at">--outdir</span> outputs</span></code></pre></div>
+        <p>The output contains raw and origin-normalized figures for
+        both path weights, all ED and saddle arrays in
+        <code>outputs/inside_p_data.npz</code>, and scalar diagnostics
+        in <code>outputs/summary.json</code>.</p>
+        <h2 id="initial-24-sample-result">Initial 24-sample result</h2>
+        <p>For the primary <span class="math inline">w=5/20</span>
+        comparison:</p>
+        <ul>
+        <li>The fixed <span class="math inline">i=5</span> probe has raw
+        cosine similarity <span class="math inline">0.99999997</span>
+        and raw relative residual <span
+        class="math inline">2.61\times10^{-4}</span>. Its constant
+        component is well reproduced, but 24 samples are insufficient to
+        give a stable error estimate for its much smaller time-dependent
+        component.</li>
+        <li>Averaging over the five equivalent <span
+        class="math inline">i\in A</span> probes gives origin-normalized
+        residual <span class="math inline">8.86\times10^{-5}</span>.
+        More stringently, after removing the dominant time-independent
+        component, the shape correlation is <span
+        class="math inline">0.999201\pm0.000203</span> and the relative
+        residual is <span class="math inline">0.03997\pm0.00491</span>,
+        with jackknife errors over disorder samples.</li>
+        <li>The <span class="math inline">w=4/20</span> sensitivity run
+        is comparably good: for the inside average its centered
+        correlation is <span class="math inline">0.99904</span> and
+        centered residual is <span
+        class="math inline">0.0439</span>.</li>
+        </ul>
+        <p>The raw comparison is dominated by the expected periodic
+        constant, while the normalized figures expose the sub-percent
+        time variation. Both components agree, and the centered
+        agreement is stable only after using the symmetry-improved
+        average over <span class="math inline">i\in A</span>.</p>
+        <h2 id="sample-run">100-sample run</h2>
+        <p>The higher-statistics run is</p>
+        <div class="sourceCode" id="cb2"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> compare_inside_p.py <span class="at">--samples</span> 100 <span class="at">--outdir</span> outputs_100</span></code></pre></div>
+        <p>For the symmetry-improved average over all five <span
+        class="math inline">i\in A</span>:</p>
+        <table>
+        <colgroup>
+        <col style="width: 20%" />
+        <col style="width: 26%" />
+        <col style="width: 26%" />
+        <col style="width: 26%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th>path weight</th>
+        <th style="text-align: right;">origin-normalized residual</th>
+        <th style="text-align: right;">centered correlation</th>
+        <th style="text-align: right;">centered residual</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td><span class="math inline">w=5/20</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.00067\pm0.00129</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.999174\pm0.000123</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.04063\pm0.00303</span></td>
+        </tr>
+        <tr class="even">
+        <td><span class="math inline">w=4/20</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.00145\pm0.00130</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.998951\pm0.000316</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.04579\pm0.00689</span></td>
+        </tr>
+        </tbody>
+        </table>
+        <p>Errors are delete-one-disorder-sample jackknife estimates.
+        The fixed <span class="math inline">i=5</span> probe is also
+        stable at 100 samples: its centered residual is <span
+        class="math inline">0.03985\pm0.00553</span> for <span
+        class="math inline">w=5/20</span>.</p>
+        <p>Both path weights describe the P-sector ED surface very well.
+        The literal background weight <span
+        class="math inline">w=5/20</span> is mildly favored by the
+        central values, but its advantage over the common net weight
+        <span class="math inline">w=4/20</span> is not statistically
+        significant. Reporting both cleanly exposes the finite-<span
+        class="math inline">N</span> ambiguity.</p>
+        <h2 id="annealed-moment-normalization">Annealed moment
+        normalization</h2>
+        <p>As in calculation 2, the odd background has <span
+        class="math inline">X_A=\operatorname{Tr}(e^{-\beta
+        H}\mu_A)=0</span>. For an inside probe the nonzero collision
+        string is instead <span class="math display">
+        B_i=A\setminus\{i\},\qquad
+        \psi_i\mu_A=c_i\mu_{B_i},\qquad c_i^2=+\frac12.
+        </span> The no-fit comparison is <span class="math display">
+        \mathcal C_{\mathrm{in}}(\tau,\tau&#39;)
+        =\frac{\frac1W\sum_{i\in A}
+        \mathbb E_J[Y_{Ai}(\tau)Y_{Ai}(\tau&#39;)]}
+        {\frac1W\sum_{i\in A}\mathbb E_J[X_{B_i}^2]}
+        \stackrel{?}{=}
+        \frac12\frac{G^{\mathrm P}_{12}(\tau,\tau&#39;)}
+        {G^{\mathrm P}_{12}(0,0)}.
+        </span> This uses unnormalized traces inside both disorder
+        averages, rather than the sample-by-sample thermal normalization
+        in <span class="math inline">\zeta_{Ai}=Y_{Ai}/Z</span>.</p>
+        <p><code>compare_inside_p_moment_normalized.py</code> replays
+        the existing 100-sample ensemble, verifies the collision
+        identity with relative error <span
+        class="math inline">7.8\times10^{-15}</span>, and uses the
+        aligned continuum estimate <span
+        class="math inline">2G_{180}-G_{90}</span>. The collision value
+        is <span class="math inline">+1/2</span> on both sides.</p>
+        <table>
+        <colgroup>
+        <col style="width: 20%" />
+        <col style="width: 26%" />
+        <col style="width: 26%" />
+        <col style="width: 26%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th>path weight and probe</th>
+        <th style="text-align: right;">residual away from collision</th>
+        <th style="text-align: right;">cosine similarity</th>
+        <th style="text-align: right;">difference/error norm</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td><span class="math inline">w=5/20</span>, average over <span
+        class="math inline">i\in A</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.000825</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.999999969</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.631</span></td>
+        </tr>
+        <tr class="even">
+        <td><span class="math inline">w=5/20</span>, fixed <span
+        class="math inline">i=5</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.001886</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.999999829</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.475</span></td>
+        </tr>
+        <tr class="odd">
+        <td><span class="math inline">w=4/20</span>, average over <span
+        class="math inline">i\in A</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.001622</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.999999859</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">1.240</span></td>
+        </tr>
+        <tr class="even">
+        <td><span class="math inline">w=4/20</span>, fixed <span
+        class="math inline">i=5</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.001088</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.999999954</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.274</span></td>
+        </tr>
+        </tbody>
+        </table>
+        <p>The literal-weight, symmetry-averaged comparison agrees at
+        the <span class="math inline">8.3\times10^{-4}</span> level
+        without a fitted scale, and its full difference is smaller than
+        the jackknife-error norm. This promotes the earlier P-sector
+        shape agreement to an absolute moment-normalized prediction.</p>
+        <p>Run with</p>
+        <div class="sourceCode" id="cb3"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> compare_inside_p_moment_normalized.py</span></code></pre></div>
+        <p>The outputs are in
+        <code>outputs_100_moment_normalized/</code>.</p>
+        <p>Status: implemented by Codex (GPT-5) on July 29, 2026. The
+        journal entry itself was not modified.</p>
+      </div>
+      <div class="post-footer">
+        <a href="javascript:history.back()" class="btn btn-outline">← Back</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/journal.html">Journal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>

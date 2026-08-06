@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+  <script>
+    window.addEventListener("load", function () {
+      document.querySelectorAll(".math").forEach(function (el) {
+        try {
+          katex.render(el.textContent, el, {
+            throwOnError: false,
+            displayMode: el.classList.contains("display"),
+          });
+        } catch (e) { console.error(e); }
+      });
+    });
+  </script>
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="javascript:history.back()" class="nav-name">← Back</a>
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/journal.html">Journal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-body" style="padding-top: 56px;">
+    <div class="container">
+      <div class="post-content">
+        <h1 style="font-size:1.6rem; margin-bottom: 1.2em;"></h1>
+        <h1
+        id="calculation-6-exact-pap-boundary-update-relation">Calculation
+        6: exact P/AP boundary-update relation</h1>
+        <p>This calculation turns the proposed Woodbury explanation of
+        the collision product into an exact finite-time-lattice
+        identity.</p>
+        <p>Let</p>
+        <p><span class="math display">
+        A_s=D^s-\Delta\tau^2\Sigma,
+        \qquad G^s=-A_s^{-T},
+        </span></p>
+        <p>for the two-replica conditional kernels. The
+        forward-difference derivatives differ only at the temporal
+        corner. If <span class="math inline">E</span> selects the first
+        time site on each replica and <span class="math inline">F</span>
+        the last, then</p>
+        <p><span class="math display">
+        A_{\mathrm{AP}}=A_{\mathrm P}+2EF^T.
+        </span></p>
+        <p>Woodbury therefore gives</p>
+        <p><span class="math display">
+        G^{\mathrm{AP}}
+        =G^{\mathrm P}
+        +2G^{\mathrm P}F(1-2E^TG^{\mathrm P}F)^{-1}E^TG^{\mathrm P}.
+        </span></p>
+        <p>For the <span class="math inline">2\times2</span> replica
+        boundary matrices</p>
+        <p><span class="math display">
+        C_{\mathrm P}=E^TG^{\mathrm P}E,\qquad
+        K_{\mathrm P}=E^TG^{\mathrm P}F,\qquad
+        C_{\mathrm{AP}}=E^TG^{\mathrm{AP}}E,
+        </span></p>
+        <p>this reduces to the exact identity</p>
+        <p><span class="math display">
+        C_{\mathrm{AP}}=(1-2K_{\mathrm P})^{-1}C_{\mathrm P}.
+        </span></p>
+        <p>Write the replica-circulant matrices as</p>
+        <p><span class="math display">
+        C_{\mathrm
+        P}=\begin{pmatrix}k&amp;-m\\m&amp;k\end{pmatrix},\qquad
+        K_{\mathrm P}=\begin{pmatrix}a&amp;-b\\b&amp;a\end{pmatrix}.
+        </span></p>
+        <p>The AP off-diagonal collision is then exactly</p>
+        <p><span class="math display">
+        m_{\mathrm{AP}}
+        =\frac{(1-2a)m+2bk}{(1-2a)^2+4b^2}.
+        </span></p>
+        <p>In the continuum, the canonical one-sided contact and
+        periodic boundary condition give</p>
+        <p><span class="math display">
+        k\to-\frac12,\qquad a\to+\frac12,\qquad b\to m.
+        </span></p>
+        <p>Consequently, on the replica-connected branch (<span
+        class="math inline">m\ne0</span>),</p>
+        <p><span class="math display">
+        m_{\mathrm{AP}}=-\frac{1}{4m},\qquad
+        G^{\mathrm P}_{12}(0,0)G^{\mathrm{AP}}_{12}(0,0)=-\frac14.
+        </span></p>
+        <p>Thus the product is an exact continuum boundary-condition
+        identity, not only the leading weak-coupling zero-mode result.
+        The zero-mode argument remains useful because it explains why
+        the P collision is large and the AP collision small. The small
+        deviations from <span class="math inline">-1/4</span> after
+        two-grid Richardson extrapolation are residual
+        time-discretization errors.</p>
+        <p><code>derive_boundary_woodbury.py</code> checks the
+        finite-lattice matrix identity using the saved calculation-4 and
+        calculation-5 saddles at <span class="math inline">(N,\beta
+        J,w)=(20,0.5,0.2)</span> and <span
+        class="math inline">(24,0.5,1/3),(24,1,1/3)</span>. The maximum
+        Woodbury error is at the level of floating-point inversion
+        error. It also records the approach of <span
+        class="math inline">k,a,b</span> to their continuum boundary
+        values and the Richardson-extrapolated collision products.</p>
+        <p>Run from this directory with</p>
+        <div class="sourceCode" id="cb1"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> derive_boundary_woodbury.py</span></code></pre></div>
+        <p>The numerical record is
+        <code>outputs/woodbury_check.json</code>.</p>
+        <p>Status: derived, implemented, and checked by Codex (GPT-5.6
+        Sol) on August 3, 2026. The entry was edited with the
+        result.</p>
+      </div>
+      <div class="post-footer">
+        <a href="javascript:history.back()" class="btn btn-outline">← Back</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/journal.html">Journal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+  <script>
+    window.addEventListener("load", function () {
+      document.querySelectorAll(".math").forEach(function (el) {
+        try {
+          katex.render(el.textContent, el, {
+            throwOnError: false,
+            displayMode: el.classList.contains("display"),
+          });
+        } catch (e) { console.error(e); }
+      });
+    });
+  </script>
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="javascript:history.back()" class="nav-name">← Back</a>
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/journal.html">Journal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-body" style="padding-top: 56px;">
+    <div class="container">
+      <div class="post-content">
+        <h1 style="font-size:1.6rem; margin-bottom: 1.2em;"></h1>
+        <h1 id="report-on-syk-ed-op-stat.md">Report on
+        <code>syk-ed-op-stat.md</code></h1>
+        <blockquote>
+        <p>Reviewer: Codex (GPT-5.6 Sol)<br> Date: August 3, 2026<br>
+        Scope: section-by-section correctness of the entry, calculations
+        1–5, and the previous Fable 5 report, following
+        <code>journal.md</code>.<br> Verdict: <strong>Substantially
+        sound, with the cross-replica AP identification still
+        quantitatively unresolved.</strong></p>
+        </blockquote>
+        <h2 id="summary-verdict">Summary verdict</h2>
+        <p>The entry’s central qualitative result is well supported:
+        finite-<span class="math inline">N</span> probe traces
+        distinguish the conditional periodic and antiperiodic
+        propagators of the two-replica saddle, with inside probes
+        mapping to P and outside probes to AP. The boundary-condition
+        assignment follows from an exact operator monodromy identity,
+        not merely from the numerics. The same-side comparisons are
+        particularly persuasive because their normalization follows from
+        a moment derivative and the ED data agree directly with the
+        unrescaled <span class="math inline">G^{\mathrm
+        P/AP}_{11}</span> surfaces at the <span
+        class="math inline">5\times10^{-4}</span>–<span
+        class="math inline">3\times10^{-3}</span> level in all six tests
+        reported at <span class="math inline">N=20</span> and 24.</p>
+        <p>The main qualification concerns the replica-off-diagonal AP
+        component. The collision-normalized formula reproduces its
+        sign-changing shape, but it is not an equality at the tested
+        sizes: its residual is <span class="math inline">5.07\%</span>
+        at <span class="math inline">N=20</span>, <span
+        class="math inline">\beta J=0.5</span>, and <span
+        class="math inline">5.93\%</span> and <span
+        class="math inline">11.74\%</span> at <span
+        class="math inline">N=24</span>, <span class="math inline">\beta
+        J=0.5</span> and 1. These differences are smooth and far larger
+        than the disorder jackknife errors. Calling them finite-<span
+        class="math inline">N</span> corrections is plausible, but is
+        not yet a diagnosis: there is no fixed-<span
+        class="math inline">(w,\beta J)</span> size sequence, and the
+        same-side AP component is much more accurate at the same <span
+        class="math inline">N</span>. The precise normalized <span
+        class="math inline">G^{\mathrm{AP}}_{12}</span> prescription
+        should therefore remain explicitly conjectural.</p>
+        <p>I found no consequential sign, phase, variance,
+        trace-contraction, or saved metric error in the code I checked.
+        I independently recomputed the headline residuals and collision
+        values from the archived <code>.npz</code> arrays. The
+        calculation-1 self-test passed; all 11 Python files parsed; the
+        compact Hamiltonian validator returned zero error; and the newer
+        cross-replica trace evaluator agreed with the original evaluator
+        to <span class="math inline">9.48\times10^{-16}</span> at small
+        <span class="math inline">N</span>. I did not rerun the
+        expensive production disorder ensembles.</p>
+        <h2 id="relation-to-the-previous-report">Relation to the
+        previous report</h2>
+        <p>I agree with the July 30 Fable 5 report. Its two most
+        important additions are now incorporated into the entry: the
+        monodromy derivation of inside/P versus outside/AP, and the
+        periodic-zero-mode explanation of the near-<span
+        class="math inline">-1/4</span> collision product. Its request
+        to include calculation 4 has also been addressed. The present
+        report mainly assesses those additions and the new <span
+        class="math inline">N=24</span> calculation-5 results.</p>
+        <h2 id="section-by-section-assessment">Section-by-section
+        assessment</h2>
+        <h3 id="setup-and-proposed-dictionary">Setup and proposed
+        dictionary</h3>
+        <p>The Majorana conventions are consistent. With <span
+        class="math inline">\gamma_i=\sqrt2\psi_i</span>, the code
+        uses</p>
+        <p><span class="math display">
+        \mu_A=i^{|A|(|A|-1)/2}\prod_{i\in A}\gamma_i,
+        </span></p>
+        <p>which is Hermitian and squares to one. For <span
+        class="math inline">q=4</span>, the Hamiltonian coefficient in
+        the code is <span class="math inline">J_I/4</span> multiplying
+        <span class="math inline">\mu_I</span>, exactly matching <span
+        class="math inline">i^2J_I\psi_{i_1}\cdots\psi_{i_4}</span>, and
+        the sampled variance is <span class="math inline">\mathbb
+        E[J_I^2]=3!J^2/N^3</span>.</p>
+        <p>The parity discussion is correct. An odd clump <span
+        class="math inline">A</span> is needed for a single probe trace
+        to be parity even, while thermal one-point functions of odd
+        strings vanish. The stronger <span
+        class="math inline">q=4</span> selection rule that only weights
+        divisible by four have nonzero one-point functions is also
+        correct for these conventions, although the text could name the
+        relevant antiunitary/Clifford symmetry rather than leaving it as
+        an example. Strictly, the allowed list also contains the
+        identity at <span class="math inline">W=0</span>.</p>
+        <p>The finite-<span class="math inline">N</span> constructions
+        around an even target string are algebraically sound. Removing
+        one fermion gives an odd <span class="math inline">A_-</span>
+        and <span class="math inline">N-W+1</span> outside probes;
+        adding one gives an odd <span class="math inline">A_+</span> and
+        <span class="math inline">W+1</span> inside probes. The
+        collision algebra</p>
+        <p><span class="math display">
+        \psi_i\mu_A=c_i\mu_{A\triangle\{i\}},\qquad
+        c_i^2=-\tfrac12\ (i\notin A),\quad c_i^2=+\tfrac12\ (i\in A)
+        </span></p>
+        <p>is correct for odd <span class="math inline">|A|</span>.</p>
+        <p>One conceptual transition should remain prominent: the
+        initial observable uses the sample-normalized thermal trace
+        <span class="math inline">\zeta=Y/Z</span>, whereas the
+        successful normalization-fixed tests use a ratio of disorder
+        averages of unnormalized traces. These are different ensemble
+        observables at finite <span class="math inline">N</span>. The
+        entry now states this clearly; it should not later summarize the
+        result as verification of the original <span
+        class="math inline">\mathbb E[\zeta\zeta]</span> proposal
+        without that qualification.</p>
+        <h3 id="testing-the-proposal">Testing the proposal</h3>
+        <p>All quoted calculation-2 and calculation-3 numbers match the
+        saved summaries and arrays. In particular:</p>
+        <ul>
+        <li>The <span class="math inline">N=20</span> outside/AP
+        residuals are <span class="math inline">0.050704</span> at <span
+        class="math inline">w=3/20</span> and <span
+        class="math inline">0.055165</span> at <span
+        class="math inline">w=4/20</span>, with exact ED collision value
+        <span class="math inline">-1/2</span>.</li>
+        <li>The symmetry-averaged inside/P residuals are <span
+        class="math inline">8.249\times10^{-4}</span> at <span
+        class="math inline">w=5/20</span> and <span
+        class="math inline">1.622\times10^{-3}</span> at <span
+        class="math inline">w=4/20</span>, with exact collision value
+        <span class="math inline">+1/2</span>.</li>
+        <li>The quoted cosine similarities, maximum differences, and
+        comparison with the jackknife-error norm also match.</li>
+        </ul>
+        <p>The entry correctly says that dividing by <span
+        class="math inline">G_{12}(0,0)</span> is an additional
+        prescription rather than a derived normalization. This is the
+        key limitation of the <span class="math inline">G_{12}</span>
+        test. The excellent uncentered P residual is also dominated by
+        the normalization-protected periodic constant. The later warning
+        that its centered shape residual is about <span
+        class="math inline">4\%</span>, comparable to the AP shape
+        residual, is essential and prevents the earlier phrase
+        “considerably stronger” from being overread.</p>
+        <h3 id="boundary-conditions-and-zero-mode-mechanism">Boundary
+        conditions and zero-mode mechanism</h3>
+        <p>The monodromy derivation is correct. Cyclicity gives</p>
+        <p><span class="math display">
+        Y_{Ai}(\beta)=\operatorname{Tr}(e^{-\beta H}\mu_A\psi_i),
+        </span></p>
+        <p>and commuting the probe through an odd <span
+        class="math inline">\mu_A</span> yields a minus sign outside
+        <span class="math inline">A</span> and a plus sign inside it.
+        The explanation of why one should not begin with an independent
+        “thermal AP sign” is also right: the usual fermionic KMS sign
+        comes from crossing the other fermionic insertion, which is on
+        the other replica in this observable.</p>
+        <p>The periodic-zero-mode explanation is physically and
+        algebraically reasonable. The saved scan reproduces the stated
+        continuum-extrapolated collision values, including</p>
+        <p><span class="math display">
+        G^{\mathrm P}_{12}(0,0)=4.752266,\qquad
+        G^{\mathrm{AP}}_{12}(0,0)=-0.052608,
+        </span></p>
+        <p>and their product <span class="math inline">-0.250005</span>
+        at <span class="math inline">\beta J=0.5,w=0.2</span>. Across
+        the connected points in the scan, the leading zero-mode estimate
+        for P is accurate to roughly <span
+        class="math inline">0.2</span>–<span
+        class="math inline">1.6\%</span>, the first-order AP estimate to
+        <span class="math inline">4\times10^{-6}</span>–<span
+        class="math inline">1.2\times10^{-3}</span> relative, and the
+        product is closer to <span class="math inline">-1/4</span> than
+        either approximation separately. The entry appropriately calls
+        the product a leading-order relation and notes its growing
+        violation with coupling.</p>
+        <p>The Woodbury paragraph is a plausible structural explanation,
+        not yet a derivation. In particular, the coefficient approaching
+        <span class="math inline">1/4</span> and the claim that its
+        correction is controlled by the contact shift have not been
+        worked out explicitly in the supporting record. Phrases such as
+        “likely structural reason” and “appears to be” are therefore the
+        right confidence level. The statement that <span
+        class="math inline">\Lambda</span> has acquired a “concrete
+        identity” should likewise be read as the leading zero-mode
+        identification <span
+        class="math inline">\Lambda\simeq2/(\iint\Sigma_{12})</span>,
+        not an exact identity.</p>
+        <h3 id="same-side-correlations">Same-side correlations</h3>
+        <p>This is the strongest part of the entry. Differentiating the
+        annealed moment <span class="math inline">M_A[K]</span> gives a
+        ratio with denominator <span class="math inline">\mathbb
+        E[X_A^2]</span>, so no empirical amplitude, offset, time shift,
+        or division by a collision value is introduced. The <span
+        class="math inline">-1/2</span> one-sided contact agrees with
+        the Majorana algebra and the saddle convention.</p>
+        <p>I independently recomputed the archived comparison metrics.
+        At <span class="math inline">N=20</span> they are exactly the
+        quoted <span class="math inline">5.287\times10^{-4}</span> P and
+        <span class="math inline">1.556\times10^{-3}</span> AP
+        off-diagonal residuals, with cosines <span
+        class="math inline">0.999999945</span> and <span
+        class="math inline">0.999999905</span>. The coarse- and
+        fine-grid values also confirm that the P sector has a large
+        first-order lattice artifact removed by the aligned Richardson
+        estimate. The reported repeat using <span
+        class="math inline">L_\tau=180,360</span> is not saved in an
+        output or generated by the current script, so that particular
+        <span class="math inline">0.0534\%</span> number has a
+        provenance gap even though it is consistent with the displayed
+        convergence pattern.</p>
+        <p>For completeness, the source-derivative equation would
+        benefit from an explicit one-line definition of the bilocal
+        source term, including its sign and any factor of <span
+        class="math inline">1/2</span>. The phrase “with the same source
+        convention as in the saddle equations” is enough for an internal
+        note but makes the absolute normalization derivation harder to
+        audit independently. The contact identity and numerical
+        comparison strongly support the convention actually used.</p>
+        <h3 id="pushing-the-numerics">Pushing the numerics</h3>
+        <p>The <span class="math inline">N=24</span> same-side table
+        reproduces exactly from the saved arrays. The four off-diagonal
+        residuals are <span
+        class="math inline">1.523\times10^{-3}</span>, <span
+        class="math inline">3.372\times10^{-4}</span>, <span
+        class="math inline">2.801\times10^{-3}</span>, and <span
+        class="math inline">5.212\times10^{-4}</span> in the order
+        printed. The contacts, cosines, denominator effective sample
+        sizes, and convergence flags also match. These are useful
+        robustness checks, but the entry correctly warns that
+        denominator ESS values near 7 out of 16 make them unsuitable for
+        a precision finite-size study.</p>
+        <p>The new <span class="math inline">N=24</span> cross-replica
+        metrics also reproduce exactly. The trace evaluator’s
+        independent small-<span class="math inline">N</span> validation
+        passes at <span class="math inline">9.48\times10^{-16}</span>.
+        The results should be interpreted asymmetrically:</p>
+        <ul>
+        <li>The normalized P surfaces have sub-percent full-surface
+        residuals, but—as at <span class="math inline">N=20</span>—a
+        centered diagnostic is needed before concluding that their small
+        time-dependent part has comparable precision.</li>
+        <li>The AP residuals of <span class="math inline">5.93\%</span>
+        and <span class="math inline">11.74\%</span> are decisive
+        discrepancies from the proposed equality, despite good cosines.
+        The difference/error norms of about 36 are descriptive rather
+        than chi-square significances because the time points are highly
+        correlated.</li>
+        </ul>
+        <p>Likewise, saying the P cases are “within the disorder
+        uncertainty” is a little stronger than the norm diagnostic
+        establishes. “Not resolved by the quoted jackknife-error norm”
+        would be statistically safer without a covariance-aware
+        test.</p>
+        <p>The comparison from <span class="math inline">N=20,W=4</span>
+        to <span class="math inline">N=24,W=8</span> changes <span
+        class="math inline">N</span>, <span
+        class="math inline">w</span>, the neighboring odd background,
+        and the ensemble of collision strings together. It shows that
+        the AP discrepancy does not disappear under that combined
+        change, but it is not a finite-<span
+        class="math inline">N</span> scaling test. A clean diagnosis
+        needs at least two or three sizes at fixed <span
+        class="math inline">w</span> and <span class="math inline">\beta
+        J</span>, or an analytic correction to the external-leg
+        normalization.</p>
+        <h3 id="outlook">Outlook</h3>
+        <p>The overall claim of a successful P/AP dictionary is fair if
+        it refers to the boundary conditions, qualitative <span
+        class="math inline">G_{12}</span> shapes, and especially the
+        normalization-fixed <span class="math inline">G_{11}</span>
+        tests. The statement that the worsening with <span
+        class="math inline">\beta J</span> is what one expects from
+        neglected <span class="math inline">1/N</span> corrections is
+        reasonable intuition but not demonstrated by the available data.
+        The same behavior could also reflect the still-undemonstrated
+        cross-replica normalization prescription. The sentence about not
+        expecting much more from a careful finite-<span
+        class="math inline">N</span> extrapolation is unclear and seems
+        premature because no such extrapolation has been performed.</p>
+        <p>There is also a typo: “satisyfying” should be “satisfying.”
+        Since the entry was extended on August 3, its header date could
+        be changed from July 30 to a date range or supplemented by a
+        last-updated date.</p>
+        <h2 id="reproducibility-and-provenance">Reproducibility and
+        provenance</h2>
+        <p>The calculation folders follow <code>journal.md</code>: each
+        has a useful <code>readme.md</code>, the production arrays and
+        summaries are present, and the main entry links to the relevant
+        figures. I preserved the entry and calculations unchanged.</p>
+        <p>The following checks passed during this review:</p>
+        <ul>
+        <li>calculation-1 Clifford/trace/saddle self-test;</li>
+        <li>syntax parsing of all 11 Python files;</li>
+        <li>compact versus original Hamiltonian construction, maximum
+        error zero;</li>
+        <li>cross-replica energy-basis versus original trace evaluator,
+        maximum error <span
+        class="math inline">9.48\times10^{-16}</span>;</li>
+        <li>direct recomputation of all entry tables from the saved
+        arrays.</li>
+        </ul>
+        <p>Three minor provenance issues remain:</p>
+        <ol type="1">
+        <li>The claimed calculation-4 dense-trace error <span
+        class="math inline">1.7\times10^{-15}</span> and the
+        calculation-5 streaming comparison error <span
+        class="math inline">4.2\times10^{-16}</span> are described in
+        readmes, but the corresponding validation routines or outputs
+        are not retained in the current files.</li>
+        <li>The <span class="math inline">L_\tau=180,360</span>
+        calculation-4 check is likewise not archived.</li>
+        <li><code>reports/scan_quarter_product.py</code> hard-codes the
+        absolute path to the calculation-1 module, which makes the
+        report calculation nonportable.</li>
+        </ol>
+        <p>None of these gaps changes the numerical conclusions, but
+        retaining the short validators and the 360-grid scalar output
+        would strengthen the research record.</p>
+        <h2 id="recommended-revisions-and-next-tests">Recommended
+        revisions and next tests</h2>
+        <ol type="1">
+        <li>State the main conclusion in layers: the P/AP monodromy
+        assignment is exact; the raw same-side identification is
+        numerically precise; the collision-normalized cross-replica
+        identification is approximate and has an unresolved AP
+        discrepancy.</li>
+        <li>Replace definitive references to an AP “finite-<span
+        class="math inline">N</span> correction” with “finite-<span
+        class="math inline">N</span> discrepancy” until a
+        fixed-parameter size sequence or analytic correction identifies
+        its origin.</li>
+        <li>Add centered-shape metrics for the <span
+        class="math inline">N=24</span> P-<span
+        class="math inline">G_{12}</span> tests and, if possible, a
+        covariance-aware comparison rather than only the norm of
+        pointwise jackknife errors.</li>
+        <li>Complete the finite-lattice Woodbury calculation. It is the
+        shortest route to separating an exact P/AP kernel relation from
+        the weak-coupling <span class="math inline">-1/4</span>
+        approximation.</li>
+        <li>For a genuine finite-size test, compare several <span
+        class="math inline">N</span> at fixed <span
+        class="math inline">w</span>, <span class="math inline">\beta
+        J</span>, time grid, and collision-string convention. This is
+        the evidence needed to support the Outlook’s attribution to
+        <span class="math inline">1/N</span> effects.</li>
+        </ol>
+        <p>With those qualifications, the entry is a strong and
+        unusually transparent piece of numerical evidence for the
+        operator meaning of conditional multireplica <span
+        class="math inline">G\Sigma</span> variables.</p>
+      </div>
+      <div class="post-footer">
+        <a href="javascript:history.back()" class="btn btn-outline">← Back</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/journal.html">Journal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>

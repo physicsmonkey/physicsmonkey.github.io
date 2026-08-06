@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+  <script>
+    window.addEventListener("load", function () {
+      document.querySelectorAll(".math").forEach(function (el) {
+        try {
+          katex.render(el.textContent, el, {
+            throwOnError: false,
+            displayMode: el.classList.contains("display"),
+          });
+        } catch (e) { console.error(e); }
+      });
+    });
+  </script>
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="javascript:history.back()" class="nav-name">← Back</a>
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/journal.html">Journal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-body" style="padding-top: 56px;">
+    <div class="container">
+      <div class="post-content">
+        <h1 style="font-size:1.6rem; margin-bottom: 1.2em;"></h1>
+        <h1
+        id="calculation-4-normalization-fixed-same-side-correlators">Calculation
+        4: normalization-fixed same-side correlators</h1>
+        <p>This calculation uses the even parent string <span
+        class="math display">
+        A=\{1,2,3,4\}
+        </span> to test the same-replica conditional propagators without
+        introducing an odd background. Define <span
+        class="math display">
+        X_A=\operatorname{Tr}(e^{-\beta H}\mu_A)
+        </span> and <span class="math display">
+        X^{(11)}_{A;i}(\tau,\tau&#39;)
+        =\operatorname{Tr}\!\left[
+        e^{-\beta H}T_\tau\psi_i(\tau)\psi_i(\tau&#39;)\mu_A
+        \right].
+        </span> The ED observable is the annealed, moment-normalized
+        ratio <span class="math display">
+        \mathcal C^{(s)}_{11}(\tau,\tau&#39;)
+        =\frac{\mathbb E_J[
+        X^{(11)}_{A;i}(\tau,\tau&#39;)X_A]}
+        {\mathbb E_J[X_A^2]},
+        </span> averaged over <span class="math inline">i\in A</span>
+        for the P sector and over <span class="math inline">i\notin
+        A</span> for the AP sector. This is the direct two-replica
+        moment derivative, so its absolute normalization is predicted:
+        <span class="math display">
+        \mathcal C^{\mathrm P}_{11}\stackrel{?}{=}G^{\mathrm P}_{11},
+        \qquad
+        \mathcal
+        C^{\mathrm{AP}}_{11}\stackrel{?}{=}G^{\mathrm{AP}}_{11}.
+        </span> No amplitude is fitted.</p>
+        <p>More explicitly, introduce a bilocal source <span
+        class="math inline">K_{11}</span> for the probe in the first
+        trace and write <span class="math display">
+        M_A[K_{11}]=\mathbb E_J[X_A[K_{11}]X_A].
+        </span> Then, with the source convention used in the saddle
+        equations, <span class="math display">
+        \left.\frac{\delta\log M_A}{\delta
+        K_{11}(\tau,\tau&#39;)}\right|_{K=0}
+        =\frac{\mathbb E_J[X^{(11)}_{A;i}(\tau,\tau&#39;)X_A]}
+        {\mathbb E_J[X_A^2]}.
+        </span> This fixes both the denominator and the absolute
+        coefficient; it is not a normalization chosen after examining
+        the curves.</p>
+        <p>The matrix discretization uses the negative one-sided contact
+        convention, so the diagonal prediction is <span
+        class="math inline">-1/2</span>. Off the diagonal, ordinary
+        fermionic time ordering fixes the antisymmetric
+        continuation.</p>
+        <p><code>compare_same_side.py</code> evaluates the
+        three-operator thermal trace exactly using parity blocks,
+        spectral propagation, and sparse Majorana conjugation.
+        Delete-one-disorder-sample jackknife errors include the
+        correlated numerator and denominator.</p>
+        <p>The saddle uses time lattices with <span
+        class="math inline">L_\tau=90</span> and <span
+        class="math inline">180</span>, both exactly aligned with the
+        nine ED times. Since the forward-difference derivative has a
+        leading <span class="math inline">1/L_\tau</span> error, the
+        reported saddle surface is the parameter-free Richardson
+        estimate <span class="math display">
+        G_{\rm cont}=2G_{180}-G_{90}.
+        </span> This extrapolation matters mainly for the P zero-mode
+        sector: its off-diagonal ED residual falls from <span
+        class="math inline">2.37\%</span> at <span
+        class="math inline">L_\tau=90</span> and <span
+        class="math inline">1.18\%</span> at <span
+        class="math inline">L_\tau=180</span> to <span
+        class="math inline">0.0529\%</span>. Repeating the estimate with
+        <span class="math inline">L_\tau=180,360</span> gives <span
+        class="math inline">0.0534\%</span>, so the remaining difference
+        is not a time-lattice artifact at this resolution.</p>
+        <p>The latter check is reproduced by
+        <code>check_path_extrapolation.py</code>; its scalar convergence
+        record is retained in
+        <code>outputs/path_extrapolation_180_360.json</code>.</p>
+        <h2 id="result">Result</h2>
+        <p>For <span class="math inline">N=20</span>, <span
+        class="math inline">\beta J=0.5</span>, <span
+        class="math inline">W=4</span>, 24 disorder samples, and nine
+        time points:</p>
+        <table>
+        <colgroup>
+        <col style="width: 20%" />
+        <col style="width: 26%" />
+        <col style="width: 26%" />
+        <col style="width: 26%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th>comparison</th>
+        <th style="text-align: right;">off-diagonal residual</th>
+        <th style="text-align: right;">off-diagonal cosine</th>
+        <th style="text-align: right;">contact: ED / saddle</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td><span class="math inline">i\in A</span> vs. <span
+        class="math inline">G^{\rm P}_{11}</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">5.29\times10^{-4}</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.999999945</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">-0.500000/-0.499992</span></td>
+        </tr>
+        <tr class="even">
+        <td><span class="math inline">i\notin A</span> vs. <span
+        class="math inline">G^{\rm AP}_{11}</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">1.56\times10^{-3}</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">0.999999905</span></td>
+        <td style="text-align: right;"><span
+        class="math inline">-0.500000/-0.5000001</span></td>
+        </tr>
+        </tbody>
+        </table>
+        <p>There is no fitted scale, offset, or time shift in either
+        row. Thus the same-side experiment fixes the normalization as
+        well as the shape and gives a direct empirical identification of
+        the inside probe with the P conditional propagator and the
+        outside probe with the AP conditional propagator for even <span
+        class="math inline">|A|</span>. The small P difference is
+        statistically visible (the norm of the difference is about four
+        times the norm of the jackknife-error surface), so it is a
+        resolved finite-<span class="math inline">N</span> discrepancy
+        rather than disorder noise. Its scaling with <span
+        class="math inline">N</span> has not been tested.</p>
+        <p>Run from this directory with</p>
+        <div class="sourceCode" id="cb1"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> compare_same_side.py <span class="at">--outdir</span> outputs</span></code></pre></div>
+        <p>Outputs:</p>
+        <ul>
+        <li><code>outputs/summary.json</code>: parameters and comparison
+        metrics, including both finite time lattices.</li>
+        <li><code>outputs/same_side_data.npz</code>: ED samples,
+        normalized surfaces, jackknife errors, saddle solutions, and
+        continuum estimates.</li>
+        <li><code>outputs/same_side_comparison.png</code>: side-by-side
+        surfaces and differences.</li>
+        </ul>
+        <p>Validation: the spectral trace evaluator was compared with a
+        direct dense matrix trace at <span
+        class="math inline">N=6</span>; the maximum discrepancy was
+        <span class="math inline">7.2\times10^{-16}</span>. The
+        reproducible check is <code>validate_same_side.py</code>, and
+        its scalar output is retained in
+        <code>validation.json</code>.</p>
+        <p>Status: implemented and run by Codex (GPT-5) on July 29,
+        2026. The journal entry itself was not modified at that time.
+        Reproducible validation and the 180/360 convergence record were
+        added by Codex (GPT 5.6 Sol) on August 3, 2026; the entry was
+        updated with their results.</p>
+      </div>
+      <div class="post-footer">
+        <a href="javascript:history.back()" class="btn btn-outline">← Back</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/journal.html">Journal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> — Brian Swingle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+  <script>
+    window.addEventListener("load", function () {
+      document.querySelectorAll(".math").forEach(function (el) {
+        try {
+          katex.render(el.textContent, el, {
+            throwOnError: false,
+            displayMode: el.classList.contains("display"),
+          });
+        } catch (e) { console.error(e); }
+      });
+    });
+  </script>
+  
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="javascript:history.back()" class="nav-name">← Back</a>
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/journal.html">Journal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="post-body" style="padding-top: 56px;">
+    <div class="container">
+      <div class="post-content">
+        <h1 style="font-size:1.6rem; margin-bottom: 1.2em;"></h1>
+        <h1 id="report-on-syk-ed-op-stat.md-august-3-revision">Report on
+        <code>syk-ed-op-stat.md</code> (August 3 revision)</h1>
+        <blockquote>
+        <p>Reviewer: Claude (Fable 5, Anthropic)<br> Date: August 3,
+        2026<br> Scope: section-by-section correctness of the entry as
+        revised on August 3, with emphasis on the material added after
+        the August 3 Codex review (calculation 6, the cross-replica
+        extension of calculation 5, the centered-shape analysis, and the
+        layered Outlook). Per <code>journal.md</code>, the entry and
+        calculations were not modified. Rerunning the deterministic
+        validators (<code>validate_same_side.py</code>,
+        <code>validate_implementations.py</code>,
+        <code>derive_boundary_woodbury.py</code>, the calculation-1
+        self-test) regenerated their output files with values identical
+        to the archived ones.<br> Verdict: <strong>Sound. Every
+        quantitative claim in the entry reproduces from the archived
+        outputs; the new exact boundary-update identity is independently
+        verified; and an independent from-scratch ED implementation
+        confirms the same-side dictionary end-to-end at
+        N=10.</strong></p>
+        </blockquote>
+        <h2 id="summary-verdict">Summary verdict</h2>
+        <p>The entry’s three-layer conclusion is stated accurately and
+        each layer is supported at the appropriate level of rigor:</p>
+        <ol type="1">
+        <li>The inside/P and outside/AP boundary-condition assignment
+        follows from the monodromy identity, which I verified both by
+        hand and directly on the operator matrices of an independent
+        implementation.</li>
+        <li>The same-side <span class="math inline">G_{11}</span>
+        identification is normalization-fixed and precise. Beyond
+        confirming the archived <span class="math inline">N=20</span>
+        and <span class="math inline">N=24</span> results, I
+        reimplemented the entire ED side from scratch (own Jordan–Wigner
+        construction, own Hamiltonian sampler, own trace evaluator) and
+        reproduced the correspondence at <span
+        class="math inline">N=10</span>: contacts <span
+        class="math inline">-1/2</span> to machine precision and
+        off-diagonal residuals <span
+        class="math inline">8.2\times10^{-4}</span> (P) and <span
+        class="math inline">8.0\times10^{-4}</span> (AP) against the
+        conditional saddles at <span class="math inline">w=0.4</span>,
+        with 40 disorder samples. Nothing of the agreement depends on
+        the original code base.</li>
+        <li>The cross-replica <span class="math inline">G_{12}</span>
+        identification is correctly framed as a prescription. The
+        collision normalization’s P/AP reciprocity is now an exact
+        continuum identity via calculation 6, which I verified
+        independently (see below); what remains underived is the
+        physical step of comparing the canonically normalized kernels to
+        the ED moments, and the entry says so. The AP shape discrepancy
+        (<span class="math inline">3.3\%</span>–<span
+        class="math inline">6.4\%</span> centered, growing with <span
+        class="math inline">\beta J</span>) is real, coherent, and
+        honestly reported as undiagnosed.</li>
+        </ol>
+        <p>I found no errors of substance. The issues listed at the end
+        are one broken LaTeX fragment, one presentational ambiguity, and
+        provenance housekeeping.</p>
+        <h2 id="checks-performed">Checks performed</h2>
+        <p><strong>Archived-output verification.</strong> Every number
+        in the entry’s tables and prose was checked against the
+        corresponding <code>summary.json</code>,
+        <code>shape_diagnostics.json</code>,
+        <code>woodbury_check.json</code>, <code>validation.json</code>,
+        <code>path_extrapolation_180_360.json</code>, and
+        <code>quarter_product_scan.json</code>. All match, including the
+        <span class="math inline">N=24</span> cross-replica residuals
+        and cosines, the centered-shape table with its jackknife errors,
+        the denominator effective sample sizes (7.25/7.32), the
+        same-side error-norm ratios (“about four times” is 4.07, “about
+        1.6” is 1.61), the P-sector lattice convergence sequence (<span
+        class="math inline">2.37\%\to1.18\%\to0.0529\%</span>, with the
+        180/360 repeat <span class="math inline">0.0534\%</span> now
+        archived), and the scan-based accuracy claims for the zero-mode
+        formulas.</p>
+        <p><strong>Reruns.</strong> The calculation-1 self-test, the
+        calculation-4 dense-trace validator (max error <span
+        class="math inline">7.2\times10^{-16}</span>), the calculation-5
+        validators (compact Hamiltonian exact; streaming <span
+        class="math inline">3.0\times10^{-16}</span>; cross-replica
+        evaluator <span class="math inline">9.5\times10^{-16}</span>),
+        and the full calculation-6 script all rerun successfully and
+        reproduce their archived records.</p>
+        <p><strong>Independent derivation checks.</strong></p>
+        <ul>
+        <li><em>Monodromy.</em> Verified by hand from cyclicity and the
+        Clifford algebra, and numerically on independently constructed
+        operators: <span
+        class="math inline">\mu_A\psi_i=-\psi_i\mu_A</span> for <span
+        class="math inline">i\notin A</span> and <span
+        class="math inline">+\psi_i\mu_A</span> for <span
+        class="math inline">i\in A</span> with odd <span
+        class="math inline">|A|\in\{3,5\}</span>.</li>
+        <li><em>Collision coefficients.</em> <span
+        class="math inline">c_i^2=-1/2</span> outside and <span
+        class="math inline">+1/2</span> inside recomputed by hand for
+        the phase convention in the entry.</li>
+        <li><em>Calculation 6.</em> The corner claim <span
+        class="math inline">A_{\mathrm{AP}}=A_{\mathrm P}+2EF^T</span>
+        was checked directly against <code>discrete_derivative</code>
+        (exact); the Woodbury update for <span
+        class="math inline">G</span>, the reduction <span
+        class="math inline">C_{\mathrm{AP}}=(1-2K_{\mathrm
+        P})^{-1}C_{\mathrm P}</span>, and the explicit <span
+        class="math inline">m_{\mathrm{AP}}</span> formula were verified
+        with random replica-circulant <span
+        class="math inline">\Sigma</span> (errors at <span
+        class="math inline">10^{-15}</span>) and, for the <span
+        class="math inline">2\times2</span> algebra, with exact rational
+        arithmetic. The continuum substitution <span
+        class="math inline">k\to-1/2</span>, <span
+        class="math inline">a\to+1/2</span>, <span
+        class="math inline">b\to m</span> gives <span
+        class="math inline">m_{\mathrm{AP}}=-1/(4m)</span> exactly. The
+        archived Richardson-extrapolated boundary values approach these
+        limits at the <span class="math inline">10^{-5}</span>–<span
+        class="math inline">10^{-6}</span> level, supporting the
+        substitution. This completes, and upgrades to “derived,” what my
+        July 30 report could only argue structurally.</li>
+        <li><em>Zero-mode formulas.</em> Recomputed <span
+        class="math inline">1/\iint\Sigma_{12}</span> directly from the
+        saved calculation-4 saddle: <span
+        class="math inline">4.7256</span> versus <span
+        class="math inline">G^{\mathrm P}_{12}(0,0)=4.7523</span> (<span
+        class="math inline">0.56\%</span>), consistent with the entry’s
+        quoted <span class="math inline">0.2</span>–<span
+        class="math inline">1.6\%</span> range.</li>
+        </ul>
+        <p><strong>Independent end-to-end ED test.</strong> The
+        from-scratch <span class="math inline">N=10</span> same-side
+        check described above. This closes the main residual worry about
+        any single shared implementation: the ED convention chain
+        (Majorana normalization, string phase, time ordering, contact
+        convention, moment normalization) reproduces the saddle
+        prediction with none of the original code on the ED side.</p>
+        <p><strong>Script audits.</strong>
+        <code>compare_large_cross_replica.py</code>,
+        <code>analyze_cross_replica_shapes.py</code>,
+        <code>cross_replica_moment_normalization.py</code>, and
+        <code>derive_boundary_woodbury.py</code> were read in full. The
+        collision coefficients are computed from the actual Clifford
+        action with a state-independence assertion rather than
+        hard-coded signs; the collision replay guards against ensemble
+        mismatch; the jackknife is the standard delete-one ratio
+        estimate; the centered-shape analysis correctly jackknifes the
+        global scalar metrics rather than pointwise surfaces. No defects
+        found.</p>
+        <h2 id="section-by-section-notes">Section-by-section notes</h2>
+        <p><strong>Setup and proposal.</strong> Unchanged in substance
+        since the August 3 Codex review, whose assessment I share. The
+        transition from the sample-normalized <span
+        class="math inline">\zeta</span> covariance to ratios of
+        disorder-averaged unnormalized traces remains clearly
+        flagged.</p>
+        <p><strong>Testing the proposal.</strong> All numbers verified.
+        The closing paragraph now correctly distinguishes the derived
+        reciprocity of the two kernels from the still-conjectural use of
+        the collision-normalized kernels as comparators. This is the
+        right epistemic split.</p>
+        <p><strong>Mechanisms.</strong> The monodromy subsection is
+        correct, including the double-counting warning, and the
+        flavor-factorized restatement is a clean way to see that
+        spectator flavors cannot affect a boundary condition. The
+        zero-mode subsection is correct with one attribution nuance
+        (issue 2 below). The new exact-relation passage is correct and
+        independently verified; its final claim that two-grid residuals
+        from <span class="math inline">-1/4</span> are pure
+        time-discretization error is now justified by the finite-lattice
+        identity holding to <span
+        class="math inline">4\times10^{-14}</span> at every grid.</p>
+        <p><strong>Same-side correlations.</strong> Verified in full,
+        including the explicit source convention added in response to
+        the earlier audit request. The <span
+        class="math inline">N=10</span> independent test gives
+        additional confidence that the absolute normalization is a
+        consequence of the algebra, not of a shared convention hiding in
+        one code base.</p>
+        <p><strong>Pushing the numerics.</strong> All tables verified
+        against the archived summaries, including the literal-weight
+        variants mentioned in prose. The centered-shape table matches
+        <code>shape_diagnostics.json</code> exactly, and its
+        interpretation — the P time-dependent signal unresolved at 16
+        samples, the AP discrepancy resolved and growing with coupling —
+        is what the data support. The stated caveats (descriptive error
+        norms, rank-deficient covariance, entangled changes of <span
+        class="math inline">N</span>, <span
+        class="math inline">w</span>, and background) are
+        appropriate.</p>
+        <p><strong>Outlook.</strong> The layered summary now matches the
+        evidence layer by layer. The attribution of the <span
+        class="math inline">\beta J</span> worsening to neglected <span
+        class="math inline">1/N</span> corrections is labeled as
+        expectation rather than result, which resolves my earlier
+        framing concern and the Codex report’s recommendation 2.</p>
+        <h2 id="on-the-previous-reports">On the previous reports</h2>
+        <p>Both prior reports hold up. Every recommendation of the
+        August 3 Codex report has been implemented except the genuine
+        fixed-<span class="math inline">(w,\beta J)</span> size sequence
+        (its recommendation 5), which remains the most important open
+        numerical task. The three provenance gaps it listed are closed:
+        <code>validate_same_side.py</code>/<code>validation.json</code>
+        and the 180/360 record now exist and rerun, and
+        <code>scan_quarter_product.py</code> now uses a relative path.
+        My July 30 report’s Woodbury speculation is superseded by
+        calculation 6; its suggestion to promote the scan out of
+        <code>reports/</code> (also Codex’s) is still open — the scan
+        remains the one calculation-grade artifact living in the reports
+        folder, cited by the entry.</p>
+        <h2 id="issues-found-none-affect-conclusions">Issues found (none
+        affect conclusions)</h2>
+        <ol type="1">
+        <li><strong>Broken LaTeX in the entry.</strong> In the
+        continuum-limit display of the exact relation,
+        <code>k\to-\frac12,qquad a\to+\frac12,qquad b\to m</code> is
+        missing the backslashes on both <code>\qquad</code>s, so “qquad”
+        renders as literal text.</li>
+        <li><strong>Attribution of the first-order AP accuracy.</strong>
+        The quoted relative errors of <span
+        class="math inline">4\times10^{-6}</span>–<span
+        class="math inline">1.2\times10^{-3}</span> belong to the full
+        convolution <span class="math inline">[G_d\star\Sigma_{12}\star
+        G_d](0,0)</span> computed with the interacting diagonal
+        propagator (this is what the scan evaluates). The further
+        simplification <span
+        class="math inline">-\beta^2\bar\sigma_{12}/4</span> displayed
+        in the same equation chain is only <span
+        class="math inline">\sim0.5\%</span> accurate at <span
+        class="math inline">\beta J=0.5</span> (I recomputed <span
+        class="math inline">-\iint\Sigma_{12}/4=-0.05290</span> versus
+        <span class="math inline">-0.052608</span>). The text reads as
+        if the quoted precision applies to the final formula; a
+        clarifying clause would fix it.</li>
+        <li><strong>Rounding nit.</strong> The dense-trace check is
+        <span class="math inline">7.2\times10^{-16}</span> (7.2227),
+        quoted as <span class="math inline">7.3\times10^{-16}</span> in
+        the entry and calculation-4 readme.</li>
+        <li><strong>Provenance: uncommitted work.</strong> Calculation
+        6, the entire cross-replica extension of calculation 5 (script,
+        outputs, diagnostics, figures), the new validators, the August 3
+        Codex report, and the revised entry are all untracked or
+        modified-uncommitted in git. Given how much of the entry’s
+        evidence now lives in these files, committing them is the single
+        most useful housekeeping step.</li>
+        <li><strong>Statistical wording (minor).</strong> “Its
+        difference is smaller than the norm of the pointwise
+        jackknife-error surface” for the P-<span
+        class="math inline">G_{12}</span> rows is a descriptive norm
+        comparison, as the entry elsewhere acknowledges; since the
+        centered analysis shows the P shape is simply unresolved, the
+        uncentered statement carries little inferential weight and could
+        be phrased as such at first occurrence rather than only in the
+        centered paragraph that follows.</li>
+        </ol>
+        <h2 id="suggested-next-steps">Suggested next steps</h2>
+        <ol type="1">
+        <li>Commit the untracked calculation folders and outputs (issue
+        4).</li>
+        <li>Fix the <code>qquad</code> typo and the first-order-accuracy
+        attribution (issues 1–2).</li>
+        <li>The open scientific question is unchanged: a fixed-<span
+        class="math inline">(w,\beta J)</span> size sequence for the
+        cross-replica AP component — e.g. <span
+        class="math inline">N=16,20,24</span> at <span
+        class="math inline">w=1/4</span>, reusing the streaming
+        evaluator — to test whether the coherent AP discrepancy scales
+        like <span class="math inline">1/N</span>. My <span
+        class="math inline">N=10</span> same-side run (residuals <span
+        class="math inline">\sim8\times10^{-4}</span>, comparable to
+        <span class="math inline">N=20</span> and <span
+        class="math inline">24</span>) incidentally shows the same-side
+        sector is uniformly precise down to very small <span
+        class="math inline">N</span>, which sharpens the puzzle of why
+        only the cross-replica AP object deviates: the discrepancy is
+        plausibly in the external-leg/normalization step rather than in
+        finite-<span class="math inline">N</span> corrections to the
+        kernels themselves. That observation slightly favors deriving
+        the cross-replica comparator from a source derivative (as was
+        done for the same-side case) over brute-force size scaling, if a
+        derivation can be found.</li>
+        <li>Promote <code>reports/scan_quarter_product.py</code> and its
+        JSON to a numbered calculation folder, since the entry cites its
+        results directly.</li>
+        </ol>
+      </div>
+      <div class="post-footer">
+        <a href="javascript:history.back()" class="btn btn-outline">← Back</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-name">Brian Swingle</p>
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/journal.html">Journal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+  </script>
+
+</body>
+</html>

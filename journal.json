@@ -1,6 +1,19 @@
 {
-  "updated": "2026-06-22T21:11:08.112580Z",
+  "updated": "2026-08-06T13:51:45.306620Z",
   "posts": [
+    {
+      "title": "Multireplica GΣ Variables from Finite N Numerics",
+      "date": "2026-08-06",
+      "slug": "syk-ed-op-stat",
+      "url": "posts/syk-ed-op-stat.html",
+      "tags": [
+        "SYK",
+        "collective fields",
+        "replicas",
+        "exact diagonalization"
+      ],
+      "description": "Probe fermions attached to a heavy Majorana string give the multireplica collective field an operational meaning: probes inside the string are periodic, those outside antiperiodic, and finite-N exact diagonalization matches the large-N saddle."
+    },
     {
       "title": "Non-Gaussian Magic",
       "date": "2026-05-22",
