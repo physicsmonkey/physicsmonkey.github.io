@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-06T13:51:45.306620Z",
+  "updated": "2026-08-07T14:30:32.458284Z",
   "posts": [
     {
       "title": "Multireplica GΣ Variables from Finite N Numerics",
@@ -15,16 +15,18 @@
       "description": "Probe fermions attached to a heavy Majorana string give the multireplica collective field an operational meaning: probes inside the string are periodic, those outside antiperiodic, and finite-N exact diagonalization matches the large-N saddle."
     },
     {
-      "title": "Non-Gaussian Magic",
-      "date": "2026-05-22",
-      "slug": "non-gaussian-magic",
-      "url": "posts/non-gaussian-magic.html",
+      "title": "A Toy Model of Wormholes",
+      "date": "2026-06-22",
+      "slug": "conn-vs-disconn",
+      "url": "posts/conn-vs-disconn.html",
       "tags": [
-        "SYK",
-        "magic",
-        "fermions"
+        "holography",
+        "wormholes",
+        "closed universes",
+        "gravitational path integral",
+        "toy model"
       ],
-      "description": "A notion of magic invariant under Gaussian rotations, with two tests suggesting SYK-4 has high non-Gaussian magic."
+      "description": "A quantum anharmonic oscillator as a toy model for the competition between connected (wormhole) and disconnected saddles in the gravitational path integral."
     },
     {
       "title": "Random Couplings and Ensembles of Operators",
@@ -39,18 +41,16 @@
       "description": "A single chaotic SYK Hamiltonian carries its own ensemble of heavy operators: averaging fixed-weight Majorana strings reproduces the low-moment statistics of random couplings."
     },
     {
-      "title": "A Toy Model of Wormholes",
-      "date": "2026-06-22",
-      "slug": "conn-vs-disconn",
-      "url": "posts/conn-vs-disconn.html",
+      "title": "Non-Gaussian Magic",
+      "date": "2026-05-22",
+      "slug": "non-gaussian-magic",
+      "url": "posts/non-gaussian-magic.html",
       "tags": [
-        "holography",
-        "wormholes",
-        "closed universes",
-        "gravitational path integral",
-        "toy model"
+        "SYK",
+        "magic",
+        "fermions"
       ],
-      "description": "A quantum anharmonic oscillator as a toy model for the competition between connected (wormhole) and disconnected saddles in the gravitational path integral."
+      "description": "A notion of magic invariant under Gaussian rotations, with two tests suggesting SYK-4 has high non-Gaussian magic."
     }
   ]
 }
