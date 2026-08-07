@@ -40,7 +40,7 @@ def pandoc(src, template, out):
 
 posts = []
 
-for md_file in sorted(POSTS_DIR.glob("*.md"), reverse=True):
+for md_file in sorted(POSTS_DIR.glob("*.md")):
     text = md_file.read_text(encoding="utf-8")
     meta = parse_frontmatter(text)
     slug = md_file.stem
@@ -53,6 +53,21 @@ for md_file in sorted(POSTS_DIR.glob("*.md"), reverse=True):
         "tags":        meta.get("tags") or [],
         "description": str(meta.get("description", "")),
     })
+
+# journal.html renders posts in journal.json order, so order them here:
+# newest first, oldest last. Dates come from each post's frontmatter and must
+# be ISO (YYYY-MM-DD); anything missing or unparseable sorts to the bottom.
+def post_order(post):
+    try:
+        date = datetime.date.fromisoformat(post["date"])
+    except ValueError:
+        print(f"warning: {post['slug']} has no usable date "
+              f"({post['date']!r}); sorting it last")
+        date = datetime.date.min
+    return (date, post["slug"])
+
+
+posts.sort(key=post_order, reverse=True)
 
 out = {
     "updated": datetime.datetime.utcnow().isoformat() + "Z",
