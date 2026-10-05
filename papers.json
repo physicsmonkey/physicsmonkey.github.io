@@ -1,6 +1,15 @@
 {
-  "updated": "2026-09-07T11:45:20.923158Z",
+  "updated": "2026-10-05T13:48:33.064339Z",
   "papers": [
+    {
+      "title": "Single-Instance Observables in the Sachdev-Ye-Kitaev Model",
+      "abstract": "We present a diagrammatic expansion for thermal expectation values of low-weight Majorana strings in a fixed realization of the $N$-fermion Sachdev--Ye--Kitaev (SYK) model. At each order in the expansion, the observable is expressed as a finite sum of polynomials in the couplings multiplied by temperature-dependent kernels built from the large-$N$ melonic propagator. At fixed $βJ$, the expansion is organized in powers of $N^{-1/2}$, and each order can be efficiently evaluated with classical resources polynomial in $N$. The expansion also extends to correlations at arbitrary imaginary times and sufficiently short real times. For the four-body SYK model, we show that the diagrammatic predictions give an excellent account of exact diagonalization results at sizes up to $N=24$. We also apply the method to the Maldacena--Qi (MQ) model formed from two identical copies of a fixed SYK realization. This enables the identification of a nearby SYK-like Hamiltonian whose thermofield double state has higher fidelity with the Maldacena--Qi ground state than the thermofield double of the original SYK Hamiltonian.",
+      "published": "2026-09-14T18:00:03Z",
+      "url": "http://arxiv.org/abs/2609.16130v1",
+      "authors": [
+        "Brian Swingle"
+      ]
+    },
     {
       "title": "Twirled Perfect Tensor Networks: Computationally covariant holographic tensor networks",
       "abstract": "We define a novel class of tensor networks motivated by the Python's Lunch Conjecture (PLC) in local tensor network models of the black hole interior. We start from the observation that, for extended black brane states with short-range correlations, the PLC predicts a complexity that is smaller than the upper bound for generic short-range correlated states. We argue that the PLC makes implicit assumptions about the fine structure of the relevant tensor networks modeling gravity that render them non-generic. We demonstrate this explicitly in random tensor network models of the python's lunch, where the exponential complexity is not generally controlled by the PLC exponent. We trace the difference with the PLC to a lack of \"computational covariance\" in random tensor networks: while the PLC is motivated by an ability to arbitrarily decompose space into low-complexity units provided certain basic rules are followed, we show that random tensor networks do not generically have this property. We propose another class of tensor networks built from what we call \"twirled perfect tensors\" that do satisfy the computational covariance property and have a complexity bounded by the PLC value. We still find a discrete limitation from local postselection that appears to be absent in gravity. Moreover, we show that this class of tensor networks combines desirable holographic features of perfect tensor networks and random tensor networks, for example, it obeys a lattice Ryu-Takayanagi formula for arbitrary boundary subregions. Though motivated by holography, these tensor networks provide a flexible framework with potential applications beyond quantum gravity.",
@@ -49,9 +58,9 @@
     },
     {
       "title": "Building Holographic Entanglement by Measurement",
-      "abstract": "We propose a framework for preparing quantum states with a holographic entanglement structure, in the sense that the entanglement entropies are governed by minimal surfaces in a chosen bulk geometry. We refer to such entropies as holographic because they obey a relation between entropies and bulk minimal surfaces, known as the Ryu-Takayanagi formula, that is a key feature of holographic models of quantum gravity. Typically in such models, the bulk geometry is determined by solving Einstein's equations. Here, we simply choose a bulk geometry, then discretize the geometry into a coupling graph comprising bulk and boundary nodes. Evolving under this graph of interactions and measuring the bulk nodes leaves behind the desired pure state on the boundary. We numerically demonstrate that the resulting entanglement properties approximately reproduce the predictions of the Ryu-Takayanagi formula in the chosen bulk geometry. We consider graphs associated with hyperbolic disk and wormhole geometries, but the approach is general. The minimal ingredients in our proposal involve only Gaussian operations and measurements and are readily implementable in photonic and cold-atom platforms.",
+      "abstract": "We propose a framework for preparing quantum states with a holographic entanglement structure, in the sense that the entanglement entropies are governed by minimal surfaces in a chosen bulk geometry. We refer to such entropies as holographic because they obey a relation between entropies and bulk minimal surfaces, known as the Ryu-Takayanagi (RT) formula, that is a key feature of holographic models of quantum gravity. Typically in such models, the bulk geometry is determined by solving Einstein's equations. Here, we simply choose a bulk geometry, then discretize the geometry into a coupling graph comprising bulk and boundary nodes. Evolving under this graph of interactions and measuring the bulk nodes leaves behind the desired pure state on the boundary. We numerically demonstrate that the resulting entanglement properties approximately reproduce the predictions of the Ryu-Takayanagi formula in the chosen bulk geometry. We consider graphs associated with hyperbolic disk and wormhole geometries, but the approach is general. We also introduce a procedure for decorating the graph which, when applied to the hyperbolic disk, yields a genuine CFT ground state with power-law correlations but which only partially obeys RT. The minimal ingredients in our proposal involve only Gaussian operations and measurements and are readily implementable in photonic and cold-atom platforms.",
       "published": "2026-01-28T21:41:54Z",
-      "url": "http://arxiv.org/abs/2601.21065v1",
+      "url": "http://arxiv.org/abs/2601.21065v2",
       "authors": [
         "Jonathan Jeffrey",
         "Lucien Gandarias",
@@ -1702,18 +1711,6 @@
       "url": "http://arxiv.org/abs/0905.1317v1",
       "authors": [
         "Brian Swingle"
-      ]
-    },
-    {
-      "title": "Tensor-product representations for string-net condensed states",
-      "abstract": "We show that general string-net condensed states have a natural representation in terms of tensor product states (TPS) . These TPS's are built from local tensors. They can describe both states with short-range entanglement (such as the symmetry breaking states) and states with long-range entanglement (such as string-net condensed states with topological/quantum order). The tensor product representation provides a kind of 'mean-field' description for topologically ordered states and could be a powerful way to study quantum phase transitions between such states. As an attempt in this direction, we show that the constructed TPS's are fixed-points under a certain wave-function renormalization group transformation for quantum states.",
-      "published": "2008-09-16T21:48:32Z",
-      "url": "http://arxiv.org/abs/0809.2821v1",
-      "authors": [
-        "Zheng-Cheng Gu",
-        "Michael Levin",
-        "Brian Swingle",
-        "Xiao-Gang Wen"
       ]
     }
   ]
