@@ -1,6 +1,18 @@
 {
-  "updated": "2026-10-12T14:36:46.447382Z",
+  "updated": "2026-10-19T12:20:41.942418Z",
   "papers": [
+    {
+      "title": "An SYK wormhole under the microscope",
+      "abstract": "We derive a large-N wormhole saddle in the Sachdev-Ye-Kitaev (SYK) model for the variance of the thermal one-point function of a heavy operator across realizations of the microscopic couplings. We propose that this saddle describes a double trumpet geometry. In the double-scaling limit, we express the wormhole as a transition amplitude in an emergent bulk Hilbert space of chords connecting the two boundaries. In the Schwarzian limit, the chords proliferate and the wormhole defines a quantum transition amplitude in the open-universe Hilbert space of Jackiw-Teitelboim (JT) gravity. Comparing the SYK wormhole amplitude with its counterpart in JT gravity coupled to matter provides a direct test of the heavy-operator randomness hypothesis in SYK. The microscopic SYK couplings specify the α-parameters of the wormhole. For a fixed realization of the couplings, we compute the observable in the corresponding α-state. We provide the bulk wavefunction of the associated half-wormhole, which exhibits erratic correlations in the length basis that do not self-average. We extend the bulk description to the Hilbert space of a closed universe. We point out that the correlation chords from which the wormhole geometry emerges structurally resemble local observer worldlines.",
+      "published": "2026-10-14T18:00:00Z",
+      "url": "http://arxiv.org/abs/2610.20699v1",
+      "authors": [
+        "Valérie Bettaque",
+        "Martin Sasieta",
+        "Brian Swingle",
+        "Alejandro Vilar López"
+      ]
+    },
     {
       "title": "Single-Instance Observables in the Sachdev-Ye-Kitaev Model",
       "abstract": "We present a diagrammatic expansion for thermal expectation values of low-weight Majorana strings in a fixed realization of the $N$-fermion Sachdev--Ye--Kitaev (SYK) model. At each order in the expansion, the observable is expressed as a finite sum of polynomials in the couplings multiplied by temperature-dependent kernels built from the large-$N$ melonic propagator. At fixed $βJ$, the expansion is organized in powers of $N^{-1/2}$, and each order can be efficiently evaluated with classical resources polynomial in $N$. The expansion also extends to correlations at arbitrary imaginary times and sufficiently short real times. For the four-body SYK model, we show that the diagrammatic predictions give an excellent account of exact diagonalization results at sizes up to $N=24$. We also apply the method to the Maldacena--Qi (MQ) model formed from two identical copies of a fixed SYK realization. This enables the identification of a nearby SYK-like Hamiltonian whose thermofield double state has higher fidelity with the Maldacena--Qi ground state than the thermofield double of the original SYK Hamiltonian.",
@@ -1700,15 +1712,6 @@
       "abstract": "Free fermions with a finite Fermi surface are known to exhibit an anomalously large entanglement entropy. The leading contribution to the entanglement entropy of a region of linear size $L$ in $d$ spatial dimensions is $S\\sim L^{d-1} \\log{L}$, a result that should be contrasted with the usual boundary law $S \\sim L^{d-1}$. This term depends only on the geometry of the Fermi surface and on the boundary of the region in question. I give an intuitive account of this anomalous scaling based on a low energy description of the Fermi surface as a collection of one dimensional gapless modes. Using this picture, I predict a violation of the boundary law in a number of other strongly correlated systems.",
       "published": "2009-08-12T14:55:09Z",
       "url": "http://arxiv.org/abs/0908.1724v3",
-      "authors": [
-        "Brian Swingle"
-      ]
-    },
-    {
-      "title": "Entanglement Renormalization and Holography",
-      "abstract": "I show how recent progress in real space renormalization group methods can be used to define a generalized notion of holography inspired by holographic dualities in quantum gravity. The generalization is based upon organizing information in a quantum state in terms of scale and defining a higher dimensional geometry from this structure. While states with a finite correlation length typically give simple geometries, the state at a quantum critical point gives a discrete version of anti de Sitter space. Some finite temperature quantum states include black hole-like objects. The gross features of equal time correlation functions are also reproduced in this geometric framework. The relationship between this framework and better understood versions of holography is discussed.",
-      "published": "2009-05-08T19:27:55Z",
-      "url": "http://arxiv.org/abs/0905.1317v1",
       "authors": [
         "Brian Swingle"
       ]
