@@ -1,0 +1,12 @@
+{
+  "notes": [
+    {
+      "title": "A slow read of “Neural Networks Are Already Clean”",
+      "date": "2026-10-22",
+      "url": "https://physicsmonkey.github.io/neurons-clean/",
+      "tags": ["interpretability", "neural networks", "superposition", "reproductions"],
+      "status": "in progress",
+      "description": "Section-by-section notes on Nick Cammarata's essay arguing that polysemanticity in neural networks was misread, with background for physicists and small reproductions: the Toy Models of Superposition phase diagram and a readers-instead-of-reconstruction variant, and a direct check of the famous cat-and-car neuron on the original InceptionV1 weights."
+    }
+  ]
+}
