@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-26T12:22:58.271534Z",
+  "updated": "2026-11-02T14:55:28.022084Z",
   "papers": [
     {
       "title": "An SYK wormhole under the microscope",
@@ -26,7 +26,7 @@
       "title": "Twirled Perfect Tensor Networks: Computationally covariant holographic tensor networks",
       "abstract": "We define a novel class of tensor networks motivated by the Python's Lunch Conjecture (PLC) in local tensor network models of the black hole interior. We start from the observation that, for extended black brane states with short-range correlations, the PLC predicts a complexity that is smaller than the upper bound for generic short-range correlated states. We argue that the PLC makes implicit assumptions about the fine structure of the relevant tensor networks modeling gravity that render them non-generic. We demonstrate this explicitly in random tensor network models of the python's lunch, where the exponential complexity is not generally controlled by the PLC exponent. We trace the difference with the PLC to a lack of \"computational covariance\" in random tensor networks: while the PLC is motivated by an ability to arbitrarily decompose space into low-complexity units provided certain basic rules are followed, we show that random tensor networks do not generically have this property. We propose another class of tensor networks built from what we call \"twirled perfect tensors\" that do satisfy the computational covariance property and have a complexity bounded by the PLC value. We still find a discrete limitation from local postselection that appears to be absent in gravity. Moreover, we show that this class of tensor networks combines desirable holographic features of perfect tensor networks and random tensor networks, for example, it obeys a lattice Ryu-Takayanagi formula for arbitrary boundary subregions. Though motivated by holography, these tensor networks provide a flexible framework with potential applications beyond quantum gravity.",
       "published": "2026-05-22T14:18:32Z",
-      "url": "http://arxiv.org/abs/2605.23670v2",
+      "url": "http://arxiv.org/abs/2605.23670v3",
       "authors": [
         "Gurbir Arora",
         "Matthew Headrick",
@@ -95,7 +95,7 @@
       "title": "The Baby Universe is Fine and the CFT Knows It: On Holography for Closed Universes",
       "abstract": "Big bang/big crunch closed universes can be realized in AdS/CFT, even though they lack asymptotically AdS boundaries. With enough bulk entanglement, the bulk Hilbert space of a closed universe can be holographically encoded in the CFT. We clarify the relation of this encoding to observer-clone proposals and refute recent arguments about the breakdown of semiclassical physics in such spaces. In the limit of no bulk entanglement, the holographic encoding breaks down. The oft-cited one-dimensional nature of the closed universe Hilbert space represents the limitation of the external (CFT) Hilbert space to access the quantum information in the closed universe, similar to the limitations imposed on observers outside a perfectly isolated quantum lab. We advocate that the CFT nevertheless continues to determine the physical properties of the closed universe in this regime, showing how to interpret this relationship in terms of a final state projection in the closed universe. We provide a dictionary between the final state wavefunction and CFT data. We propose a model of the emergence of an arrow of time in the universe with a given initial or final state projection. Finally, we show that the conventional EFT in the closed universe, without any projection, can be recovered as a maximally ignorant description of the final state. This conventional EFT is encoded in CFT data, and it can be probed by computing coarse-grained observables. We provide an example of one such observable. Taken together, these results amount to a clean bill of health for baby universes born of AdS/CFT.",
       "published": "2025-07-14T18:00:00Z",
-      "url": "http://arxiv.org/abs/2507.10649v2",
+      "url": "http://arxiv.org/abs/2507.10649v3",
       "authors": [
         "Stefano Antonini",
         "Pratik Rath",
